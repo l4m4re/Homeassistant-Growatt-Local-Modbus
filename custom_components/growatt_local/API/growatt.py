@@ -18,15 +18,6 @@ from pymodbus.client.udp import AsyncModbusUdpClient
 from pymodbus.framer import FramerType
 from pymodbus.pdu import ModbusPDU
 
-# ``Endian`` was renamed to ``Endianness`` in pymodbus>=3.0.  Some
-# Home Assistant environments still run older versions which expect the
-# previous name.  Importing through this compatibility shim keeps the
-# integration working regardless of the pymodbus release installed.
-try:  # pragma: no cover - exercised in user environments
-    from pymodbus.constants import Endian  # type: ignore[attr-defined]
-except Exception:  # pragma: no cover - fall back for pymodbus>=3.0
-    from pymodbus.constants import Endianness as Endian  # type: ignore
-
 from .device_type.base import (
     GrowattDeviceRegisters,
     GrowattDeviceInfo,

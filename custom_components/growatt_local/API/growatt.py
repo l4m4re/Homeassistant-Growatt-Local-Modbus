@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import sys
+import inspect
 from abc import abstractmethod
 from collections.abc import Sequence
 from datetime import datetime, timedelta
@@ -55,6 +56,7 @@ _LOGGER = logging.getLogger(__name__)
 
 class GrowattModbusBase:
     client: ModbusBaseClient
+    _unit_id_kwarg: str | None = None
 
     @abstractmethod
     def __init__(self):
@@ -70,6 +72,13 @@ class GrowattModbusBase:
     def close(self):
         """Closing the modbus device connection."""
         self.client.close()
+
+    def _get_unit_id_kwarg(self) -> str:
+        """Return the correct keyword for unit id depending on pymodbus version."""
+        if self._unit_id_kwarg is None:
+            params = inspect.signature(self.client.read_holding_registers).parameters
+            self._unit_id_kwarg = "slave" if "slave" in params else "unit"
+        return self._unit_id_kwarg
 
     async def get_device_info(
             self,
@@ -112,7 +121,8 @@ class GrowattModbusBase:
         Read Growatt device time.
         """
         # TODO: update with dynamic register values
-        rhr = await self.client.read_holding_registers(45, count=6, slave=slave)
+        unit_kwarg = {self._get_unit_id_kwarg(): slave}
+        rhr = await self.client.read_holding_registers(45, count=6, **unit_kwarg)
         if rhr.isError():
             _LOGGER.debug("Modbus read failed for rhr")
             raise ModbusException("Modbus read failed for rhr.")
@@ -139,17 +149,20 @@ class GrowattModbusBase:
         await self.client.write_register(49, minute)
         await self.client.write_register(50, second)
 
-    async def write_register(self, register, value, slave) -> ModbusPDU:  
+    async def write_register(self, register, value, slave) -> ModbusPDU:
         payload = ModbusBaseClient.convert_to_registers(value, ModbusBaseClient.DATATYPE.INT16)
-        return await self.client.write_register(register, payload[0], slave=slave)
+        unit_kwarg = {self._get_unit_id_kwarg(): slave}
+        return await self.client.write_register(register, payload[0], **unit_kwarg)
 
     async def read_holding_registers(self, start_address, count, slave) -> dict[int, int]:
-        data = await self.client.read_holding_registers(start_address, count=count, slave=slave)
+        unit_kwarg = {self._get_unit_id_kwarg(): slave}
+        data = await self.client.read_holding_registers(start_address, count=count, **unit_kwarg)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
     async def read_input_registers(self, start_address, count, slave) -> dict[int, int]:
-        data = await self.client.read_input_registers(start_address, count=count, slave=slave)
+        unit_kwarg = {self._get_unit_id_kwarg(): slave}
+        data = await self.client.read_input_registers(start_address, count=count, **unit_kwarg)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 

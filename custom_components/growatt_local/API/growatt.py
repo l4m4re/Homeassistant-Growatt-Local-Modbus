@@ -6,7 +6,6 @@ import json
 import logging
 import os
 import sys
-import inspect
 from abc import abstractmethod
 from collections.abc import Sequence
 from datetime import datetime, timedelta
@@ -73,12 +72,27 @@ class GrowattModbusBase:
         """Closing the modbus device connection."""
         self.client.close()
 
-    def _get_unit_id_kwarg(self) -> str:
-        """Return the correct keyword for unit id depending on pymodbus version."""
-        if self._unit_id_kwarg is None:
-            params = inspect.signature(self.client.read_holding_registers).parameters
-            self._unit_id_kwarg = "unit" if "unit" in params else "slave"
-        return self._unit_id_kwarg
+    async def _call_with_unit(self, func, *args, slave: int, **kwargs):
+        """Call a pymodbus function with the correct unit keyword.
+
+        Pymodbus migrated from the keyword ``slave`` to ``unit`` for
+        addressing.  Older versions still use ``slave`` which results in a
+        ``TypeError`` when ``unit`` is passed and vice versa.  This helper
+        tries ``unit`` first and falls back to ``slave`` while storing the
+        working keyword for subsequent calls.
+        """
+
+        if self._unit_id_kwarg is not None:
+            return await func(*args, **kwargs, **{self._unit_id_kwarg: slave})
+
+        try:
+            result = await func(*args, **kwargs, unit=slave)
+            self._unit_id_kwarg = "unit"
+            return result
+        except TypeError:
+            result = await func(*args, **kwargs, slave=slave)
+            self._unit_id_kwarg = "slave"
+            return result
 
     async def get_device_info(
             self,
@@ -121,8 +135,7 @@ class GrowattModbusBase:
         Read Growatt device time.
         """
         # TODO: update with dynamic register values
-        unit_kwarg = {self._get_unit_id_kwarg(): slave}
-        rhr = await self.client.read_holding_registers(45, count=6, **unit_kwarg)
+        rhr = await self._call_with_unit(self.client.read_holding_registers, 45, count=6, slave=slave)
         if rhr.isError():
             _LOGGER.debug("Modbus read failed for rhr")
             raise ModbusException("Modbus read failed for rhr.")
@@ -151,18 +164,15 @@ class GrowattModbusBase:
 
     async def write_register(self, register, value, slave) -> ModbusPDU:
         payload = ModbusBaseClient.convert_to_registers(value, ModbusBaseClient.DATATYPE.INT16)
-        unit_kwarg = {self._get_unit_id_kwarg(): slave}
-        return await self.client.write_register(register, payload[0], **unit_kwarg)
+        return await self._call_with_unit(self.client.write_register, register, payload[0], slave=slave)
 
     async def read_holding_registers(self, start_address, count, slave) -> dict[int, int]:
-        unit_kwarg = {self._get_unit_id_kwarg(): slave}
-        data = await self.client.read_holding_registers(start_address, count=count, **unit_kwarg)
+        data = await self._call_with_unit(self.client.read_holding_registers, start_address, count=count, slave=slave)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
     async def read_input_registers(self, start_address, count, slave) -> dict[int, int]:
-        unit_kwarg = {self._get_unit_id_kwarg(): slave}
-        data = await self.client.read_input_registers(start_address, count=count, **unit_kwarg)
+        data = await self._call_with_unit(self.client.read_input_registers, start_address, count=count, slave=slave)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 

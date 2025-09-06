@@ -77,7 +77,7 @@ class GrowattModbusBase:
         """Return the correct keyword for unit id depending on pymodbus version."""
         if self._unit_id_kwarg is None:
             params = inspect.signature(self.client.read_holding_registers).parameters
-            self._unit_id_kwarg = "slave" if "slave" in params else "unit"
+            self._unit_id_kwarg = "unit" if "unit" in params else "slave"
         return self._unit_id_kwarg
 
     async def get_device_info(

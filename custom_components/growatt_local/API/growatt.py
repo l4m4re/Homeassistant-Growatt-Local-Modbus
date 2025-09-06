@@ -2,6 +2,7 @@
 Python wrapper for getting data asynchronously from Growatt inverters
 via serial usb RS232 connection and modbus RTU protocol.
 """
+import inspect
 import json
 import logging
 import os
@@ -76,23 +77,24 @@ class GrowattModbusBase:
         """Call a pymodbus function with the correct unit keyword.
 
         Pymodbus migrated from the keyword ``slave`` to ``unit`` for
-        addressing.  Older versions still use ``slave`` which results in a
-        ``TypeError`` when ``unit`` is passed and vice versa.  This helper
-        tries ``unit`` first and falls back to ``slave`` while storing the
-        working keyword for subsequent calls.
+        addressing.  Some versions also use ``slave_id`` or ``unit_id``. The
+        appropriate keyword is detected once and reused for subsequent calls.
         """
+
+        if self._unit_id_kwarg is None:
+            params = inspect.signature(func).parameters
+            for candidate in ("unit", "slave", "unit_id", "slave_id"):
+                if candidate in params:
+                    self._unit_id_kwarg = candidate
+                    break
 
         if self._unit_id_kwarg is not None:
             return await func(*args, **kwargs, **{self._unit_id_kwarg: slave})
 
         try:
-            result = await func(*args, **kwargs, unit=slave)
-            self._unit_id_kwarg = "unit"
-            return result
+            return await func(*args, **kwargs, unit=slave)
         except TypeError:
-            result = await func(*args, **kwargs, slave=slave)
-            self._unit_id_kwarg = "slave"
-            return result
+            return await func(*args, **kwargs, slave=slave)
 
     async def get_device_info(
             self,

@@ -73,6 +73,9 @@ DEVICETYPES_OPTION = [
 
 _LOGGER = logging.getLogger(__name__)
 
+# Local-only key for an optional custom serial port override
+CONF_SERIAL_PORT_CUSTOM = "custom_serial_port"
+
 
 class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow class."""
@@ -127,7 +130,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if by_id:
             for p in by_id:
                 # Show friendly label, value is the by-id path so it stays stable
-                label = os.path.basename(p)
+                # Display full path for clarity
+                label = p
                 port_options.append(
                     selector.SelectOptionDict(value=p, label=label)
                 )
@@ -136,7 +140,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             tty_candidates = sorted(glob.glob("/dev/ttyUSB*") + glob.glob("/dev/ttyACM*"))
             for p in tty_candidates:
                 port_options.append(
-                    selector.SelectOptionDict(value=p, label=os.path.basename(p))
+                    selector.SelectOptionDict(value=p, label=p)
                 )
 
         # If the current value is custom and not in options, include it so default can be set
@@ -151,6 +155,13 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
         else:
             schema_fields[vol.Required(CONF_SERIAL_PORT, default=current_port)] = str
+
+        # Always provide a free-text override field so users can type any path
+        schema_fields[vol.Optional(CONF_SERIAL_PORT_CUSTOM, default="")] = selector.TextSelector(
+            selector.TextSelectorConfig(
+                type=selector.TextSelectorType.TEXT,
+            )
+        )
 
         schema_fields[vol.Required(CONF_BAUDRATE, default=default_values[1])] = int
         schema_fields[vol.Required(CONF_STOPBITS, default=default_values[2])] = selector.NumberSelector(
@@ -291,6 +302,10 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self._async_show_serial_form(default_values=defaults)
 
         if user_input is not None and CONF_SERIAL_PORT in user_input:
+            # If custom override provided, use it as the effective serial port
+            custom = user_input.get(CONF_SERIAL_PORT_CUSTOM)
+            if custom:
+                user_input[CONF_SERIAL_PORT] = custom
             server: GrowattSerial | None = None
             try:
                 server = GrowattSerial(

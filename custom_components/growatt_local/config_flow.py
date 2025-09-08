@@ -1,6 +1,8 @@
 """Config flow for growatt server integration."""
 import asyncio
 import logging
+import os
+import glob
 from asyncio.exceptions import TimeoutError
 from typing import Any
 
@@ -84,6 +86,10 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.user_id = None
         self.data: dict[str, Any] = {}
         self.force_next_page = False
+        # Reconfigure support
+        self._is_reconfigure = False
+        self._reconfigure_defaults_serial = None
+        self._reconfigure_defaults_network = None
 
     @staticmethod
     @callback
@@ -109,47 +115,91 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     @callback
-    def _async_show_serial_form(self, default_values=(None, 9600, 1, ParityOptions.NONE, 8, None), errors=None):
+    def _async_show_serial_form(self, default_values=(None, 9600, 1, ParityOptions.NONE, 8, 1), errors=None):
         """Show the serial form to the user."""
-        data_schema = vol.Schema(
-            {
-                vol.Required(CONF_SERIAL_PORT, default=default_values[0]): str,
-                vol.Required(CONF_BAUDRATE, default=default_values[1]): int,
-                vol.Required(CONF_STOPBITS, default=default_values[2]): selector.NumberSelector(
-                    selector.NumberSelectorConfig(
-                        min=0,
-                        max=2,
-                        mode=selector.NumberSelectorMode.BOX,
-                    ),
-                ),
-                vol.Required(CONF_PARITY, default=default_values[3]): selector.SelectSelector(
-                    selector.SelectSelectorConfig(
-                        options=PARITY_OPTION, mode=selector.SelectSelectorMode.DROPDOWN
-                    ),
-                ),
-                vol.Required(CONF_BYTESIZE, default=default_values[4]): selector.NumberSelector(
-                    selector.NumberSelectorConfig(
-                        min=5,
-                        max=8,
-                        mode=selector.NumberSelectorMode.BOX,
-                    ),
-                ),
-                vol.Required(CONF_ADDRESS, default=default_values[5]): int,
-            }
+        # Build a dropdown of detected serial ports (prefer /dev/serial/by-id/*),
+        # and fall back to free text input when none are found.
+        port_options = []
+        current_port = default_values[0]
+
+        # Prefer stable by-id symlinks
+        by_id = sorted(glob.glob("/dev/serial/by-id/*"))
+        if by_id:
+            for p in by_id:
+                # Show friendly label, value is the by-id path so it stays stable
+                label = os.path.basename(p)
+                port_options.append(
+                    selector.SelectOptionDict(value=p, label=label)
+                )
+        else:
+            # Fallback to direct device nodes
+            tty_candidates = sorted(glob.glob("/dev/ttyUSB*") + glob.glob("/dev/ttyACM*"))
+            for p in tty_candidates:
+                port_options.append(
+                    selector.SelectOptionDict(value=p, label=os.path.basename(p))
+                )
+
+        # If the current value is custom and not in options, include it so default can be set
+        if current_port and all(opt["value"] != current_port for opt in port_options):
+            port_options.insert(0, selector.SelectOptionDict(value=current_port, label=f"Custom: {current_port}"))
+
+        # Compose the schema dynamically based on discovery
+        schema_fields: dict = {}
+        if port_options:
+            schema_fields[vol.Required(CONF_SERIAL_PORT, default=current_port or (port_options[0]["value"] if port_options else None))] = selector.SelectSelector(
+                selector.SelectSelectorConfig(options=port_options, mode=selector.SelectSelectorMode.DROPDOWN)
+            )
+        else:
+            schema_fields[vol.Required(CONF_SERIAL_PORT, default=current_port)] = str
+
+        schema_fields[vol.Required(CONF_BAUDRATE, default=default_values[1])] = int
+        schema_fields[vol.Required(CONF_STOPBITS, default=default_values[2])] = selector.NumberSelector(
+            selector.NumberSelectorConfig(
+                min=0,
+                max=2,
+                mode=selector.NumberSelectorMode.BOX,
+            ),
         )
+        schema_fields[vol.Required(CONF_PARITY, default=default_values[3])] = selector.SelectSelector(
+            selector.SelectSelectorConfig(
+                options=PARITY_OPTION, mode=selector.SelectSelectorMode.DROPDOWN
+            ),
+        )
+        schema_fields[vol.Required(CONF_BYTESIZE, default=default_values[4])] = selector.NumberSelector(
+            selector.NumberSelectorConfig(
+                min=5,
+                max=8,
+                mode=selector.NumberSelectorMode.BOX,
+            ),
+        )
+        schema_fields[vol.Required(CONF_ADDRESS, default=default_values[5])] = selector.NumberSelector(
+            selector.NumberSelectorConfig(
+                min=1,
+                max=247,
+                mode=selector.NumberSelectorMode.BOX,
+            ),
+        )
+
+        data_schema = vol.Schema(schema_fields)
 
         return self.async_show_form(
             step_id="serial", data_schema=data_schema, errors=errors
         )
 
     @callback
-    def _async_show_network_form(self, default_values=("", 502, None, 'socket'), errors=None):
+    def _async_show_network_form(self, default_values=("", 502, 1, 'socket'), errors=None):
         """Show the network form to the user."""
         data_schema = vol.Schema(
             {
                 vol.Required(CONF_IP_ADDRESS, default=default_values[0]): str,
                 vol.Required(CONF_PORT, default=default_values[1]): int,
-                vol.Required(CONF_ADDRESS, default=default_values[2]): int,
+                vol.Required(CONF_ADDRESS, default=default_values[2]): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=1,
+                        max=247,
+                        mode=selector.NumberSelectorMode.BOX,
+                    ),
+                ),
                 vol.Required(CONF_FRAME, default=default_values[3]): selector.SelectSelector(
                     selector.SelectSelectorConfig(
                         options=MODBUS_FRAMER_OPTION, mode=selector.SelectSelectorMode.DROPDOWN
@@ -235,21 +285,32 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_serial(self, user_input=None) -> FlowResult:
         """Handle the serial config flow."""
 
-        if self.data[CONF_LAYER] == CONF_SERIAL and user_input is None:
-            return self._async_show_serial_form()
+        if self.data.get(CONF_LAYER) == CONF_SERIAL and user_input is None:
+            # Use reconfigure defaults if available
+            defaults = self._reconfigure_defaults_serial or (None, 9600, 1, ParityOptions.NONE, 8, 1)
+            return self._async_show_serial_form(default_values=defaults)
 
         if user_input is not None and CONF_SERIAL_PORT in user_input:
+            server: GrowattSerial | None = None
             try:
                 server = GrowattSerial(
                     user_input[CONF_SERIAL_PORT],
                     user_input[CONF_BAUDRATE],
                     user_input[CONF_STOPBITS],
                     user_input[CONF_PARITY],
-                    user_input[CONF_BYTESIZE]
+                    user_input[CONF_BYTESIZE],
                 )
                 await server.connect()
-            except ModbusPortException:
-                _LOGGER.error("ERROR", exc_info=True)
+                # Some clients return False without raising; ensure we are connected
+                if not server.connected():
+                    raise ModbusPortException("Unable to open serial port")
+            except Exception:
+                _LOGGER.error("Failed to open serial port", exc_info=True)
+                if server is not None:
+                    try:
+                        server.close()
+                    except Exception:  # best-effort cleanup
+                        pass
                 return self._async_show_serial_form(
                     default_values=(
                         user_input[CONF_SERIAL_PORT],
@@ -259,7 +320,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_BYTESIZE],
                         user_input[CONF_ADDRESS],
                     ),
-                    errors={CONF_SERIAL_PORT: "serial_port"})
+                    errors={CONF_SERIAL_PORT: "serial_port"},
+                )
 
             try:
                 device_info = await get_device_info(server, user_input[CONF_ADDRESS])
@@ -295,7 +357,10 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     errors={"base": "device_disconnect"},
                 )
             finally:
-                server.close()
+                try:
+                    server.close()
+                except Exception:
+                    pass
 
             self.server = server
             self.data.update(user_input)
@@ -408,6 +473,11 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             else:
                 return self._async_show_device_form()
 
+        # Initial show (no input): use reconfigure defaults if available
+        if user_input is None:
+            defaults = self._reconfigure_defaults_network or ("", 502, 1, 'socket')
+            return self._async_show_network_form(default_values=defaults)
+
     async def async_step_device(self, user_input=None) -> FlowResult:
         """Handle the device config flow."""
 
@@ -468,8 +538,10 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors={"base": "device_type"},
             )
 
-        await self.async_set_unique_id(device_info.serial_number)
-        self._abort_if_unique_id_configured()
+        # Only enforce unique_id on initial setup, not during reconfigure
+        if not self._is_reconfigure:
+            await self.async_set_unique_id(device_info.serial_number)
+            self._abort_if_unique_id_configured()
 
         self.data[CONF_SERIAL_NUMBER] = device_info.serial_number
         self.data[CONF_FIRMWARE] = device_info.firmware
@@ -483,11 +555,57 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         self.data.update(user_input)
 
-        return self.async_create_entry(
-            title=f"Growatt {self.data[CONF_MODEL]}", 
-            data=self.data, 
-            options=options
-        )
+        if self._is_reconfigure:
+            # Update existing entry instead of creating a new one
+            entry_id = self.context.get("entry_id")
+            entry = self.hass.config_entries.async_get_entry(entry_id) if entry_id else None
+            if entry is not None:
+                new_data = {**entry.data, **self.data}
+                new_options = {**entry.options, **options}
+                self.hass.config_entries.async_update_entry(entry, data=new_data, options=new_options)
+                # Reload to apply new connection params and (re)discover sensors
+                await self.hass.config_entries.async_reload(entry.entry_id)
+            return self.async_create_entry(title="", data={})
+        else:
+            return self.async_create_entry(
+                title=f"Growatt {self.data[CONF_MODEL]}", 
+                data=self.data, 
+                options=options
+            )
+
+    async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+        """Entry reconfiguration: edit connection and device settings without removing the entry."""
+        entry_id = self.context.get("entry_id")
+        entry = self.hass.config_entries.async_get_entry(entry_id) if entry_id else None
+        if entry is None:
+            # Fallback to regular flow
+            return await self.async_step_user(user_input)
+
+        self._is_reconfigure = True
+        # Seed current data
+        self.data = {**entry.data}
+
+        layer = entry.data.get(CONF_LAYER, CONF_SERIAL)
+        if layer == CONF_SERIAL:
+            self._reconfigure_defaults_serial = (
+                entry.data.get(CONF_SERIAL_PORT),
+                entry.data.get(CONF_BAUDRATE, 9600),
+                entry.data.get(CONF_STOPBITS, 1),
+                entry.data.get(CONF_PARITY, ParityOptions.NONE),
+                entry.data.get(CONF_BYTESIZE, 8),
+                entry.data.get(CONF_ADDRESS, 1),
+            )
+            self.data[CONF_LAYER] = CONF_SERIAL
+            return await self.async_step_serial()
+        else:
+            self._reconfigure_defaults_network = (
+                entry.data.get(CONF_IP_ADDRESS, ""),
+                entry.data.get(CONF_PORT, 502),
+                entry.data.get(CONF_ADDRESS, 1),
+                entry.data.get(CONF_FRAME, 'socket'),
+            )
+            self.data[CONF_LAYER] = layer
+            return await self.async_step_network()
 
 class GrowattLocalOptionsFlow(config_entries.OptionsFlow):
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:

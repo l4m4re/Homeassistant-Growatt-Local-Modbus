@@ -321,6 +321,15 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self._async_show_serial_form(default_values=defaults)
 
         if user_input is not None and CONF_SERIAL_PORT in user_input:
+            # If reconfiguring, skip probing to avoid clashing with an already-open port
+            if self._is_reconfigure:
+                custom = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT_CUSTOM))
+                if custom:
+                    user_input[CONF_SERIAL_PORT] = custom
+                else:
+                    user_input[CONF_SERIAL_PORT] = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT))
+                self.data.update(user_input)
+                return self._async_show_device_form()
             # If custom override provided, use it as the effective serial port, normalized
             custom = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT_CUSTOM))
             if custom:
@@ -418,6 +427,10 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_network(self, user_input=None) -> FlowResult:
         """Handle the network config flow."""
         if user_input is not None and CONF_IP_ADDRESS in user_input:
+            # If reconfiguring, skip probing to avoid clashing; we'll reload after device step
+            if self._is_reconfigure:
+                self.data.update(user_input)
+                return self._async_show_device_form()
             try:
                 server = GrowattNetwork(
                     self.data[CONF_LAYER],

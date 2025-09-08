@@ -233,13 +233,8 @@ class GrowattSerial(GrowattModbusBase):
                 )
         else:
             if not os.path.exists(port):
-                _LOGGER.debug(
-                    "Port %s is not available on linux platfrom",
-                    port,
-                )
-                raise ModbusPortException(
-                    f"Port {port} is not available on linux platfrom"
-                )
+                _LOGGER.debug("Port %s is not available", port)
+                raise ModbusPortException(f"USB port {port} is not available")
 
         self.client = AsyncModbusSerialClient(
             port=port,

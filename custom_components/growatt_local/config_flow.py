@@ -77,6 +77,25 @@ _LOGGER = logging.getLogger(__name__)
 CONF_SERIAL_PORT_CUSTOM = "custom_serial_port"
 
 
+def _normalize_serial_path(path: str | None) -> str | None:
+    """Normalize a serial path input.
+
+    - Trim whitespace
+    - If user typed a by-id suffix (usb-...), prefix /dev/serial/by-id/
+    - If user typed ttyUSB* or ttyACM* without /dev, prefix /dev/
+    """
+    if path is None:
+        return None
+    p = str(path).strip()
+    if not p:
+        return p
+    if not p.startswith("/dev/") and p.startswith("usb-"):
+        p = f"/dev/serial/by-id/{p}"
+    if not p.startswith("/dev/") and (p.startswith("ttyUSB") or p.startswith("ttyACM")):
+        p = f"/dev/{p}"
+    return p
+
+
 class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow class."""
 
@@ -302,12 +321,16 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self._async_show_serial_form(default_values=defaults)
 
         if user_input is not None and CONF_SERIAL_PORT in user_input:
-            # If custom override provided, use it as the effective serial port
-            custom = user_input.get(CONF_SERIAL_PORT_CUSTOM)
+            # If custom override provided, use it as the effective serial port, normalized
+            custom = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT_CUSTOM))
             if custom:
                 user_input[CONF_SERIAL_PORT] = custom
+            else:
+                # Normalize selected port as well
+                user_input[CONF_SERIAL_PORT] = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT))
             server: GrowattSerial | None = None
             try:
+                _LOGGER.debug("Attempting to open serial port: %s", user_input[CONF_SERIAL_PORT])
                 server = GrowattSerial(
                     user_input[CONF_SERIAL_PORT],
                     user_input[CONF_BAUDRATE],

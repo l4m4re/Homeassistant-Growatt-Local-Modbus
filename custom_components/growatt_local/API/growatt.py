@@ -232,12 +232,18 @@ class GrowattSerial(GrowattModbusBase):
                     f"Port {port} is not available on windows platfrom should always start with 'COM'"
                 )
         else:
+            # On Linux, prefer to attempt open even if path check fails (container/permission/symlink issues)
             if not os.path.exists(port):
-                _LOGGER.debug("Port %s is not available", port)
-                raise ModbusPortException(f"USB port {port} is not available")
+                _LOGGER.warning("Serial port path not found: %s; will attempt to open anyway", port)
+
+        # Resolve symlinks (e.g., /dev/serial/by-id -> /dev/ttyUSB*) for clarity
+        resolved = os.path.realpath(port)
+        if resolved != port:
+            _LOGGER.debug("Resolved serial path: %s -> %s", port, resolved)
+        port_to_use = resolved if os.path.exists(resolved) else port
 
         self.client = AsyncModbusSerialClient(
-            port=port,
+            port=port_to_use,
             framer=FramerType.RTU,
             baudrate=baudrate,
             stopbits=stopbits,

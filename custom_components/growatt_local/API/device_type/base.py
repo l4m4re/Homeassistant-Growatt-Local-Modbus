@@ -104,11 +104,15 @@ ATTR_TEMPERATURE = "inverter_temperature"  # C
 ATTR_IPM_TEMPERATURE = "ipm_temperature"  # C
 ATTR_BOOST_TEMPERATURE = "boost_temperature"  # C
 
+ATTR_BATTERY_TEMPERATURE_A = "battery_temperature_a"  # C
+ATTR_BATTERY_TEMPERATURE_B = "battery_temperature_b"  # C
+
+ATTR_BDC_NEW_FLAG = "bdc_new_flag"  # 0/1 – geeft aan dat BDC-blok actief is
+
 ATTR_P_BUS_VOLTAGE = "p_bus_voltage"  # V
 ATTR_N_BUS_VOLTAGE = "n_bus_voltage"  # V
 
 ATTR_OUTPUT_PERCENTAGE = "real_output_power_percent"  # %
-
 
 # Attribute names for values in the input register Storage
 ATTR_SOC_PERCENTAGE = "soc"  # %
@@ -133,7 +137,12 @@ ATTR_DISCHARGE_ENERGY_TOTAL = "discharge_energy_total"  # kWh
 ATTR_CHARGE_ENERGY_TODAY = "charge_energy_today"  # kWh
 ATTR_CHARGE_ENERGY_TOTAL = "charge_energy_total"  # kWh
 
-# Attribute names for values in the input register for Offgrid inverter 
+# Additional TL-XH input attributes
+ATTR_COMM_BOARD_TEMPERATURE = "comm_board_temperature"  # C
+ATTR_PRESENT_FFT_A = "present_fft_a"
+ATTR_INV_START_DELAY = "inv_start_delay"  # s
+
+# Attribute names for values in the input register for Offgrid inverter
 ATTR_ACTIVE_POWER = "output_active_power"  # W
 
 ATTR_BATTERY_VOLTAGE = "battery_voltage"  # V

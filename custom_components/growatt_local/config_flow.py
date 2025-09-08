@@ -1,6 +1,8 @@
 """Config flow for growatt server integration."""
 import asyncio
 import logging
+import os
+import glob
 from asyncio.exceptions import TimeoutError
 from typing import Any
 
@@ -71,6 +73,28 @@ DEVICETYPES_OPTION = [
 
 _LOGGER = logging.getLogger(__name__)
 
+# Local-only key for an optional custom serial port override
+CONF_SERIAL_PORT_CUSTOM = "custom_serial_port"
+
+
+def _normalize_serial_path(path: str | None) -> str | None:
+    """Normalize a serial path input.
+
+    - Trim whitespace
+    - If user typed a by-id suffix (usb-...), prefix /dev/serial/by-id/
+    - If user typed ttyUSB* or ttyACM* without /dev, prefix /dev/
+    """
+    if path is None:
+        return None
+    p = str(path).strip()
+    if not p:
+        return p
+    if not p.startswith("/dev/") and p.startswith("usb-"):
+        p = f"/dev/serial/by-id/{p}"
+    if not p.startswith("/dev/") and (p.startswith("ttyUSB") or p.startswith("ttyACM")):
+        p = f"/dev/{p}"
+    return p
+
 
 class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow class."""
@@ -109,47 +133,99 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     @callback
-    def _async_show_serial_form(self, default_values=(None, 9600, 1, ParityOptions.NONE, 8, None), errors=None):
+    def _async_show_serial_form(self, default_values=(None, 9600, 1, ParityOptions.NONE, 8, 1), errors=None):
         """Show the serial form to the user."""
-        data_schema = vol.Schema(
-            {
-                vol.Required(CONF_SERIAL_PORT, default=default_values[0]): str,
-                vol.Required(CONF_BAUDRATE, default=default_values[1]): int,
-                vol.Required(CONF_STOPBITS, default=default_values[2]): selector.NumberSelector(
-                    selector.NumberSelectorConfig(
-                        min=0,
-                        max=2,
-                        mode=selector.NumberSelectorMode.BOX,
-                    ),
-                ),
-                vol.Required(CONF_PARITY, default=default_values[3]): selector.SelectSelector(
-                    selector.SelectSelectorConfig(
-                        options=PARITY_OPTION, mode=selector.SelectSelectorMode.DROPDOWN
-                    ),
-                ),
-                vol.Required(CONF_BYTESIZE, default=default_values[4]): selector.NumberSelector(
-                    selector.NumberSelectorConfig(
-                        min=5,
-                        max=8,
-                        mode=selector.NumberSelectorMode.BOX,
-                    ),
-                ),
-                vol.Required(CONF_ADDRESS, default=default_values[5]): int,
-            }
+        # Build a dropdown of detected serial ports (prefer /dev/serial/by-id/*),
+        # and fall back to free text input when none are found.
+        port_options = []
+        current_port = default_values[0]
+
+        # Prefer stable by-id symlinks
+        by_id = sorted(glob.glob("/dev/serial/by-id/*"))
+        if by_id:
+            for p in by_id:
+                # Show friendly label, value is the by-id path so it stays stable
+                # Display full path for clarity
+                label = p
+                port_options.append(
+                    selector.SelectOptionDict(value=p, label=label)
+                )
+        else:
+            # Fallback to direct device nodes
+            tty_candidates = sorted(glob.glob("/dev/ttyUSB*") + glob.glob("/dev/ttyACM*"))
+            for p in tty_candidates:
+                port_options.append(
+                    selector.SelectOptionDict(value=p, label=p)
+                )
+
+        # If the current value is custom and not in options, include it so default can be set
+        if current_port and all(opt["value"] != current_port for opt in port_options):
+            port_options.insert(0, selector.SelectOptionDict(value=current_port, label=f"Custom: {current_port}"))
+
+        # Compose the schema dynamically based on discovery
+        schema_fields: dict = {}
+        if port_options:
+            schema_fields[vol.Required(CONF_SERIAL_PORT, default=current_port or (port_options[0]["value"] if port_options else None))] = selector.SelectSelector(
+                selector.SelectSelectorConfig(options=port_options, mode=selector.SelectSelectorMode.DROPDOWN)
+            )
+        else:
+            schema_fields[vol.Required(CONF_SERIAL_PORT, default=current_port)] = str
+
+        # Always provide a free-text override field so users can type any path
+        schema_fields[vol.Optional(CONF_SERIAL_PORT_CUSTOM, default="")] = selector.TextSelector(
+            selector.TextSelectorConfig(
+                type=selector.TextSelectorType.TEXT,
+            )
         )
+
+        schema_fields[vol.Required(CONF_BAUDRATE, default=default_values[1])] = int
+        schema_fields[vol.Required(CONF_STOPBITS, default=default_values[2])] = selector.NumberSelector(
+            selector.NumberSelectorConfig(
+                min=0,
+                max=2,
+                mode=selector.NumberSelectorMode.BOX,
+            ),
+        )
+        schema_fields[vol.Required(CONF_PARITY, default=default_values[3])] = selector.SelectSelector(
+            selector.SelectSelectorConfig(
+                options=PARITY_OPTION, mode=selector.SelectSelectorMode.DROPDOWN
+            ),
+        )
+        schema_fields[vol.Required(CONF_BYTESIZE, default=default_values[4])] = selector.NumberSelector(
+            selector.NumberSelectorConfig(
+                min=5,
+                max=8,
+                mode=selector.NumberSelectorMode.BOX,
+            ),
+        )
+        schema_fields[vol.Required(CONF_ADDRESS, default=default_values[5])] = selector.NumberSelector(
+            selector.NumberSelectorConfig(
+                min=1,
+                max=247,
+                mode=selector.NumberSelectorMode.BOX,
+            ),
+        )
+
+        data_schema = vol.Schema(schema_fields)
 
         return self.async_show_form(
             step_id="serial", data_schema=data_schema, errors=errors
         )
 
     @callback
-    def _async_show_network_form(self, default_values=("", 502, None, 'socket'), errors=None):
+    def _async_show_network_form(self, default_values=("", 502, 1, 'socket'), errors=None):
         """Show the network form to the user."""
         data_schema = vol.Schema(
             {
                 vol.Required(CONF_IP_ADDRESS, default=default_values[0]): str,
                 vol.Required(CONF_PORT, default=default_values[1]): int,
-                vol.Required(CONF_ADDRESS, default=default_values[2]): int,
+                vol.Required(CONF_ADDRESS, default=default_values[2]): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=1,
+                        max=247,
+                        mode=selector.NumberSelectorMode.BOX,
+                    ),
+                ),
                 vol.Required(CONF_FRAME, default=default_values[3]): selector.SelectSelector(
                     selector.SelectSelectorConfig(
                         options=MODBUS_FRAMER_OPTION, mode=selector.SelectSelectorMode.DROPDOWN
@@ -235,21 +311,38 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_serial(self, user_input=None) -> FlowResult:
         """Handle the serial config flow."""
 
-        if self.data[CONF_LAYER] == CONF_SERIAL and user_input is None:
-            return self._async_show_serial_form()
+        if self.data.get(CONF_LAYER) == CONF_SERIAL and user_input is None:
+            return self._async_show_serial_form(default_values=(None, 9600, 1, ParityOptions.NONE, 8, 1))
 
         if user_input is not None and CONF_SERIAL_PORT in user_input:
+            # If custom override provided, use it as the effective serial port, normalized
+            custom = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT_CUSTOM))
+            if custom:
+                user_input[CONF_SERIAL_PORT] = custom
+            else:
+                # Normalize selected port as well
+                user_input[CONF_SERIAL_PORT] = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT))
+            server: GrowattSerial | None = None
             try:
+                _LOGGER.debug("Attempting to open serial port: %s", user_input[CONF_SERIAL_PORT])
                 server = GrowattSerial(
                     user_input[CONF_SERIAL_PORT],
                     user_input[CONF_BAUDRATE],
                     user_input[CONF_STOPBITS],
                     user_input[CONF_PARITY],
-                    user_input[CONF_BYTESIZE]
+                    user_input[CONF_BYTESIZE],
                 )
                 await server.connect()
-            except ModbusPortException:
-                _LOGGER.error("ERROR", exc_info=True)
+                # Some clients return False without raising; ensure we are connected
+                if not server.connected():
+                    raise ModbusPortException("Unable to open serial port")
+            except Exception:
+                _LOGGER.error("Failed to open serial port", exc_info=True)
+                if server is not None:
+                    try:
+                        server.close()
+                    except Exception:  # best-effort cleanup
+                        pass
                 return self._async_show_serial_form(
                     default_values=(
                         user_input[CONF_SERIAL_PORT],
@@ -259,7 +352,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_BYTESIZE],
                         user_input[CONF_ADDRESS],
                     ),
-                    errors={CONF_SERIAL_PORT: "serial_port"})
+                    errors={CONF_SERIAL_PORT: "serial_port"},
+                )
 
             try:
                 device_info = await get_device_info(server, user_input[CONF_ADDRESS])
@@ -295,7 +389,10 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     errors={"base": "device_disconnect"},
                 )
             finally:
-                server.close()
+                try:
+                    server.close()
+                except Exception:
+                    pass
 
             self.server = server
             self.data.update(user_input)
@@ -331,7 +428,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={"base": "network_connection"},
                 )
@@ -342,7 +439,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={"base": "network_custom"},
                 )
@@ -354,7 +451,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={"base": "network_connection"},
                 )
@@ -373,7 +470,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={CONF_ADDRESS: "device_address", "base": "device_timeout"},
                 )
@@ -386,7 +483,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={"base": "device_disconnect"},
                 )
@@ -403,10 +500,14 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     mppt_trackers=device_info.mppt_trackers,
                     grid_phases=device_info.grid_phases,
                     modbus_version=device_info.modbus_version,
-                    detected_type=device_info.device_type
+                    detected_type=device_info.device_type,
                 )
             else:
                 return self._async_show_device_form()
+
+        # Initial show (no input)
+        if user_input is None:
+            return self._async_show_network_form(default_values=("", 502, 1, "socket"))
 
     async def async_step_device(self, user_input=None) -> FlowResult:
         """Handle the device config flow."""
@@ -488,6 +589,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data=self.data, 
             options=options
         )
+
 
 class GrowattLocalOptionsFlow(config_entries.OptionsFlow):
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:

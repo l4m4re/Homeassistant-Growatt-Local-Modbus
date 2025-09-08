@@ -1,0 +1,171 @@
+[
+  {
+    "number": 3021,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "Var",
+    "description": "Reactive power (Qac H/L)"
+  },
+  {
+    "number": 3041,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Total forward power"
+  },
+  {
+    "number": 3043,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Total reverse power"
+  },
+  {
+    "number": 3045,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Total load power"
+  },
+  {
+    "number": 3067,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Today energy to user"
+  },
+  {
+    "number": 3069,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "",
+    "description": "32‑bit field (pair)"
+  },
+  {
+    "number": 3071,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Today energy to grid"
+  },
+  {
+    "number": 3073,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Total energy to grid"
+  },
+  {
+    "number": 3097,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "",
+    "description": "Communication board temperature"
+  },
+  {
+    "number": 3111,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "",
+    "description": "PresentFFTValue [CHANNEL_A]"
+  },
+  {
+    "number": 3115,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "",
+    "description": "Inverter start delay time"
+  },
+  {
+    "number": 3125,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Battery discharge today"
+  },
+  {
+    "number": 3127,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Battery discharge total"
+  },
+  {
+    "number": 3129,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Battery charge today"
+  },
+  {
+    "number": 3131,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Battery charge total"
+  },
+  {
+    "number": 3164,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "-",
+    "description": "BDC new flag"
+  },
+  {
+    "number": 3171,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "%",
+    "description": "Battery SOC %"
+  },
+  {
+    "number": 3176,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "°C",
+    "description": "Battery temp A"
+  },
+  {
+    "number": 3177,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "°C",
+    "description": "Battery temp B"
+  },
+  {
+    "number": 3178,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Battery discharge power"
+  },
+  {
+    "number": 3180,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Battery charge power"
+  }
+]
+

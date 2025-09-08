@@ -34,7 +34,12 @@ from .device_type.base import (
     inverter_status,
 )
 from .device_type.inverter_120 import MAXIMUM_DATA_LENGTH_120, HOLDING_REGISTERS_120, INPUT_REGISTERS_120, INPUT_REGISTERS_120_TL_XH
-from .device_type.storage_120 import STORAGE_HOLDING_REGISTERS_120, STORAGE_INPUT_REGISTERS_120, STORAGE_INPUT_REGISTERS_120_TL_XH
+from .device_type.storage_120 import (
+    STORAGE_HOLDING_REGISTERS_120,
+    STORAGE_HOLDING_REGISTERS_120_TL_XH,
+    STORAGE_INPUT_REGISTERS_120,
+    STORAGE_INPUT_REGISTERS_120_TL_XH,
+)
 from .device_type.inverter_315 import MAXIMUM_DATA_LENGTH_315, HOLDING_REGISTERS_315, INPUT_REGISTERS_315
 from .device_type.offgrid import INPUT_REGISTERS_OFFGRID, offgrid_status
 
@@ -112,18 +117,18 @@ class GrowattModbusBase:
         Read Growatt device time.
         """
         # TODO: update with dynamic register values
-        rhr = await self.client.read_holding_registers(45, count=6, slave=slave)
+        rhr = await self.client.read_holding_registers(45, count=6, device_id=slave)
         if rhr.isError():
             _LOGGER.debug("Modbus read failed for rhr")
             raise ModbusException("Modbus read failed for rhr.")
 
         return datetime(
-            rhr.register[0] + 2000,
-            rhr.register[1],
-            rhr.register[2],
-            rhr.register[3],
-            rhr.register[4],
-            rhr.register[5],
+            rhr.registers[0] + 2000,
+            rhr.registers[1],
+            rhr.registers[2],
+            rhr.registers[3],
+            rhr.registers[4],
+            rhr.registers[5],
         )
 
     async def write_device_time(
@@ -144,12 +149,12 @@ class GrowattModbusBase:
         return await self.client.write_register(register, payload[0], slave=slave)
 
     async def read_holding_registers(self, start_address, count, slave) -> dict[int, int]:
-        data = await self.client.read_holding_registers(start_address, count=count, slave=slave)
+        data = await self.client.read_holding_registers(start_address, count=count, device_id=slave)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
     async def read_input_registers(self, start_address, count, slave) -> dict[int, int]:
-        data = await self.client.read_input_registers(start_address, count=count, slave=slave)
+        data = await self.client.read_input_registers(start_address, count=count, device_id=slave)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
@@ -428,7 +433,7 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
     elif GrowattDeviceType == DeviceTypes.HYBRID_120_TL_XH:
         max_length = MAXIMUM_DATA_LENGTH_120
         holding_register = {
-            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
+            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120_TL_XH
         }
         input_register = {
             obj.register: obj for obj in INPUT_REGISTERS_120_TL_XH

@@ -108,10 +108,6 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.user_id = None
         self.data: dict[str, Any] = {}
         self.force_next_page = False
-        # Reconfigure support
-        self._is_reconfigure = False
-        self._reconfigure_defaults_serial = None
-        self._reconfigure_defaults_network = None
 
     @staticmethod
     @callback
@@ -316,20 +312,9 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle the serial config flow."""
 
         if self.data.get(CONF_LAYER) == CONF_SERIAL and user_input is None:
-            # Use reconfigure defaults if available
-            defaults = self._reconfigure_defaults_serial or (None, 9600, 1, ParityOptions.NONE, 8, 1)
-            return self._async_show_serial_form(default_values=defaults)
+            return self._async_show_serial_form(default_values=(None, 9600, 1, ParityOptions.NONE, 8, 1))
 
         if user_input is not None and CONF_SERIAL_PORT in user_input:
-            # If reconfiguring, skip probing to avoid clashing with an already-open port
-            if self._is_reconfigure:
-                custom = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT_CUSTOM))
-                if custom:
-                    user_input[CONF_SERIAL_PORT] = custom
-                else:
-                    user_input[CONF_SERIAL_PORT] = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT))
-                self.data.update(user_input)
-                return self._async_show_device_form()
             # If custom override provided, use it as the effective serial port, normalized
             custom = _normalize_serial_path(user_input.get(CONF_SERIAL_PORT_CUSTOM))
             if custom:
@@ -427,10 +412,6 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_network(self, user_input=None) -> FlowResult:
         """Handle the network config flow."""
         if user_input is not None and CONF_IP_ADDRESS in user_input:
-            # If reconfiguring, skip probing to avoid clashing; we'll reload after device step
-            if self._is_reconfigure:
-                self.data.update(user_input)
-                return self._async_show_device_form()
             try:
                 server = GrowattNetwork(
                     self.data[CONF_LAYER],
@@ -447,7 +428,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={"base": "network_connection"},
                 )
@@ -458,7 +439,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={"base": "network_custom"},
                 )
@@ -470,7 +451,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={"base": "network_connection"},
                 )
@@ -489,7 +470,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={CONF_ADDRESS: "device_address", "base": "device_timeout"},
                 )
@@ -502,7 +483,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
                         user_input[CONF_ADDRESS],
-                        user_input[CONF_FRAME]
+                        user_input[CONF_FRAME],
                     ),
                     errors={"base": "device_disconnect"},
                 )
@@ -519,15 +500,14 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     mppt_trackers=device_info.mppt_trackers,
                     grid_phases=device_info.grid_phases,
                     modbus_version=device_info.modbus_version,
-                    detected_type=device_info.device_type
+                    detected_type=device_info.device_type,
                 )
             else:
                 return self._async_show_device_form()
 
-        # Initial show (no input): use reconfigure defaults if available
+        # Initial show (no input)
         if user_input is None:
-            defaults = self._reconfigure_defaults_network or ("", 502, 1, 'socket')
-            return self._async_show_network_form(default_values=defaults)
+            return self._async_show_network_form(default_values=("", 502, 1, "socket"))
 
     async def async_step_device(self, user_input=None) -> FlowResult:
         """Handle the device config flow."""
@@ -589,10 +569,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors={"base": "device_type"},
             )
 
-        # Only enforce unique_id on initial setup, not during reconfigure
-        if not self._is_reconfigure:
-            await self.async_set_unique_id(device_info.serial_number)
-            self._abort_if_unique_id_configured()
+        await self.async_set_unique_id(device_info.serial_number)
+        self._abort_if_unique_id_configured()
 
         self.data[CONF_SERIAL_NUMBER] = device_info.serial_number
         self.data[CONF_FIRMWARE] = device_info.firmware
@@ -606,57 +584,12 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         self.data.update(user_input)
 
-        if self._is_reconfigure:
-            # Update existing entry instead of creating a new one
-            entry_id = self.context.get("entry_id")
-            entry = self.hass.config_entries.async_get_entry(entry_id) if entry_id else None
-            if entry is not None:
-                new_data = {**entry.data, **self.data}
-                new_options = {**entry.options, **options}
-                self.hass.config_entries.async_update_entry(entry, data=new_data, options=new_options)
-                # Reload to apply new connection params and (re)discover sensors
-                await self.hass.config_entries.async_reload(entry.entry_id)
-            return self.async_create_entry(title="", data={})
-        else:
-            return self.async_create_entry(
-                title=f"Growatt {self.data[CONF_MODEL]}", 
-                data=self.data, 
-                options=options
-            )
+        return self.async_create_entry(
+            title=f"Growatt {self.data[CONF_MODEL]}", 
+            data=self.data, 
+            options=options
+        )
 
-    async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None) -> FlowResult:
-        """Entry reconfiguration: edit connection and device settings without removing the entry."""
-        entry_id = self.context.get("entry_id")
-        entry = self.hass.config_entries.async_get_entry(entry_id) if entry_id else None
-        if entry is None:
-            # Fallback to regular flow
-            return await self.async_step_user(user_input)
-
-        self._is_reconfigure = True
-        # Seed current data
-        self.data = {**entry.data}
-
-        layer = entry.data.get(CONF_LAYER, CONF_SERIAL)
-        if layer == CONF_SERIAL:
-            self._reconfigure_defaults_serial = (
-                entry.data.get(CONF_SERIAL_PORT),
-                entry.data.get(CONF_BAUDRATE, 9600),
-                entry.data.get(CONF_STOPBITS, 1),
-                entry.data.get(CONF_PARITY, ParityOptions.NONE),
-                entry.data.get(CONF_BYTESIZE, 8),
-                entry.data.get(CONF_ADDRESS, 1),
-            )
-            self.data[CONF_LAYER] = CONF_SERIAL
-            return await self.async_step_serial()
-        else:
-            self._reconfigure_defaults_network = (
-                entry.data.get(CONF_IP_ADDRESS, ""),
-                entry.data.get(CONF_PORT, 502),
-                entry.data.get(CONF_ADDRESS, 1),
-                entry.data.get(CONF_FRAME, 'socket'),
-            )
-            self.data[CONF_LAYER] = layer
-            return await self.async_step_network()
 
 class GrowattLocalOptionsFlow(config_entries.OptionsFlow):
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:

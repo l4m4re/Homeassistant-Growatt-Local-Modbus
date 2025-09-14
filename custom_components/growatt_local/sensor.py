@@ -62,13 +62,14 @@ async def async_setup_entry(
     entities = []
     sensor_descriptions: list[GrowattSensorEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
+    seen_keys: set[str] = set()
 
     device_type = DeviceTypes(config_entry.data[CONF_TYPE])
 
     if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120,
                        DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH):
         for sensor in INVERTER_SENSOR_TYPES:
-            if sensor.key not in supported_key_names:
+            if sensor.key not in supported_key_names or sensor.key in seen_keys:
                 continue
 
             if re.match(r"input_\d+", sensor.key) and not re.match(
@@ -81,9 +82,10 @@ async def async_setup_entry(
                 continue
 
             sensor_descriptions.append(sensor)
+            seen_keys.add(sensor.key)
     elif device_type == DeviceTypes.OFFGRID_SPF:
         for sensor in OFFGRID_SENSOR_TYPES:
-            if sensor.key not in supported_key_names:
+            if sensor.key not in supported_key_names or sensor.key in seen_keys:
                 continue
 
             if re.match(r"input_\d+", sensor.key) and not re.match(
@@ -92,13 +94,15 @@ async def async_setup_entry(
                 continue
 
             sensor_descriptions.append(sensor)
+            seen_keys.add(sensor.key)
 
     if device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
         for sensor in STORAGE_SENSOR_TYPES:
-            if sensor.key not in supported_key_names:
+            if sensor.key not in supported_key_names or sensor.key in seen_keys:
                 continue
 
             sensor_descriptions.append(sensor)
+            seen_keys.add(sensor.key)
 
     if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120):
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER)

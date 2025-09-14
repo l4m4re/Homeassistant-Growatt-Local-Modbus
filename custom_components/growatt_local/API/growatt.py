@@ -274,13 +274,13 @@ class GrowattSerial(GrowattModbusBase):
             "bytesize": bytesize,
             "timeout": timeout,
         }
-        
+
         if "silent_interval" in inspect.signature(AsyncModbusSerialClient.__init__).parameters:
             client_kwargs["silent_interval"] = silent_interval
         elif silent_interval > 0:
             _LOGGER.warning(
                 "silent_interval is not supported in the installed pymodbus version %s, please upgrade to at least pymodbus 3.1.1",
-                ".".join(map(str, sys.modules["pymodbus"].__version_info__)),
+                ".".join(map(str, sys.modules["pymodbus"].__version_full__)),
             )
 
         self.client = AsyncModbusSerialClient(**client_kwargs)

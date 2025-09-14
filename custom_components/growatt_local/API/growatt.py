@@ -219,8 +219,9 @@ class GrowattSerial(GrowattModbusBase):
         parity: str = "N",
         bytesize: int = 8,
         timeout: int = 3,
+        silent_interval: float | None = None,
     ) -> None:
-        """Initialize Serial Growatt."""
+        """Initialize Serial Growatt with configurable silent interval."""
 
         if sys.platform.startswith("win"):
             if not port.startswith("COM"):
@@ -236,6 +237,12 @@ class GrowattSerial(GrowattModbusBase):
                 _LOGGER.debug("Port %s is not available", port)
                 raise ModbusPortException(f"USB port {port} is not available")
 
+        # For baudrate > 38400, use fixed silent_interval; else use default (3.5 chars)
+        if baudrate > 38400:
+            if silent_interval is None:
+                silent_interval = 0.002  # 2 ms for high baud
+                _LOGGER.info("Using fixed silent_interval %.4f s for high baudrate %d", silent_interval, baudrate)
+
         self.client = AsyncModbusSerialClient(
             port=port,
             framer=FramerType.RTU,
@@ -244,6 +251,7 @@ class GrowattSerial(GrowattModbusBase):
             parity=parity[:1],
             bytesize=bytesize,
             timeout=timeout,
+            silent_interval=silent_interval,
         )
 
 

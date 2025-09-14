@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import sys
+import inspect
 from abc import abstractmethod
 from collections.abc import Sequence
 from datetime import datetime, timedelta
@@ -144,17 +145,23 @@ class GrowattModbusBase:
         await self.client.write_register(49, minute)
         await self.client.write_register(50, second)
 
-    async def write_register(self, register, value, slave) -> ModbusPDU:  
-        payload = ModbusBaseClient.convert_to_registers(value, ModbusBaseClient.DATATYPE.INT16)
+    async def write_register(self, register, value, slave) -> ModbusPDU:
+        payload = ModbusBaseClient.convert_to_registers(
+            value, ModbusBaseClient.DATATYPE.INT16
+        )
         return await self.client.write_register(register, payload[0], slave=slave)
 
     async def read_holding_registers(self, start_address, count, slave) -> dict[int, int]:
-        data = await self.client.read_holding_registers(start_address, count=count, device_id=slave)
+        data = await self.client.read_holding_registers(
+            start_address, count=count, device_id=slave
+        )
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
     async def read_input_registers(self, start_address, count, slave) -> dict[int, int]:
-        data = await self.client.read_input_registers(start_address, count=count, device_id=slave)
+        data = await self.client.read_input_registers(
+            start_address, count=count, device_id=slave
+        )
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
@@ -238,25 +245,39 @@ class GrowattSerial(GrowattModbusBase):
                 raise ModbusPortException(f"USB port {port} is not available")
 
         if silent_interval is None:
-            # For baudrate > 38400, use fixed silent_interval; else use default (3.5 chars)
             if baudrate > 38400:
-                silent_interval = 0.002  # 2 ms for high baud
-                _LOGGER.info("Using fixed silent_interval %.4f s for high baudrate %d", silent_interval, baudrate)
+                silent_interval = 0.002
+                _LOGGER.info(
+                    "Using fixed silent_interval %.4f s for high baudrate %d",
+                    silent_interval,
+                    baudrate,
+                )
             else:
-                _LOGGER.info("Using default silent_interval for baudrate %d", baudrate)
+                silent_interval = 0.0
+                _LOGGER.info(
+                    "Using default silent_interval for baudrate %d",
+                    baudrate,
+                )
         else:
-            _LOGGER.info("Using silent interval %.4f s for baudrate %d", silent_interval, baudrate)
+            _LOGGER.info(
+                "Using silent interval %.4f s for baudrate %d",
+                silent_interval,
+                baudrate,
+            )
 
-        self.client = AsyncModbusSerialClient(
-            port=port,
-            framer=FramerType.RTU,
-            baudrate=baudrate,
-            stopbits=stopbits,
-            parity=parity[:1],
-            bytesize=bytesize,
-            timeout=timeout,
-            silent_interval=silent_interval,
-        )
+        client_kwargs = {
+            "port": port,
+            "framer": FramerType.RTU,
+            "baudrate": baudrate,
+            "stopbits": stopbits,
+            "parity": parity[:1],
+            "bytesize": bytesize,
+            "timeout": timeout,
+        }
+        if "silent_interval" in inspect.signature(AsyncModbusSerialClient.__init__).parameters:
+            client_kwargs["silent_interval"] = silent_interval
+
+        self.client = AsyncModbusSerialClient(**client_kwargs)
 
 
 class GrowattDevice:

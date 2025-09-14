@@ -237,11 +237,15 @@ class GrowattSerial(GrowattModbusBase):
                 _LOGGER.debug("Port %s is not available", port)
                 raise ModbusPortException(f"USB port {port} is not available")
 
-        # For baudrate > 38400, use fixed silent_interval; else use default (3.5 chars)
-        if baudrate > 38400:
-            if silent_interval is None:
+        if silent_interval is None:
+            # For baudrate > 38400, use fixed silent_interval; else use default (3.5 chars)
+            if baudrate > 38400:
                 silent_interval = 0.002  # 2 ms for high baud
                 _LOGGER.info("Using fixed silent_interval %.4f s for high baudrate %d", silent_interval, baudrate)
+            else:
+                _LOGGER.info("Using default silent_interval for baudrate %d", baudrate)
+        else:
+            _LOGGER.info("Using silent interval %.4f s for baudrate %d", silent_interval, baudrate)
 
         self.client = AsyncModbusSerialClient(
             port=port,

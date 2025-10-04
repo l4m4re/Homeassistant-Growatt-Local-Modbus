@@ -190,6 +190,53 @@ consolidated register reference aligned with community discoveries: updating the
 Grott checkout and rerunning the import pipeline will flag new or changed
 addresses alongside the vendor and Home Assistant views we already collect.
 
+## Incremental Enrichment Plan
+
+We now treat `register_catalog.json` + `growatt_registers_best_guess.json` as the
+authoritative baseline and layer every other source on top via additive
+metadata. Each extractor produces a source-specific overlay that only carries
+external identifiers, labels and explanatory text; core numerical fields remain
+anchored in the best-guess dataset unless a reviewed conflict replaces them.
+
+- **Overlay artefacts** – every extractor writes `doc/overlays/<source>_overlay.json`
+  keyed by canonical register id. Payloads append identifiers (`external_ids`),
+  descriptive snippets (`external_notes`) and optional enum/bitfield candidates
+  under a per-source namespace. Nothing in the overlay mutates the canonical
+  value directly.
+- **Promotion step** – `doc/promote_overlays.py` ingests overlays, merges any
+  conflict-free metadata into `growatt_registers_best_guess.json`, refreshes the
+  derived `growatt_registers_best_guess.v2.json`, and writes unresolved items to
+  `doc/conflicts/pending/<source>.json`.
+- **Conflict handling** – reviewers triage the pending list, capture decisions
+  in `doc/conflicts/resolved.json` (e.g. “prefer HA label”, “keep vendor unit”),
+  and rerun the promoter. The promoter also honours the resolution file when
+  regenerating the dataset.
+- **Catalog alignment** – extractors must map every address to an existing block
+  id; if no block fits, they emit a warning so we can extend the catalog before
+  merging. Section comparisons follow the same pattern introduced in
+  `convert_growatt_registers_best_guess.py` (full match, partial coverage, or
+  “not catalogued”).
+- **Provenance retention** – merged metadata always records its origin in
+  `register_values[..]["metadata"]["sources"]` so downstream tooling can filter
+  or display source-specific details without parsing the overlays again.
+
+This incremental pipeline keeps the best-guess document authoritative, captures
+all the human-friendly identifiers we need for Grott/UI matching, and ensures
+that disagreements remain visible until explicitly resolved.
+
+### Agent Task Suggestions
+
+- Wire up `doc/extract_ha_overlay.py` that parses the Home Assistant integration
+  (entities, service names, enum labels) and emits the HA overlay JSON described
+  above, including block warnings when unknown registers appear.
+- Implement `doc/promote_overlays.py` with support for the overlay merge rules,
+  conflict queue generation and automatic regeneration of the `.v2` export.
+- Draft `doc/conflicts/review_helper.py` that lists outstanding conflicts grouped
+  by source, shows canonical versus candidate values, and lets a reviewer write
+  decisions back into `doc/conflicts/resolved.json`.
+- Extend `convert_growatt_registers_best_guess.py` (or a sibling report script)
+  to ingest overlays for read-only reporting so we can diff canonical entries
+  with their aggregated external identifiers in one place.
 ## Grott export and semantic matching roadmap
 
 The long-term goal is a reproducible workflow that keeps deterministic sources

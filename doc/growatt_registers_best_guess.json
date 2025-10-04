@@ -2405,20 +2405,6 @@
       "note": null
     },
     {
-      "type": "entry",
-      "section": "Priori ty set",
-      "register": 11,
-      "register_start": 11,
-      "register_end": 11,
-      "name": "22~1124 BatSerialNO. Produ",
-      "description": "/ ct serial number of /",
-      "access": "/",
-      "range": null,
-      "unit": null,
-      "initial": null,
-      "note": "reserve"
-    },
-    {
       "type": "section",
       "title": "Installer location metadata"
     },
@@ -3582,7 +3568,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1125,
       "register_start": 1125,
       "register_end": 1125,
@@ -3596,7 +3582,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1126,
       "register_start": 1126,
       "register_end": 1126,
@@ -3610,7 +3596,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1127,
       "register_start": 1127,
       "register_end": 1127,
@@ -3624,7 +3610,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1128,
       "register_start": 1128,
       "register_end": 1128,
@@ -3638,7 +3624,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1129,
       "register_start": 1129,
       "register_end": 1129,
@@ -3652,7 +3638,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1130,
       "register_start": 1130,
       "register_end": 1130,
@@ -3666,7 +3652,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1131,
       "register_start": 1131,
       "register_end": 1131,
@@ -3680,7 +3666,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1132,
       "register_start": 1132,
       "register_end": 1132,
@@ -3694,7 +3680,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1132,
       "register_start": 1132,
       "register_end": 1132,
@@ -3708,7 +3694,7 @@
     },
     {
       "type": "entry",
-      "section": "Priori ty set",
+      "section": "Battery Serial",
       "register": 1204,
       "register_start": 1204,
       "register_end": 1204,
@@ -4696,11 +4682,11 @@
     },
     {
       "type": "section",
-      "title": "BDC module metadata mirrors"
+      "title": "BDC module mirrors"
     },
     {
       "type": "entry",
-      "section": "BDC module metadata mirrors",
+      "section": "BDC module mirrors",
       "register": 5000,
       "register_start": 5000,
       "register_end": 5039,

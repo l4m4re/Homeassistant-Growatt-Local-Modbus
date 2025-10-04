@@ -465,7 +465,7 @@ DOC_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = DOC_DIR.parent
 
 VENDOR_TABLE_PATH = DOC_DIR / "Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English-tables.json"
-SPEC_PATH = DOC_DIR / "growatt_registers_spec.json"
+BEST_GUESS_PATH = DOC_DIR / "growatt_registers_best_guess.json"
 HA_LOCAL_PATH = DOC_DIR / "HA_local_registers.json"
 OPENINVERTER_PATH = DOC_DIR / "openinverter_gateway_registers.json"
 INVERTER_TO_MQTT_PATH = DOC_DIR / "inverter_to_mqtt_registers.json"
@@ -811,10 +811,10 @@ def ingest_vendor_tables(graph: nx.MultiDiGraph) -> None:
 
 
 def ingest_curated_spec(graph: nx.MultiDiGraph) -> None:
-    data = load_json(SPEC_PATH)
+    data = load_json(BEST_GUESS_PATH)
     if not data:
         return
-    source_id = add_source_document(graph, "growatt_registers_spec", SPEC_PATH)
+    source_id = add_source_document(graph, "growatt_registers_best_guess", BEST_GUESS_PATH)
     for table in ("holding", "input"):
         entries = data.get(table, [])
         for entry in entries:

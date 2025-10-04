@@ -4,12 +4,66 @@ This directory collects the source specification and machine-readable material
 for Growatt's “Inverter Modbus RTU Protocol v1.24”, along with generated
 reference docs for the Home Assistant `growatt_local` integration.
 
+## Source versus best-guess datasets
+
+- `Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English.pdf` is the vendor
+  specification we mirrored verbatim. The adjacent `.txt` and `.json` files in
+  the same directory are raw artefacts from pdftotext and an early parsing
+  exercise.
+- Files named `*_best_guess.json` (for example `growatt_registers_best_guess.json`)
+  capture our consolidated interpretation of the register map. They include
+  descriptive prose, inferred ranges and other curation work that goes beyond
+  what the vendor document states explicitly.
+- Helper scripts such as `convert_growatt_registers_best_guess.py`, the
+  catalogue in `register_catalog.json`, and the schema in
+  `register_data_scheme.json` operate on the “best guess” data to produce
+  canonical, schema-compliant exports used by the rest of the toolchain.
+
+## Register catalog and data scheme
+
+The reusable inverter-family, block and section definitions live in
+`doc/register_catalog.json`. The catalogue distils the static ranges described
+in the vendor PDF (augmented with community discoveries such as the 5000–5399
+BDC mirrors) and supplies canonical ids, human-readable labels and provenance
+notes. Each block lists its section slices inline so consumers get a concise
+label plus the register start/length without chasing separate lookups.
+
+The consolidated export produced by `generate_consolidated_ref.py` references
+that catalogue and follows the schema captured in `doc/register_data_scheme.json`.
+The structure mirrors the conceptual model below so every source-specific
+perspective can be compared side-by-side:
+
+- **Inverter families** – high level groupings (e.g. TLX, SPH) that enumerate
+  the register blocks they support. Each family entry carries optional aliases
+  and metadata but does not duplicate block contents.
+- **Blocks** – contiguous address ranges (holding/input) described by a start
+  register and length. Blocks embed their full section list so the hierarchy is
+  self-contained and can optionally point back to catalogue ids.
+- **Sections** – annotated sub-ranges inside a block. Sections list the
+  register values they contain, optional child sections, and provenance links:
+  `mirror_of` documents true register mirrors, while `template_instance_of`
+  denotes repeated layouts (e.g. BDC slots) that reuse the same template but
+  hold independent data.
+- **Register values** – the atomic register descriptions shared by all
+  perspectives. Every extractor must emit the base fields (id, register,
+  length, unit, writable, scale, encoding hints). The canonical view extends
+  this with richer prose (`tooltip`, `help`, `annotations`) and tracks sibling
+  ids for alternate descriptions (HA, Grott, inverter-to-mqtt, vendor, etc.).
+- **Canonical register catalogue** – `canonical_register_values` is simply the
+  list of register value ids we treat as authoritative. Sibling entries reference
+  these ids so conflicts and gaps can be highlighted automatically.
+
+Keeping the hierarchy explicit like this lets the graph builder reason about
+mirrors, repeated templates, and per-source divergences without duplicating
+payloads across files.
+
 ## Holding BDC registers 5000-5399
 
 On page 47 of the Protocol v1.24 pdf document 10 sets of registers are described
 for up to 10 parallel BDC's, with for each BDC the same set of registers as
-holding register range 3085 to 3124 for BDC1. For the time being, these have
-been skipped.
+holding register range 3085 to 3124 for BDC1. The catalogue entry
+`holding_bdc_5000_5399` records this mirror range so downstream tooling can
+link BDC slots back to the canonical TL-XH definitions.
 
 ## UI metadata and translation enrichment
 
@@ -165,8 +219,11 @@ proposed milestones for a coding agent are:
 
 We now have multiple, partially overlapping register descriptions:
 
-- Vendor PDF scrape (`growatt_registers_spec.json`) with noisy but comprehensive
-  narratives.
+- Vendor PDF artefacts (`Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English`)
+  provide the raw tables direct from the manufacturer.
+- Curated best-guess dataset (`growatt_registers_best_guess.json`) with richer
+  narratives and inferred structure. `convert_growatt_registers_best_guess.py`
+  turns this into the schema-aligned `growatt_registers_best_guess.v2.json`.
 - Grott payload layouts that fix byte offsets and serialised data types for the
   telemetry stream.
 - Home Assistant, OpenInverter and inverter-to-MQTT metadata that provide MQTT
@@ -230,23 +287,27 @@ next steps are:
 ## Files
 
 - `Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English.pdf` – original vendor
-  specification. This is the canonical source for all other artefacts here.
-- `growatt_registers_spec.json` – canonical extraction of the PDF register
-  tables. Edits should be made here when updating the specification.
+  specification. This is the canonical source for all other artefacts here
+  (with companion `.txt` and `.json` helpers generated from it).
+- `growatt_registers_best_guess.json` – curated “best guess” interpretation of
+  the register map that aggregates descriptive text and inferred structure.
 - `Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English-tables.json` – raw
   per-row table export retained for traceability/debugging.
 - `HA_local_registers.json` – machine-generated snapshot of the integration's
   register mappings, used when cross-referencing coverage (regenerated via
   `extract_HA_local_registers.py`).
-- `render_register_spec.py` – regeneration script for the Markdown document.
+- `render_register_spec.py` – optional Markdown renderer for ad-hoc documentation
+  previews. The generated file is not versioned.
 - `normalize_register_spec.py` – cleans the spec JSON and enriches it with
   integration attribute metadata.
 - `build_register_data_types.py` – derives reusable data type/scale definitions
   from the integration mapping.
 - `growatt_register_data_types.json` – output catalogue produced by
   `build_register_data_types.py`.
-- `growatt_registers_spec.md` – rendered human-friendly reference. Generated via
-  `python render_register_spec.py` and should not be edited by hand.
+- `growatt_registers_best_guess.v2.json` – schema-compliant projection of the
+  best-guess dataset generated via `python convert_growatt_registers_best_guess.py`.
+- `register_catalog.json` – canonical inverter family, block and section
+  catalogue distilled from the vendor PDF and Grott observations.
 
 ## Updating / regenerating the documentation
 
@@ -254,16 +315,18 @@ The JSON files were produced by parsing the PDF tables and normalising them
 into register records. The Markdown output is rendered programmatically to stay
 in sync with those JSON sources.
 
-1. Modify `growatt_registers_spec.json` as required (or refresh it from the PDF
-   extraction pipeline).
-2. Regenerate `HA_local_registers.json` with `python extract_HA_local_registers.py` when the
-   integration mapping changes.
+1. Update `growatt_registers_best_guess.json` as needed (or refresh it from the
+   vendor artefacts using the helper scripts in this directory).
+2. Regenerate `HA_local_registers.json` with `python extract_HA_local_registers.py`
+   when the integration mapping changes.
 3. Run `python normalize_register_spec.py` to tidy the JSON and attach updated
    attribute mappings.
 4. Run `python build_register_data_types.py` if the type catalogue needs to be
    refreshed.
-5. Run `python render_register_spec.py` from this directory (or inside the
-   `script/bootstrap` virtualenv).
-5. Commit the updated JSON artefacts and the regenerated Markdown together.
+5. (Optional) Run `python render_register_spec.py` from this directory (or inside
+   the `script/bootstrap` virtualenv) to emit a Markdown snapshot for review.
+6. Run `python convert_growatt_registers_best_guess.py` if you need the
+   schema-compliant `growatt_registers_best_guess.v2.json` to stay in sync.
+7. Commit the updated JSON artefacts (Markdown snapshots are for local review only).
 
-Regenerating each time keeps the Markdown and the source JSON in sync.
+Regenerating each time keeps the derived artefacts and the source JSON in sync.

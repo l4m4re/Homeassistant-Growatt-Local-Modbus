@@ -350,7 +350,7 @@
       "range": null,
       "unit": "ASCII",
       "initial": null,
-      "note": "The original table lists these words as Manufacturer Info 8\u20131 (high/middle/low); combine them to read the full string."
+      "note": "The original table lists these words as Manufacturer Info 8-1 (high/middle/low); combine them to read the full string."
     },
     {
       "type": "entry",
@@ -3722,7 +3722,7 @@
     },
     {
       "type": "entry",
-      "section": "\u2026\u2026",
+      "section": "",
       "register": 1244,
       "register_start": 1244,
       "register_end": 1244,
@@ -3736,7 +3736,7 @@
     },
     {
       "type": "entry",
-      "section": "\u2026\u2026",
+      "section": "",
       "register": 1245,
       "register_start": 1245,
       "register_end": 1245,
@@ -3750,7 +3750,7 @@
     },
     {
       "type": "entry",
-      "section": "\u2026\u2026",
+      "section": "",
       "register": 1246,
       "register_start": 1246,
       "register_end": 1246,
@@ -3764,7 +3764,7 @@
     },
     {
       "type": "entry",
-      "section": "\u2026\u2026",
+      "section": "",
       "register": 1247,
       "register_start": 1247,
       "register_end": 1247,
@@ -3778,7 +3778,7 @@
     },
     {
       "type": "entry",
-      "section": "\u2026\u2026",
+      "section": "",
       "register": 1248,
       "register_start": 1248,
       "register_end": 1248,
@@ -3792,7 +3792,7 @@
     },
     {
       "type": "entry",
-      "section": "\u2026\u2026",
+      "section": "",
       "register": 1249,
       "register_start": 1249,
       "register_end": 1249,
@@ -4056,10 +4056,10 @@
       "register_start": 3031,
       "register_end": 3031,
       "name": "Discharge low temperature limit",
-      "description": "Minimum battery temperature for discharge. Values 0-200 map to 0-20\u00b0C; add 1000 to encode negative values.",
+      "description": "Minimum battery temperature for discharge. Values 0-200 map to 0-20°C; add 1000 to encode negative values.",
       "access": "R/W",
       "range": null,
-      "unit": "\u00b0C",
+      "unit": "°C",
       "initial": null,
       "note": null
     },
@@ -4070,10 +4070,10 @@
       "register_start": 3032,
       "register_end": 3032,
       "name": "Discharge high temperature limit",
-      "description": "Maximum battery temperature for discharge (0.1\u00b0C resolution).",
+      "description": "Maximum battery temperature for discharge (0.1°C resolution).",
       "access": "R/W",
       "range": null,
-      "unit": "\u00b0C",
+      "unit": "°C",
       "initial": null,
       "note": null
     },
@@ -4084,10 +4084,10 @@
       "register_start": 3033,
       "register_end": 3033,
       "name": "Charge low temperature limit",
-      "description": "Minimum battery temperature for charge. Values \u22651000 indicate negative limits.",
+      "description": "Minimum battery temperature for charge. Values >1000 indicate negative limits.",
       "access": "R/W",
       "range": null,
-      "unit": "\u00b0C",
+      "unit": "°C",
       "initial": null,
       "note": null
     },
@@ -4098,10 +4098,10 @@
       "register_start": 3034,
       "register_end": 3034,
       "name": "Charge high temperature limit",
-      "description": "Maximum battery temperature for charge (0.1\u00b0C resolution).",
+      "description": "Maximum battery temperature for charge (0.1°C resolution).",
       "access": "R/W",
       "range": null,
-      "unit": "\u00b0C",
+      "unit": "°C",
       "initial": null,
       "note": null
     },
@@ -4705,12 +4705,12 @@
       "register_start": 5000,
       "register_end": 5039,
       "name": "Bdc Slot 1 Metadata",
-      "description": "Mirror of registers 3085\u20133124 for the first battery DC converter (BDC).",
+      "description": "Mirror of registers 3085-3124 for the first battery DC converter (BDC).",
       "access": "R/W",
       "range": null,
       "unit": null,
       "initial": null,
-      "note": "Repeat for additional BDCs at 40-register strides (5040\u20135079, 5080\u20135119, \u2026). Stored as `bdc_metadata_block`.",
+      "note": "Repeat for additional BDCs at 40-register strides (5040-5079, 5080-5119, ). Stored as `bdc_metadata_block`.",
       "data_type": "bdc_metadata_block",
       "attributes": [
         "bdc_slot_1_metadata"
@@ -4720,11 +4720,11 @@
   "input": [
     {
       "type": "section",
-      "title": "Common input telemetry (0\u2013124)"
+      "title": "Common input telemetry (0-124)"
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 0,
       "register_start": 0,
       "register_end": 0,
@@ -4739,7 +4739,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 1,
       "register_start": 1,
       "register_end": 2,
@@ -4754,7 +4754,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 3,
       "register_start": 3,
       "register_end": 3,
@@ -4769,7 +4769,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 4,
       "register_start": 4,
       "register_end": 4,
@@ -4784,7 +4784,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 5,
       "register_start": 5,
       "register_end": 6,
@@ -4799,7 +4799,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 7,
       "register_start": 7,
       "register_end": 7,
@@ -4814,7 +4814,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 8,
       "register_start": 8,
       "register_end": 8,
@@ -4829,7 +4829,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 9,
       "register_start": 9,
       "register_end": 10,
@@ -4844,7 +4844,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 11,
       "register_start": 11,
       "register_end": 11,
@@ -4859,7 +4859,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 12,
       "register_start": 12,
       "register_end": 12,
@@ -4874,7 +4874,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 13,
       "register_start": 13,
       "register_end": 14,
@@ -4889,7 +4889,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 15,
       "register_start": 15,
       "register_end": 15,
@@ -4904,7 +4904,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 16,
       "register_start": 16,
       "register_end": 16,
@@ -4919,7 +4919,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 17,
       "register_start": 17,
       "register_end": 18,
@@ -4934,7 +4934,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 19,
       "register_start": 19,
       "register_end": 19,
@@ -4949,7 +4949,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 20,
       "register_start": 20,
       "register_end": 20,
@@ -4964,7 +4964,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 21,
       "register_start": 21,
       "register_end": 22,
@@ -4979,7 +4979,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 23,
       "register_start": 23,
       "register_end": 23,
@@ -4994,7 +4994,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 24,
       "register_start": 24,
       "register_end": 24,
@@ -5009,7 +5009,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 25,
       "register_start": 25,
       "register_end": 26,
@@ -5024,7 +5024,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 27,
       "register_start": 27,
       "register_end": 27,
@@ -5039,7 +5039,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 28,
       "register_start": 28,
       "register_end": 28,
@@ -5054,7 +5054,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 29,
       "register_start": 29,
       "register_end": 30,
@@ -5069,7 +5069,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 31,
       "register_start": 31,
       "register_end": 31,
@@ -5084,7 +5084,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 32,
       "register_start": 32,
       "register_end": 32,
@@ -5099,7 +5099,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 33,
       "register_start": 33,
       "register_end": 34,
@@ -5114,7 +5114,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 35,
       "register_start": 35,
       "register_end": 36,
@@ -5129,7 +5129,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 37,
       "register_start": 37,
       "register_end": 37,
@@ -5144,7 +5144,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 38,
       "register_start": 38,
       "register_end": 38,
@@ -5159,7 +5159,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 39,
       "register_start": 39,
       "register_end": 39,
@@ -5174,7 +5174,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 40,
       "register_start": 40,
       "register_end": 41,
@@ -5189,7 +5189,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 42,
       "register_start": 42,
       "register_end": 42,
@@ -5204,7 +5204,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 43,
       "register_start": 43,
       "register_end": 43,
@@ -5219,7 +5219,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 44,
       "register_start": 44,
       "register_end": 45,
@@ -5234,7 +5234,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 46,
       "register_start": 46,
       "register_end": 46,
@@ -5249,7 +5249,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 47,
       "register_start": 47,
       "register_end": 47,
@@ -5264,7 +5264,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 48,
       "register_start": 48,
       "register_end": 49,
@@ -5279,7 +5279,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 53,
       "register_start": 53,
       "register_end": 54,
@@ -5294,7 +5294,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 55,
       "register_start": 55,
       "register_end": 56,
@@ -5309,7 +5309,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 57,
       "register_start": 57,
       "register_end": 58,
@@ -5325,7 +5325,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 59,
       "register_start": 59,
       "register_end": 60,
@@ -5340,7 +5340,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 61,
       "register_start": 61,
       "register_end": 62,
@@ -5355,7 +5355,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 63,
       "register_start": 63,
       "register_end": 64,
@@ -5370,7 +5370,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 65,
       "register_start": 65,
       "register_end": 66,
@@ -5385,7 +5385,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 67,
       "register_start": 67,
       "register_end": 68,
@@ -5400,7 +5400,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 69,
       "register_start": 69,
       "register_end": 70,
@@ -5415,7 +5415,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 71,
       "register_start": 71,
       "register_end": 72,
@@ -5430,7 +5430,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 73,
       "register_start": 73,
       "register_end": 74,
@@ -5445,7 +5445,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 75,
       "register_start": 75,
       "register_end": 76,
@@ -5460,7 +5460,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 77,
       "register_start": 77,
       "register_end": 78,
@@ -5475,7 +5475,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 79,
       "register_start": 79,
       "register_end": 80,
@@ -5490,7 +5490,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 81,
       "register_start": 81,
       "register_end": 82,
@@ -5505,7 +5505,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 83,
       "register_start": 83,
       "register_end": 84,
@@ -5520,7 +5520,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 85,
       "register_start": 85,
       "register_end": 86,
@@ -5535,7 +5535,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 87,
       "register_start": 87,
       "register_end": 88,
@@ -5550,7 +5550,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 89,
       "register_start": 89,
       "register_end": 90,
@@ -5565,7 +5565,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 91,
       "register_start": 91,
       "register_end": 92,
@@ -5580,14 +5580,14 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 93,
       "register_start": 93,
       "register_end": 93,
       "name": "Inverter temperature",
-      "description": "Main inverter heatsink temperature (0.1 \u00b0C resolution).",
+      "description": "Main inverter heatsink temperature (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "inverter_temperature"
@@ -5595,14 +5595,14 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 94,
       "register_start": 94,
       "register_end": 94,
       "name": "IPM temperature",
-      "description": "IPM (power module) temperature (0.1 \u00b0C resolution).",
+      "description": "IPM (power module) temperature (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "ipm_temperature"
@@ -5610,14 +5610,14 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 95,
       "register_start": 95,
       "register_end": 95,
       "name": "Boost temperature",
-      "description": "Boost inductor temperature (0.1 \u00b0C resolution).",
+      "description": "Boost inductor temperature (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "boost_temperature"
@@ -5625,7 +5625,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 98,
       "register_start": 98,
       "register_end": 98,
@@ -5640,7 +5640,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 99,
       "register_start": 99,
       "register_end": 99,
@@ -5655,7 +5655,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 101,
       "register_start": 101,
       "register_end": 101,
@@ -5670,7 +5670,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 104,
       "register_start": 104,
       "register_end": 104,
@@ -5685,7 +5685,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 105,
       "register_start": 105,
       "register_end": 105,
@@ -5700,7 +5700,7 @@
     },
     {
       "type": "entry",
-      "section": "Common input telemetry (0\u2013124)",
+      "section": "Common input telemetry (0-124)",
       "register": 110,
       "register_start": 110,
       "register_end": 111,
@@ -5715,11 +5715,11 @@
     },
     {
       "type": "section",
-      "title": "Extended common input telemetry (125\u2013299)"
+      "title": "Extended common input telemetry (125-299)"
     },
     {
       "type": "entry",
-      "section": "Extended common input telemetry (125\u2013299)",
+      "section": "Extended common input telemetry (125-299)",
       "register": 234,
       "register_start": 234,
       "register_end": 235,
@@ -5734,7 +5734,7 @@
     },
     {
       "type": "entry",
-      "section": "Extended common input telemetry (125\u2013299)",
+      "section": "Extended common input telemetry (125-299)",
       "register": 236,
       "register_start": 236,
       "register_end": 237,
@@ -5749,11 +5749,11 @@
     },
     {
       "type": "section",
-      "title": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)"
+      "title": "TL-X/TL-XH PV/AC telemetry (3000-3124)"
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3000,
       "register_start": 3000,
       "register_end": 3000,
@@ -5768,7 +5768,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3001,
       "register_start": 3001,
       "register_end": 3002,
@@ -5783,7 +5783,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3003,
       "register_start": 3003,
       "register_end": 3003,
@@ -5798,7 +5798,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3004,
       "register_start": 3004,
       "register_end": 3004,
@@ -5813,7 +5813,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3005,
       "register_start": 3005,
       "register_end": 3006,
@@ -5828,7 +5828,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3007,
       "register_start": 3007,
       "register_end": 3007,
@@ -5843,7 +5843,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3008,
       "register_start": 3008,
       "register_end": 3008,
@@ -5858,7 +5858,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3009,
       "register_start": 3009,
       "register_end": 3010,
@@ -5873,7 +5873,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3011,
       "register_start": 3011,
       "register_end": 3011,
@@ -5888,7 +5888,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3012,
       "register_start": 3012,
       "register_end": 3012,
@@ -5903,7 +5903,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3013,
       "register_start": 3013,
       "register_end": 3014,
@@ -5918,7 +5918,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3015,
       "register_start": 3015,
       "register_end": 3015,
@@ -5933,7 +5933,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3016,
       "register_start": 3016,
       "register_end": 3016,
@@ -5948,7 +5948,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3017,
       "register_start": 3017,
       "register_end": 3018,
@@ -5963,7 +5963,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3019,
       "register_start": 3019,
       "register_end": 3020,
@@ -5975,7 +5975,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3021,
       "register_start": 3021,
       "register_end": 3022,
@@ -5990,7 +5990,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3023,
       "register_start": 3023,
       "register_end": 3024,
@@ -6005,7 +6005,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3025,
       "register_start": 3025,
       "register_end": 3025,
@@ -6020,7 +6020,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3026,
       "register_start": 3026,
       "register_end": 3026,
@@ -6035,7 +6035,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3027,
       "register_start": 3027,
       "register_end": 3027,
@@ -6050,7 +6050,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3028,
       "register_start": 3028,
       "register_end": 3029,
@@ -6065,7 +6065,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3030,
       "register_start": 3030,
       "register_end": 3030,
@@ -6080,7 +6080,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3031,
       "register_start": 3031,
       "register_end": 3031,
@@ -6095,7 +6095,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3032,
       "register_start": 3032,
       "register_end": 3033,
@@ -6110,7 +6110,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3034,
       "register_start": 3034,
       "register_end": 3034,
@@ -6125,7 +6125,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3035,
       "register_start": 3035,
       "register_end": 3035,
@@ -6140,7 +6140,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3036,
       "register_start": 3036,
       "register_end": 3037,
@@ -6155,7 +6155,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3038,
       "register_start": 3038,
       "register_end": 3038,
@@ -6167,7 +6167,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3039,
       "register_start": 3039,
       "register_end": 3039,
@@ -6179,7 +6179,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3040,
       "register_start": 3040,
       "register_end": 3040,
@@ -6191,7 +6191,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3041,
       "register_start": 3041,
       "register_end": 3042,
@@ -6206,7 +6206,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3043,
       "register_start": 3043,
       "register_end": 3044,
@@ -6221,7 +6221,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3045,
       "register_start": 3045,
       "register_end": 3046,
@@ -6236,7 +6236,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3047,
       "register_start": 3047,
       "register_end": 3048,
@@ -6252,7 +6252,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3049,
       "register_start": 3049,
       "register_end": 3050,
@@ -6267,7 +6267,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3051,
       "register_start": 3051,
       "register_end": 3052,
@@ -6282,7 +6282,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3053,
       "register_start": 3053,
       "register_end": 3054,
@@ -6297,7 +6297,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3055,
       "register_start": 3055,
       "register_end": 3056,
@@ -6312,7 +6312,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3057,
       "register_start": 3057,
       "register_end": 3058,
@@ -6327,7 +6327,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3059,
       "register_start": 3059,
       "register_end": 3060,
@@ -6342,7 +6342,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3061,
       "register_start": 3061,
       "register_end": 3062,
@@ -6357,7 +6357,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3063,
       "register_start": 3063,
       "register_end": 3064,
@@ -6372,7 +6372,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3065,
       "register_start": 3065,
       "register_end": 3066,
@@ -6387,7 +6387,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3067,
       "register_start": 3067,
       "register_end": 3068,
@@ -6402,7 +6402,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3069,
       "register_start": 3069,
       "register_end": 3070,
@@ -6417,7 +6417,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3071,
       "register_start": 3071,
       "register_end": 3072,
@@ -6432,7 +6432,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3073,
       "register_start": 3073,
       "register_end": 3074,
@@ -6447,7 +6447,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3075,
       "register_start": 3075,
       "register_end": 3076,
@@ -6459,7 +6459,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3077,
       "register_start": 3077,
       "register_end": 3078,
@@ -6471,7 +6471,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3079,
       "register_start": 3079,
       "register_end": 3080,
@@ -6483,7 +6483,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3081,
       "register_start": 3081,
       "register_end": 3082,
@@ -6495,7 +6495,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3083,
       "register_start": 3083,
       "register_end": 3084,
@@ -6507,7 +6507,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3086,
       "register_start": 3086,
       "register_end": 3086,
@@ -6522,19 +6522,19 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3087,
       "register_start": 3087,
       "register_end": 3087,
       "name": "PV insulation resistance",
       "description": "DC insulation resistance measured on the PV inputs.",
       "access": "R",
-      "unit": "k\u03a9",
+      "unit": "kΩ",
       "data_type": "u16_resistance_kiloohm"
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3088,
       "register_start": 3088,
       "register_end": 3088,
@@ -6546,7 +6546,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3089,
       "register_start": 3089,
       "register_end": 3089,
@@ -6558,7 +6558,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3090,
       "register_start": 3090,
       "register_end": 3090,
@@ -6570,7 +6570,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3091,
       "register_start": 3091,
       "register_end": 3091,
@@ -6582,7 +6582,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3092,
       "register_start": 3092,
       "register_end": 3092,
@@ -6594,14 +6594,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3093,
       "register_start": 3093,
       "register_end": 3093,
       "name": "Inverter temperature",
-      "description": "Main inverter heatsink temperature (0.1 \u00b0C resolution).",
+      "description": "Main inverter heatsink temperature (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "inverter_temperature"
@@ -6609,14 +6609,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3094,
       "register_start": 3094,
       "register_end": 3094,
       "name": "IPM temperature",
-      "description": "IPM (power module) temperature (0.1 \u00b0C resolution).",
+      "description": "IPM (power module) temperature (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "ipm_temperature"
@@ -6624,14 +6624,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3095,
       "register_start": 3095,
       "register_end": 3095,
       "name": "Boost temperature",
-      "description": "Boost inductor temperature (0.1 \u00b0C resolution).",
+      "description": "Boost inductor temperature (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "boost_temperature"
@@ -6639,14 +6639,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3097,
       "register_start": 3097,
       "register_end": 3097,
       "name": "Communication board temperature",
-      "description": "Temperature reported by the communication/control board (0.1 \u00b0C resolution).",
+      "description": "Temperature reported by the communication/control board (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "comm_board_temperature"
@@ -6654,7 +6654,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3098,
       "register_start": 3098,
       "register_end": 3098,
@@ -6669,7 +6669,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3099,
       "register_start": 3099,
       "register_end": 3099,
@@ -6684,19 +6684,19 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3100,
       "register_start": 3100,
       "register_end": 3100,
       "name": "Inverter output power factor",
-      "description": "Instantaneous output power factor encoded as value \u00d710\u202f000 (10\u202f000 = unity).",
+      "description": "Instantaneous output power factor encoded as value x 10.000 (10.000 = unity).",
       "access": "R",
       "unit": "pf",
       "data_type": "power_factor_x10000"
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3101,
       "register_start": 3101,
       "register_end": 3101,
@@ -6711,7 +6711,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3102,
       "register_start": 3102,
       "register_end": 3103,
@@ -6723,7 +6723,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3104,
       "register_start": 3104,
       "register_end": 3104,
@@ -6735,7 +6735,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3105,
       "register_start": 3105,
       "register_end": 3105,
@@ -6750,7 +6750,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3106,
       "register_start": 3106,
       "register_end": 3106,
@@ -6762,7 +6762,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3107,
       "register_start": 3107,
       "register_end": 3107,
@@ -6774,7 +6774,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3108,
       "register_start": 3108,
       "register_end": 3108,
@@ -6786,7 +6786,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3110,
       "register_start": 3110,
       "register_end": 3111,
@@ -6801,7 +6801,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3111,
       "register_start": 3111,
       "register_end": 3111,
@@ -6816,7 +6816,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3112,
       "register_start": 3112,
       "register_end": 3112,
@@ -6828,7 +6828,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3113,
       "register_start": 3113,
       "register_end": 3113,
@@ -6840,7 +6840,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3114,
       "register_start": 3114,
       "register_end": 3114,
@@ -6852,7 +6852,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3115,
       "register_start": 3115,
       "register_end": 3115,
@@ -6867,7 +6867,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3118,
       "register_start": 3118,
       "register_end": 3118,
@@ -6879,7 +6879,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3119,
       "register_start": 3119,
       "register_end": 3119,
@@ -6891,7 +6891,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3121,
       "register_start": 3121,
       "register_end": 3122,
@@ -6903,7 +6903,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH PV/AC telemetry (3000\u20133124)",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
       "register": 3123,
       "register_start": 3123,
       "register_end": 3124,
@@ -6915,11 +6915,11 @@
     },
     {
       "type": "section",
-      "title": "TL-X/TL-XH battery telemetry (3125\u20133199)"
+      "title": "TL-X/TL-XH battery telemetry (3125-3199)"
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3125,
       "register_start": 3125,
       "register_end": 3126,
@@ -6934,7 +6934,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3127,
       "register_start": 3127,
       "register_end": 3128,
@@ -6949,7 +6949,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3129,
       "register_start": 3129,
       "register_end": 3130,
@@ -6964,7 +6964,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3131,
       "register_start": 3131,
       "register_end": 3132,
@@ -6979,7 +6979,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3133,
       "register_start": 3133,
       "register_end": 3134,
@@ -6991,7 +6991,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3135,
       "register_start": 3135,
       "register_end": 3136,
@@ -7003,7 +7003,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3137,
       "register_start": 3137,
       "register_end": 3138,
@@ -7015,7 +7015,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3139,
       "register_start": 3139,
       "register_end": 3140,
@@ -7027,7 +7027,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3141,
       "register_start": 3141,
       "register_end": 3142,
@@ -7039,7 +7039,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3144,
       "register_start": 3144,
       "register_end": 3144,
@@ -7051,7 +7051,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3145,
       "register_start": 3145,
       "register_end": 3145,
@@ -7063,7 +7063,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3146,
       "register_start": 3146,
       "register_end": 3146,
@@ -7075,7 +7075,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3147,
       "register_start": 3147,
       "register_end": 3147,
@@ -7087,7 +7087,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3148,
       "register_start": 3148,
       "register_end": 3149,
@@ -7099,7 +7099,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3150,
       "register_start": 3150,
       "register_end": 3150,
@@ -7111,7 +7111,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3151,
       "register_start": 3151,
       "register_end": 3151,
@@ -7123,7 +7123,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3152,
       "register_start": 3152,
       "register_end": 3153,
@@ -7135,7 +7135,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3154,
       "register_start": 3154,
       "register_end": 3154,
@@ -7147,7 +7147,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3155,
       "register_start": 3155,
       "register_end": 3155,
@@ -7159,7 +7159,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3156,
       "register_start": 3156,
       "register_end": 3157,
@@ -7171,7 +7171,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3158,
       "register_start": 3158,
       "register_end": 3159,
@@ -7183,7 +7183,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3160,
       "register_start": 3160,
       "register_end": 3160,
@@ -7195,7 +7195,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3161,
       "register_start": 3161,
       "register_end": 3161,
@@ -7207,7 +7207,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3162,
       "register_start": 3162,
       "register_end": 3162,
@@ -7219,7 +7219,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3164,
       "register_start": 3164,
       "register_end": 3164,
@@ -7234,7 +7234,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3165,
       "register_start": 3165,
       "register_end": 3165,
@@ -7246,7 +7246,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3166,
       "register_start": 3166,
       "register_end": 3166,
@@ -7258,7 +7258,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3167,
       "register_start": 3167,
       "register_end": 3167,
@@ -7270,7 +7270,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3168,
       "register_start": 3168,
       "register_end": 3168,
@@ -7282,7 +7282,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3169,
       "register_start": 3169,
       "register_end": 3169,
@@ -7297,7 +7297,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3170,
       "register_start": 3170,
       "register_end": 3170,
@@ -7312,7 +7312,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3171,
       "register_start": 3171,
       "register_end": 3171,
@@ -7327,7 +7327,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3172,
       "register_start": 3172,
       "register_end": 3172,
@@ -7342,7 +7342,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3173,
       "register_start": 3173,
       "register_end": 3173,
@@ -7357,7 +7357,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3174,
       "register_start": 3174,
       "register_end": 3174,
@@ -7372,7 +7372,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3175,
       "register_start": 3175,
       "register_end": 3175,
@@ -7387,14 +7387,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3176,
       "register_start": 3176,
       "register_end": 3176,
       "name": "Battery temperature A",
-      "description": "Battery temperature sensor A (0.1 \u00b0C resolution).",
+      "description": "Battery temperature sensor A (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "battery_temperature_a"
@@ -7402,14 +7402,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3177,
       "register_start": 3177,
       "register_end": 3177,
       "name": "Battery temperature B",
-      "description": "Battery temperature sensor B (0.1 \u00b0C resolution).",
+      "description": "Battery temperature sensor B (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "battery_temperature_b"
@@ -7417,7 +7417,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3178,
       "register_start": 3178,
       "register_end": 3179,
@@ -7432,7 +7432,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3180,
       "register_start": 3180,
       "register_end": 3181,
@@ -7447,7 +7447,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3182,
       "register_start": 3182,
       "register_end": 3183,
@@ -7459,7 +7459,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3184,
       "register_start": 3184,
       "register_end": 3185,
@@ -7471,7 +7471,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3187,
       "register_start": 3187,
       "register_end": 3187,
@@ -7483,7 +7483,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3188,
       "register_start": 3188,
       "register_end": 3188,
@@ -7495,7 +7495,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3189,
       "register_start": 3189,
       "register_end": 3189,
@@ -7510,7 +7510,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3190,
       "register_start": 3190,
       "register_end": 3190,
@@ -7525,14 +7525,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3191,
       "register_start": 3191,
       "register_end": 3191,
       "name": "BMS average temperature A",
-      "description": "Average temperature reported by sensor group A (0.1 \u00b0C resolution).",
+      "description": "Average temperature reported by sensor group A (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "bms_avg_temp_a"
@@ -7540,14 +7540,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3192,
       "register_start": 3192,
       "register_end": 3192,
       "name": "BMS max cell temperature A",
-      "description": "Maximum cell temperature within sensor group A (0.1 \u00b0C resolution).",
+      "description": "Maximum cell temperature within sensor group A (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "bms_max_cell_temp_a"
@@ -7555,14 +7555,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3193,
       "register_start": 3193,
       "register_end": 3193,
       "name": "BMS average temperature B",
-      "description": "Average temperature reported by sensor group B (0.1 \u00b0C resolution).",
+      "description": "Average temperature reported by sensor group B (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "bms_avg_temp_b"
@@ -7570,14 +7570,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3194,
       "register_start": 3194,
       "register_end": 3194,
       "name": "BMS max cell temperature B",
-      "description": "Maximum cell temperature within sensor group B (0.1 \u00b0C resolution).",
+      "description": "Maximum cell temperature within sensor group B (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "bms_max_cell_temp_b"
@@ -7585,14 +7585,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3195,
       "register_start": 3195,
       "register_end": 3195,
       "name": "BMS average temperature C",
-      "description": "Average temperature reported by sensor group C (0.1 \u00b0C resolution).",
+      "description": "Average temperature reported by sensor group C (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "bms_avg_temp_c"
@@ -7600,7 +7600,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3196,
       "register_start": 3196,
       "register_end": 3196,
@@ -7615,7 +7615,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3197,
       "register_start": 3197,
       "register_end": 3197,
@@ -7630,7 +7630,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3198,
       "register_start": 3198,
       "register_end": 3198,
@@ -7645,7 +7645,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH battery telemetry (3125\u20133199)",
+      "section": "TL-X/TL-XH battery telemetry (3125-3199)",
       "register": 3199,
       "register_start": 3199,
       "register_end": 3199,
@@ -7660,11 +7660,11 @@
     },
     {
       "type": "section",
-      "title": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)"
+      "title": "TL-X/TL-XH BMS and debug telemetry (3200-3249)"
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3200,
       "register_start": 3200,
       "register_end": 3200,
@@ -7679,7 +7679,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3201,
       "register_start": 3201,
       "register_end": 3201,
@@ -7694,7 +7694,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3202,
       "register_start": 3202,
       "register_end": 3202,
@@ -7709,7 +7709,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3203,
       "register_start": 3203,
       "register_end": 3203,
@@ -7724,7 +7724,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3204,
       "register_start": 3204,
       "register_end": 3204,
@@ -7739,7 +7739,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3205,
       "register_start": 3205,
       "register_end": 3205,
@@ -7754,7 +7754,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3210,
       "register_start": 3210,
       "register_end": 3210,
@@ -7769,7 +7769,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3211,
       "register_start": 3211,
       "register_end": 3211,
@@ -7784,7 +7784,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3212,
       "register_start": 3212,
       "register_end": 3212,
@@ -7799,7 +7799,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3213,
       "register_start": 3213,
       "register_end": 3213,
@@ -7814,7 +7814,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3214,
       "register_start": 3214,
       "register_end": 3214,
@@ -7829,7 +7829,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3215,
       "register_start": 3215,
       "register_end": 3215,
@@ -7844,7 +7844,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3216,
       "register_start": 3216,
       "register_end": 3216,
@@ -7859,7 +7859,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3217,
       "register_start": 3217,
       "register_end": 3217,
@@ -7875,14 +7875,14 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3218,
       "register_start": 3218,
       "register_end": 3218,
       "name": "BMS max cell temperature",
-      "description": "Maximum cell temperature observed across the battery pack (0.1 \u00b0C resolution).",
+      "description": "Maximum cell temperature observed across the battery pack (0.1 °C resolution).",
       "access": "R",
-      "unit": "\u00b0C",
+      "unit": "°C",
       "data_type": "s16_temperature_decic",
       "attributes": [
         "bms_cell_max_temp"
@@ -7890,7 +7890,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3219,
       "register_start": 3219,
       "register_end": 3219,
@@ -7905,7 +7905,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3220,
       "register_start": 3220,
       "register_end": 3220,
@@ -7920,7 +7920,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3221,
       "register_start": 3221,
       "register_end": 3221,
@@ -7935,7 +7935,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3222,
       "register_start": 3222,
       "register_end": 3222,
@@ -7950,7 +7950,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3223,
       "register_start": 3223,
       "register_end": 3223,
@@ -7965,7 +7965,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3224,
       "register_start": 3224,
       "register_end": 3224,
@@ -7980,7 +7980,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3225,
       "register_start": 3225,
       "register_end": 3225,
@@ -7995,7 +7995,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3226,
       "register_start": 3226,
       "register_end": 3226,
@@ -8010,7 +8010,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3230,
       "register_start": 3230,
       "register_end": 3230,
@@ -8025,7 +8025,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3231,
       "register_start": 3231,
       "register_end": 3231,
@@ -8040,7 +8040,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3232,
       "register_start": 3232,
       "register_end": 3232,
@@ -8052,7 +8052,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3234,
       "register_start": 3234,
       "register_end": 3234,
@@ -8064,7 +8064,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3235,
       "register_start": 3235,
       "register_end": 3235,
@@ -8076,7 +8076,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3236,
       "register_start": 3236,
       "register_end": 3236,
@@ -8088,7 +8088,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3237,
       "register_start": 3237,
       "register_end": 3237,
@@ -8100,7 +8100,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3238,
       "register_start": 3238,
       "register_end": 3238,
@@ -8112,7 +8112,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3239,
       "register_start": 3239,
       "register_end": 3239,
@@ -8124,7 +8124,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3240,
       "register_start": 3240,
       "register_end": 3240,
@@ -8136,7 +8136,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3241,
       "register_start": 3241,
       "register_end": 3241,
@@ -8148,7 +8148,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3242,
       "register_start": 3242,
       "register_end": 3242,
@@ -8160,7 +8160,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3243,
       "register_start": 3243,
       "register_end": 3243,
@@ -8172,7 +8172,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3244,
       "register_start": 3244,
       "register_end": 3244,
@@ -8184,7 +8184,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3245,
       "register_start": 3245,
       "register_end": 3245,
@@ -8196,7 +8196,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3246,
       "register_start": 3246,
       "register_end": 3246,
@@ -8208,7 +8208,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3247,
       "register_start": 3247,
       "register_end": 3247,
@@ -8220,7 +8220,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3248,
       "register_start": 3248,
       "register_end": 3248,
@@ -8232,7 +8232,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS and debug telemetry (3200\u20133249)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
       "register": 3249,
       "register_start": 3249,
       "register_end": 3249,

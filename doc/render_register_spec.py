@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Render growatt_registers_spec.md from the JSON specification.
+"""Render growatt_registers_best_guess.md from the JSON specification.
 
 Usage:
     python render_register_spec.py
-The script expects ``growatt_registers_spec.json`` (spec extraction) and
+The script expects ``growatt_registers_best_guess.json`` (our curated extraction) and
 ``HA_local_registers.json`` (current integration mapping) to live in the
 same directory.  The Markdown output is written beside them.
 """
@@ -18,9 +18,9 @@ from pathlib import Path
 from typing import Iterable
 
 DOC_DIR = Path(__file__).resolve().parent
-SPEC_PATH = DOC_DIR / "growatt_registers_spec.json"
+SPEC_PATH = DOC_DIR / "growatt_registers_best_guess.json"
 MAPPING_PATH = DOC_DIR / "HA_local_registers.json"
-OUTPUT_PATH = DOC_DIR / "growatt_registers_spec.md"
+OUTPUT_PATH = DOC_DIR / "growatt_registers_best_guess.md"
 REPO_ROOT = DOC_DIR.parent
 
 sys.path.insert(0, str(REPO_ROOT))
@@ -327,7 +327,7 @@ def render_markdown(spec: dict, mapping: dict) -> str:
     lines.append("# Growatt Modbus Register Map (Protocol v1.24)")
     lines.append("")
     lines.append(
-        "This file is generated from `growatt_registers_spec.json` (parsed from the official Modbus RTU protocol) and cross-references the Home Assistant `growatt_local` integration."
+        "This file is generated from `growatt_registers_best_guess.json` (our curated interpretation of the official Modbus RTU protocol) and cross-references the Home Assistant `growatt_local` integration."
     )
     lines.append("")
     lines.append(

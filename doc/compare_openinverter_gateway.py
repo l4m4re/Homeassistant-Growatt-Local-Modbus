@@ -4,7 +4,7 @@
 The OpenInverterGateway project ships an Arduino implementation of the
 ShineWiFi-X protocol that includes hard-coded register definitions.  This
 script parses the TL-XH mapping from ``GrowattTLXH.cpp`` and cross-references
-the fields against ``growatt_registers_spec.json`` / ``growatt_register_data_types.json``
+the fields against ``growatt_registers_best_guess.json`` / ``growatt_register_data_types.json``
 used by the Home Assistant ``growatt_local`` integration.
 
 The resulting Markdown summary highlights addresses where the two sources
@@ -38,7 +38,7 @@ OIG_PATH = (
     / "ShineWiFi-ModBus"
     / "GrowattTLXH.cpp"
 )
-SPEC_PATH = DOC_DIR / "growatt_registers_spec.json"
+SPEC_PATH = DOC_DIR / "growatt_registers_best_guess.json"
 TYPE_PATH = DOC_DIR / "growatt_register_data_types.json"
 OUTPUT_PATH = DOC_DIR / "ref" / "openinverter_gateway_comparison.md"
 
@@ -336,7 +336,7 @@ def build_report() -> str:
         lines.append("")
         lines.append(
             "The following addresses are present in ``GrowattTLXH.cpp`` but do not "
-            "appear in ``growatt_registers_spec.json``. Names are taken from the "
+            "appear in ``growatt_registers_best_guess.json``. Names are taken from the "
             "OpenInverterGateway source."
         )
         lines.append("")

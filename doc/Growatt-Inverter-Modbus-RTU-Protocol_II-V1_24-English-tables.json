@@ -6401,39 +6401,6 @@
       "initial": "",
       "note": "",
       "page": 47
-    },
-    {
-      "register": "5000-5039",
-      "variable": "",
-      "description": "1",
-      "write_or_not": "",
-      "value": "",
-      "unit": "Reference3085to3124foratotalof 40registersDescription",
-      "initial": "",
-      "note": "",
-      "page": 47
-    },
-    {
-      "register": "5040-5079",
-      "variable": "",
-      "description": "2",
-      "write_or_not": "",
-      "value": "",
-      "unit": "",
-      "initial": "",
-      "note": "",
-      "page": 47
-    },
-    {
-      "register": "5000+(N-1)*40--- 5039+(N-1)*40",
-      "variable": "",
-      "description": "N",
-      "write_or_not": "",
-      "value": "",
-      "unit": "",
-      "initial": "",
-      "note": "",
-      "page": 47
     }
   ],
   "input": [

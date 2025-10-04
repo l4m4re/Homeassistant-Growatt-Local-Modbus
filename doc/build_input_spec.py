@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild the input register portion of growatt_registers_spec.json.
+"""Rebuild the input register portion of growatt_registers_best_guess.json.
 
 The canonical data lives in `HA_local_registers.json` and the
 home-grown metadata below.  The goal is to provide clean descriptions,
@@ -14,7 +14,7 @@ import re
 from typing import Callable, Iterable
 
 DOC_DIR = Path(__file__).resolve().parent
-SPEC_PATH = DOC_DIR / "growatt_registers_spec.json"
+SPEC_PATH = DOC_DIR / "growatt_registers_best_guess.json"
 MAPPING_PATH = DOC_DIR / "HA_local_registers.json"
 DATA_TYPES_PATH = DOC_DIR / "growatt_register_data_types.json"
 

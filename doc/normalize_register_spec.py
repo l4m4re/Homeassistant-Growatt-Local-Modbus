@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Clean and enrich growatt_registers_spec.json.
+"""Clean and enrich growatt_registers_best_guess.json.
 
 - Normalises whitespace/Unicode punctuation in textual fields.
 - Ensures register numbers are stored as integers.
@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any
 
 DOC_DIR = Path(__file__).resolve().parent
-SPEC_PATH = DOC_DIR / "growatt_registers_spec.json"
+SPEC_PATH = DOC_DIR / "growatt_registers_best_guess.json"
 MAPPING_PATH = DOC_DIR / "HA_local_registers.json"
 OUTPUT_PATH = SPEC_PATH
 REPO_ROOT = DOC_DIR.parent

@@ -22,7 +22,7 @@ DOC_DIR = Path(__file__).resolve().parent
 VENDOR_TABLE_PATH = (
     DOC_DIR / "Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English-tables.json"
 )
-SPEC_PATH = DOC_DIR / "growatt_registers_spec.json"
+BEST_GUESS_PATH = DOC_DIR / "growatt_registers_best_guess.json"
 HA_LOCAL_PATH = DOC_DIR / "HA_local_registers.json"
 OPENINVERTER_PATH = DOC_DIR / "openinverter_gateway_registers.json"
 INVERTER_TO_MQTT_PATH = DOC_DIR / "inverter_to_mqtt_registers.json"
@@ -2288,7 +2288,7 @@ def generate_from_graph(graph: nx.MultiDiGraph) -> Dict[str, Any]:
 
 def generate_payload_from_sources() -> Dict[str, Any]:
     vendor_tables = load_json(VENDOR_TABLE_PATH)
-    spec_data = load_json(SPEC_PATH)
+    spec_data = load_json(BEST_GUESS_PATH)
 
     ha_data = load_json(HA_LOCAL_PATH) if HA_LOCAL_PATH.exists() else None
     openinverter_data = (
@@ -2367,9 +2367,9 @@ def generate_payload_from_sources() -> Dict[str, Any]:
             "path": str(VENDOR_TABLE_PATH.relative_to(DOC_DIR)),
             "sha256": sha256sum(VENDOR_TABLE_PATH),
         },
-        "spec_json": {
-            "path": str(SPEC_PATH.relative_to(DOC_DIR)),
-            "sha256": sha256sum(SPEC_PATH),
+        "best_guess_json": {
+            "path": str(BEST_GUESS_PATH.relative_to(DOC_DIR)),
+            "sha256": sha256sum(BEST_GUESS_PATH),
         },
     }
     if ha_data:

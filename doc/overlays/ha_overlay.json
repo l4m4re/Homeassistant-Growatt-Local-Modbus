@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2025-10-04T21:02:16+00:00",
+    "generated_at": "2025-10-04T21:13:48+00:00",
     "generator": "extract_ha_overlay.py",
     "source_files": {
       "HA_local_registers.json": "HA_local_registers.json",
@@ -1613,6 +1613,131 @@
         "ha_key": "ac_charge_enabled",
         "ha_name": "AC Charge Enabled",
         "ha_writable": true
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1009-1010": {
+      "notes": {
+        "ha_key": "discharge_power",
+        "ha_name": "Discharge Power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1011-1012": {
+      "notes": {
+        "ha_key": "charge_power",
+        "ha_name": "Charge Power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1014": {
+      "notes": {
+        "ha_key": "soc",
+        "ha_name": "SOC",
+        "ha_device_class": "battery",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1021-1022": {
+      "notes": {
+        "ha_key": "pac_to_user_total",
+        "ha_name": "AC to user total",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1029-1030": {
+      "notes": {
+        "ha_key": "pac_to_grid_total",
+        "ha_name": "AC to grid total",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1044-1045": {
+      "notes": {
+        "ha_key": "energy_to_user_today",
+        "ha_name": "Energy To User (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1046-1047": {
+      "notes": {
+        "ha_key": "energy_to_user_total",
+        "ha_name": "Energy To User (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1048-1049": {
+      "notes": {
+        "ha_key": "energy_to_grid_today",
+        "ha_name": "Energy To Grid (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1050-1051": {
+      "notes": {
+        "ha_key": "energy_to_grid_total",
+        "ha_name": "Energy To Grid (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1052-1053": {
+      "notes": {
+        "ha_key": "discharge_energy_today",
+        "ha_name": "Battery Discharged (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1054-1055": {
+      "notes": {
+        "ha_key": "discharge_energy_total",
+        "ha_name": "Battery Discharged (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1056-1057": {
+      "notes": {
+        "ha_key": "charge_energy_today",
+        "ha_name": "Battery Charged (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1058-1059": {
+      "notes": {
+        "ha_key": "charge_energy_total",
+        "ha_name": "Battery Charged (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
       },
       "enum_candidates": {}
     }

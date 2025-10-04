@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": "0.2.0",
-    "generated_at": "2025-10-04T19:15:25+00:00",
+    "version": "0.2.1",
+    "generated_at": "2025-10-04T21:13:10+00:00",
     "generator": "manual bootstrap from vendor spec"
   },
   "inverter_families": {
@@ -79,7 +79,8 @@
       ],
       "input_blocks": [
         "input_common_0_124",
-        "input_extended_125_249"
+        "input_extended_125_249",
+        "input_storage_1000_1124"
       ]
     },
     "storage_spa": {
@@ -95,7 +96,8 @@
       ],
       "input_blocks": [
         "input_common_0_124",
-        "input_extended_125_249"
+        "input_extended_125_249",
+        "input_storage_1000_1124"
       ]
     },
     "storage_sph": {
@@ -110,7 +112,8 @@
       ],
       "input_blocks": [
         "input_common_0_124",
-        "input_extended_125_249"
+        "input_extended_125_249",
+        "input_storage_1000_1124"
       ]
     }
   },
@@ -449,6 +452,21 @@
           "register": 875,
           "length": 125,
           "description": "Extended telemetry for MAX LV devices (vendor summary range 875-999)."
+        }
+      ]
+    },
+    "input_storage_1000_1124": {
+      "label": "Input storage telemetry 1000-1124",
+      "reg_type": "input",
+      "register": 1000,
+      "length": 125,
+      "description": "Storage-specific input telemetry block documented in vendor protocol (function code 04).",
+      "sections": [
+        {
+          "label": "Storage input telemetry",
+          "register": 1000,
+          "length": 125,
+          "description": "Battery/storage input metrics spanning registers 1000-1124."
         }
       ]
     }

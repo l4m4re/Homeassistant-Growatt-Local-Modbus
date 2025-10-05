@@ -16,6 +16,7 @@ DOC_DIR = Path(__file__).resolve().parent
 SPEC_PATH = DOC_DIR / "growatt_registers_best_guess.json"
 OUTPUT_PATH = DOC_DIR / "growatt_registers_best_guess.v2.json"
 CATALOG_PATH = DOC_DIR / "register_catalog.json"
+DATATYPES_PATH = DOC_DIR / "growatt_register_data_types.json"
 
 
 @dataclass
@@ -57,10 +58,165 @@ def detect_encoding(description: Optional[str], unit: Optional[str]) -> str:
     return "numeric"
 
 
-def build_canonical_id(table: str, start: int, end: int) -> str:
+def build_register_id(table: str, start: int, end: int) -> str:
     if start == end:
-        return f"canonical:{table}:{start}"
-    return f"canonical:{table}:{start}-{end}"
+        return f"{table}:{start}"
+    return f"{table}:{start}-{end}"
+
+
+def load_datatypes() -> Tuple[Dict[str, Dict[str, Any]], Dict[str, Dict[str, Any]]]:
+    if not DATATYPES_PATH.exists():
+        return {}, {}
+    payload = json.loads(DATATYPES_PATH.read_text(encoding="utf-8"))
+    type_defs = payload.get("types", {})
+    register_entries = payload.get("register_types", [])
+    mapping: Dict[str, Dict[str, Any]] = {}
+    for entry in register_entries:
+        table = entry.get("table")
+        start = entry.get("register")
+        end = entry.get("register_end", start)
+        if table not in {"holding", "input"} or start is None:
+            continue
+        reg_id = build_register_id(table, int(start), int(end))
+        mapping[reg_id] = entry
+    return mapping, type_defs
+
+
+def expected_encoding(kind: Optional[str]) -> Optional[str]:
+    mapping = {
+        "enum": "enum",
+        "bitfield": "bitfield",
+        "ascii": "ascii",
+        "raw": "raw",
+        "scaled": "numeric",
+        "scaled_signed": "numeric",
+        "scaled_unsigned": "numeric",
+        "struct": "raw",
+    }
+    return mapping.get(kind)
+
+
+def to_enum_list(values: Dict[str, Any]) -> List[Dict[str, Any]]:
+    entries: List[Dict[str, Any]] = []
+    for raw_value, meta in values.items():
+        try:
+            value = int(raw_value)
+        except ValueError:
+            value = raw_value
+        entry = {"value": value}
+        label = sanitize_string(meta.get("label"))
+        if label:
+            entry["label"] = label
+        desc = sanitize_string(meta.get("description"))
+        if desc:
+            entry["description"] = desc
+        entries.append(entry)
+    return entries
+
+
+def to_bitfield_list(flags: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    result: List[Dict[str, Any]] = []
+    for flag in flags:
+        entry = {"bit": flag.get("bit")}
+        label = sanitize_string(flag.get("name"))
+        if label:
+            entry["label"] = label
+        desc = sanitize_string(flag.get("description"))
+        if desc:
+            entry["description"] = desc
+        result.append(entry)
+    return result
+
+
+def sort_registers(registers: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def sort_key(item: Tuple[str, Dict[str, Any]]) -> Tuple[int, int, int]:
+        reg_id, payload = item
+        reg_type, _, number_part = reg_id.partition(":")
+        start = payload.get("register", 0)
+        reg_type_rank = 0 if reg_type == "holding" else 1
+        return (reg_type_rank, start, payload.get("length", 1))
+
+    return [value for _, value in sorted(registers.items(), key=sort_key)]
+
+
+def sanitize_string(value: Optional[str]) -> Optional[str]:
+    if value is None:
+        return None
+    text = str(value)
+    replacements = {
+        "°C": "degC",
+        "°F": "degF",
+        "°": "deg",
+        "µ": "u",
+        "Ω": "Ohm",
+        "–": "-",
+        "—": "-",
+        "\u202f": " ",
+        "\u3001": ",",
+        "\uff08": "(",
+        "\uff09": ")",
+        "\uff1b": ";",
+        "\uff1a": ":",
+        "\uff0c": ",",
+        "\uff0d": "-",
+        "\uff0e": ".",
+        "\uff1f": "?",
+    }
+    for src, dest in replacements.items():
+        text = text.replace(src, dest)
+    text = re.sub(r"\s+", " ", text)
+    text = text.strip()
+    return text if text else None
+
+
+def parse_register_field(field: str) -> Optional[Tuple[int, int]]:
+    if not field:
+        return None
+    numbers = re.findall(r"\d+", field)
+    if not numbers:
+        return None
+    start = int(numbers[0])
+    end = int(numbers[1]) if len(numbers) > 1 else start
+    return start, end
+
+
+def load_vendor_tables() -> Tuple[Dict[str, List[Dict[str, Any]]], List[str]]:
+    if not VENDOR_TABLES_PATH.exists():
+        return {}, []
+    data = json.loads(VENDOR_TABLES_PATH.read_text(encoding="utf-8"))
+    mapping: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+    warnings: List[str] = []
+
+    for table_name, entries in data.items():
+        table = table_name.lower()
+        if table not in {"holding", "input"}:
+            continue
+        for entry in entries:
+            reg_field = sanitize_string(entry.get("register")) or ""
+            parsed = parse_register_field(reg_field)
+            if not parsed:
+                warnings.append(
+                    f"[WARN] {table}:{reg_field}: unable to parse vendor register field"
+                )
+                continue
+            start, end = parsed
+            reg_id = build_register_id(table, start, end)
+            cleaned = {
+                "table": table,
+                "start": start,
+                "end": end,
+                "variable": sanitize_string(entry.get("variable")),
+                "description": sanitize_string(entry.get("description")),
+                "value": sanitize_string(entry.get("value")),
+                "note": sanitize_string(entry.get("note")),
+                "initial": sanitize_string(entry.get("initial")),
+                "unit": sanitize_string(entry.get("unit")),
+                "write_or_not": sanitize_string(entry.get("write_or_not")),
+                "page": sanitize_string(entry.get("page")) or None,
+            }
+            mapping[reg_id].append(cleaned)
+
+    return mapping, warnings
 
 
 def collect_entries(raw: Dict[str, Any]) -> Dict[str, List[SpecEntry]]:
@@ -94,21 +250,16 @@ def build_register_value(entry: SpecEntry, block_id: str) -> Tuple[str, Dict[str
     start = entry.register
     end = entry.register_end
     length = end - start + 1
-    canonical_id = build_canonical_id(entry.table, start, end)
+    record_id = build_register_id(entry.table, start, end)
 
-    description = payload.get("description")
-    unit = payload.get("unit")
+    description = sanitize_string(payload.get("description"))
+    unit = sanitize_string(payload.get("unit"))
     encoding = detect_encoding(description, unit)
     value_range = parse_range(payload.get("range"))
 
-    annotations = []
-    attributes = payload.get("attributes")
-    if isinstance(attributes, list):
-        annotations = [str(item) for item in attributes]
-
     register_value: Dict[str, Any] = {
-        "id": canonical_id,
-        "label": payload.get("name") or canonical_id,
+        "id": record_id,
+        "label": sanitize_string(payload.get("name")) or record_id,
         "description": description,
         "register": start,
         "length": length,
@@ -121,22 +272,33 @@ def build_register_value(entry: SpecEntry, block_id: str) -> Tuple[str, Dict[str
         "bitfields": [],
         "decoder": None,
         "value_range": value_range,
-        "metadata": {
-            "source": "growatt_registers_best_guess",
-            "access": payload.get("access"),
-            "initial": payload.get("initial"),
-            "range": payload.get("range"),
-            "note": payload.get("note"),
-            "section": entry.section,
-            "block": block_id,
-        },
-        "tooltip": payload.get("note"),
-        "help": None,
-        "annotations": annotations,
-        "siblings": [],
+        "aliases": [],
+        "source_strings": {},
     }
 
-    return canonical_id, register_value
+    source_strings: Dict[str, Dict[str, str]] = {}
+
+    def add_string(kind: str, value: Optional[str]) -> None:
+        value = sanitize_string(value)
+        if not value:
+            return
+        entries = source_strings.setdefault("best_guess", {})
+        entries.setdefault(kind, value)
+
+    add_string("label", payload.get("name"))
+    add_string("note", payload.get("note"))
+    add_string("description", description)
+    attributes = payload.get("attributes")
+    if isinstance(attributes, list):
+        for attr in attributes:
+            attr_text = sanitize_string(str(attr))
+            if attr_text:
+                add_string(f"attribute_{attr_text}", attr_text)
+
+    if source_strings:
+        register_value["source_strings"] = source_strings
+
+    return record_id, register_value
 
 
 def find_block_for_entry(entry: SpecEntry, catalog_blocks: Dict[str, Dict[str, Any]]) -> Optional[str]:
@@ -227,10 +389,11 @@ def compare_sections(
 
 def build_document(raw: Dict[str, Any], catalog: Dict[str, Any]) -> Dict[str, Any]:
     catalog_blocks: Dict[str, Dict[str, Any]] = catalog.get("blocks", {})
+    datatype_map, type_defs = load_datatypes()
+
     tables = collect_entries(raw)
 
     register_values: Dict[str, Dict[str, Any]] = {}
-    canonical_ids: List[str] = []
     block_usage: Dict[str, Dict[str, Any]] = {}
 
     unmatched_entries: List[SpecEntry] = []
@@ -254,7 +417,6 @@ def build_document(raw: Dict[str, Any], catalog: Dict[str, Any]) -> Dict[str, An
             cid, value = build_register_value(entry, block_id)
             if cid not in register_values:
                 register_values[cid] = value
-                canonical_ids.append(cid)
 
     if unmatched_entries:
         print("[WARN] Entries without matching catalog block:")
@@ -264,6 +426,62 @@ def build_document(raw: Dict[str, Any], catalog: Dict[str, Any]) -> Dict[str, An
             )
         if len(unmatched_entries) > 20:
             print(f"  ... and {len(unmatched_entries) - 20} more")
+
+    datatype_warnings: List[str] = []
+    for reg_id, dt_entry in datatype_map.items():
+        reg = register_values.get(reg_id)
+        if not reg:
+            datatype_warnings.append(f"[WARN] {reg_id}: datatype entry missing from best guess")
+            continue
+
+        type_key = dt_entry.get("type")
+        type_info = type_defs.get(type_key, {})
+
+        start = dt_entry.get("register")
+        end = dt_entry.get("register_end", start)
+        if start is not None and end is not None:
+            expected_length = int(end) - int(start) + 1
+            if reg.get("length") != expected_length:
+                datatype_warnings.append(
+                    f"[WARN] {reg_id}: length mismatch (datatype {expected_length} vs best guess {reg.get('length')})"
+                )
+
+        if "read_write" in type_info:
+            reg["writable"] = bool(type_info["read_write"])
+
+        kind = type_info.get("kind")
+        expected_enc = expected_encoding(kind)
+        if expected_enc:
+            reg["value_encoding"] = expected_enc
+
+        if type_info.get("scale") is not None:
+            reg["scale"] = type_info["scale"]
+
+        if kind == "enum" and type_info.get("values"):
+            reg["enum_values"] = to_enum_list(type_info["values"])
+
+        if kind == "bitfield" and type_info.get("flags"):
+            reg["bitfields"] = to_bitfield_list(type_info["flags"])
+
+        strings = reg.setdefault("source_strings", {})
+        bucket = strings.setdefault("growatt_data_types", {})
+        reg_desc = sanitize_string(dt_entry.get("description"))
+        if reg_desc:
+            bucket.setdefault("register_description", reg_desc)
+        type_desc = sanitize_string(type_info.get("description"))
+        if type_desc:
+            bucket.setdefault("type_description", type_desc)
+        notes = sanitize_string(type_info.get("notes"))
+        if notes:
+            bucket.setdefault("notes", notes)
+        if dt_entry.get("attributes"):
+            attrs = ", ".join(filter(None, (sanitize_string(str(a)) for a in dt_entry["attributes"])))
+            if attrs:
+                bucket.setdefault("attributes", attrs)
+
+    if datatype_warnings:
+        for line in datatype_warnings:
+            print(line)
 
     blocks: Dict[str, Dict[str, Any]] = {}
     for block_id in sorted(block_usage.keys()):
@@ -281,7 +499,6 @@ def build_document(raw: Dict[str, Any], catalog: Dict[str, Any]) -> Dict[str, An
             "length": catalog_block.get("length"),
             "description": catalog_block.get("description"),
             "sections": catalog_block.get("sections", []),
-            "metadata": {"source": "register_catalog"},
         }
         blocks[block_id] = block_entry
 
@@ -322,8 +539,7 @@ def build_document(raw: Dict[str, Any], catalog: Dict[str, Any]) -> Dict[str, An
             }
         },
         "blocks": blocks,
-        "register_values": register_values,
-        "canonical_register_values": sorted(canonical_ids),
+        "register_values": sort_registers(register_values),
     }
 
     return document
@@ -347,7 +563,7 @@ def main() -> None:
     if not output_path.is_absolute():
         output_path = DOC_DIR / output_path
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(document, indent=2), encoding="utf-8")
+    output_path.write_text(json.dumps(document, indent=2, ensure_ascii=True), encoding="utf-8")
     print(f"Wrote {output_path.relative_to(DOC_DIR)}")
 
 

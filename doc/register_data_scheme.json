@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Growatt Register Data Scheme",
   "type": "object",
-  "required": ["meta", "inverter_families", "blocks", "register_values", "canonical_register_values"],
+  "required": ["meta", "inverter_families", "blocks", "register_values"],
   "properties": {
     "meta": {
       "type": "object",
@@ -37,8 +37,7 @@
           "blocks":         { "type": "array", "items": { "type": "string" } },
           "holding_blocks": { "type": "array", "items": { "type": "string" } },
           "input_blocks":   { "type": "array", "items": { "type": "string" } },
-          "notes":          { "type": "string" },
-          "metadata":       { "type": "object" }
+          "notes":          { "type": "string" }
         }
       }
     },
@@ -68,8 +67,7 @@
                 "description": { "type": "string" }
               }
             }
-          },
-          "metadata": { "type": "object" }
+          }
         }
       }
     },
@@ -85,18 +83,13 @@
     },
 
     "register_values": {
-      "type": "object",
-      "additionalProperties": { "$ref": "#/$defs/RegisterValue" }
-    },
-
-    "canonical_register_values": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "$ref": "#/$defs/RegisterValue" }
     }
   },
 
   "$defs": {
-    "RegisterValueBase": {
+    "RegisterValue": {
       "type": "object",
       "required": ["id", "label", "description", "register", "length", "reg_type", "unit", "writable", "scale"],
       "properties": {
@@ -142,43 +135,18 @@
           }
         },
         "decoder":     { "type": "string" },
-        "metadata":    { "type": "object" }
-      }
-    },
-
-    "CanonicalRegisterValue": {
-      "allOf": [
-        { "$ref": "#/$defs/RegisterValueBase" },
-        {
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source_strings": {
           "type": "object",
-          "properties": {
-            "tooltip":    { "type": "string" },
-            "help":       { "type": "string" },
-            "annotations":{ "type": "array", "items": { "type": "string" } },
-            "siblings":   { "type": "array", "items": { "type": "string" } }
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
           }
         }
-      ]
-    },
-
-    "RegisterValue": {
-      "oneOf": [
-        { "$ref": "#/$defs/CanonicalRegisterValue" },
-        {
-          "allOf": [
-            { "$ref": "#/$defs/RegisterValueBase" },
-            {
-              "type": "object",
-              "properties": {
-                "kind":      { "enum": ["ha", "grott", "inverter_to_mqtt", "vendor", "spec", "manual", "openinverter", "other"] },
-                "sources":   { "type": "object" }
-              },
-              "required": ["kind"]
-            }
-          ]
-        }
-      ]
+      }
     }
-
   }
 }

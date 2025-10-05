@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -17,6 +18,7 @@ SPEC_PATH = DOC_DIR / "growatt_registers_best_guess.json"
 OUTPUT_PATH = DOC_DIR / "growatt_registers_best_guess.v2.json"
 CATALOG_PATH = DOC_DIR / "register_catalog.json"
 DATATYPES_PATH = DOC_DIR / "growatt_register_data_types.json"
+VENDOR_TABLES_PATH = DOC_DIR / "Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English-tables.json"
 
 
 @dataclass
@@ -219,6 +221,69 @@ def load_vendor_tables() -> Tuple[Dict[str, List[Dict[str, Any]]], List[str]]:
     return mapping, warnings
 
 
+def interpret_vendor_writable(flag: Optional[str]) -> Optional[bool]:
+    if not flag:
+        return None
+    flag_upper = flag.upper()
+    if "W" in flag_upper:
+        return True
+    if "R" in flag_upper:
+        return False
+    return None
+
+
+def merge_vendor_tables(
+    register_values: Dict[str, Dict[str, Any]],
+    vendor_map: Dict[str, List[Dict[str, Any]]],
+) -> List[str]:
+    warnings: List[str] = []
+
+    for reg_id, entries in vendor_map.items():
+        reg = register_values.get(reg_id)
+        if not reg:
+            warnings.append(f"[WARN] {reg_id}: vendor table entry missing from best guess")
+            continue
+
+        strings = reg.setdefault("source_strings", {})
+        vendor_bucket = strings.setdefault("vendor_tables", {})
+
+        vendor_units = set()
+        vendor_writable_flags: List[Optional[bool]] = []
+
+        for entry in entries:
+            for src_key, dest_key in (
+                ("variable", "variable"),
+                ("description", "description"),
+                ("value", "value"),
+                ("note", "note"),
+                ("initial", "initial"),
+                ("unit", "unit"),
+                ("write_or_not", "access"),
+                ("page", "page"),
+            ):
+                val = entry.get(src_key)
+                if val and dest_key not in vendor_bucket:
+                    vendor_bucket[dest_key] = val
+
+            if entry.get("unit"):
+                vendor_units.add(entry["unit"])
+            vendor_writable_flags.append(interpret_vendor_writable(entry.get("write_or_not")))
+
+        vendor_unit = next(iter(vendor_units)) if vendor_units else None
+        if vendor_unit and reg.get("unit") and vendor_unit.lower() != str(reg.get("unit")).lower():
+            warnings.append(
+                f"[WARN] {reg_id}: unit mismatch (vendor '{vendor_unit}' vs best guess '{reg.get('unit')}')"
+            )
+
+        vendor_writable = next((flag for flag in vendor_writable_flags if flag is not None), None)
+        if vendor_writable is not None and bool(reg.get("writable")) != vendor_writable:
+            warnings.append(
+                f"[WARN] {reg_id}: writable mismatch (vendor {vendor_writable} vs best guess {reg.get('writable')})"
+            )
+
+    return warnings
+
+
 def collect_entries(raw: Dict[str, Any]) -> Dict[str, List[SpecEntry]]:
     tables: Dict[str, List[SpecEntry]] = {}
     for table in ("holding", "input"):
@@ -390,6 +455,7 @@ def compare_sections(
 def build_document(raw: Dict[str, Any], catalog: Dict[str, Any]) -> Dict[str, Any]:
     catalog_blocks: Dict[str, Dict[str, Any]] = catalog.get("blocks", {})
     datatype_map, type_defs = load_datatypes()
+    vendor_map, vendor_parse_warnings = load_vendor_tables()
 
     tables = collect_entries(raw)
 
@@ -426,6 +492,10 @@ def build_document(raw: Dict[str, Any], catalog: Dict[str, Any]) -> Dict[str, An
             )
         if len(unmatched_entries) > 20:
             print(f"  ... and {len(unmatched_entries) - 20} more")
+
+    if vendor_parse_warnings:
+        for line in vendor_parse_warnings:
+            print(line)
 
     datatype_warnings: List[str] = []
     for reg_id, dt_entry in datatype_map.items():
@@ -481,6 +551,11 @@ def build_document(raw: Dict[str, Any], catalog: Dict[str, Any]) -> Dict[str, An
 
     if datatype_warnings:
         for line in datatype_warnings:
+            print(line)
+
+    vendor_warnings = merge_vendor_tables(register_values, vendor_map)
+    if vendor_warnings:
+        for line in vendor_warnings:
             print(line)
 
     blocks: Dict[str, Dict[str, Any]] = {}

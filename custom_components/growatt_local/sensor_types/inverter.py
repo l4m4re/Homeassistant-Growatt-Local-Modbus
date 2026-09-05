@@ -5,6 +5,7 @@ from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorStateClass,
 )
+from homeassistant.components.number import NumberDeviceClass
 from homeassistant.const import (
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
@@ -101,7 +102,7 @@ INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescr
 INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
     key=ATTR_OUTPUT_POWER_LIMIT,
     name="Output Power Limit",
-    device_class=SensorDeviceClass.POWER_FACTOR,
+    device_class=NumberDeviceClass.POWER_FACTOR,
     native_unit_of_measurement=PERCENTAGE,
     native_min_value=0,
     native_max_value=100,

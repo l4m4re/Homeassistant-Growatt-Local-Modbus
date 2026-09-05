@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T20:07:29.790300+00:00",
+  "generated_at": "2026-09-05T20:41:23.844814+00:00",
   "source": "custom_components.growatt_local.API",
   "devices": {
     "tlx": {
@@ -18,8 +18,8 @@
           "name": "output_power_limit",
           "register": 3,
           "length": 1,
-          "scale": 10,
-          "read_write": false,
+          "scale": 1,
+          "read_write": true,
           "value_type": "int",
           "function": null,
           "function_path": null
@@ -1856,8 +1856,8 @@
           "name": "output_power_limit",
           "register": 3,
           "length": 1,
-          "scale": 10,
-          "read_write": false,
+          "scale": 1,
+          "read_write": true,
           "value_type": "int",
           "function": null,
           "function_path": null

@@ -82,7 +82,9 @@ HOLDING_REGISTERS_315: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_OUTPUT_POWER_LIMIT,
         register=3,
-        value_type=int
+        value_type=int,
+        scale=1,
+        read_write=True,
     ),
     FIRMWARE_REGISTER,
     SERIAL_NUMBER_REGISTER,

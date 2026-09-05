@@ -1,12 +1,12 @@
 {
   "meta": {
     "version": "0.5.0",
-    "generated_at": "2026-09-05T20:15:51.434854+00:00",
+    "generated_at": "2026-09-05T20:41:45.644966+00:00",
     "generator": "generate_consolidated_ref.py",
     "source_files": {
       "register_graph": {
         "path": "register_graph.gpickle",
-        "sha256": "f0bed2b6d8335b89b924a659f66f337e4db06f1dd7c7c86ec3f979d37bb335c7"
+        "sha256": "6e375ed18005871a51b8bc8f15d08be8c5e446f2dfdc60a6867d3512fceffaca"
       }
     }
   },
@@ -72052,8 +72052,8 @@
             "name": "output_power_limit",
             "register": 3,
             "length": 1,
-            "scale": 10,
-            "read_write": false,
+            "scale": 1,
+            "read_write": true,
             "value_type": "int",
             "function": null,
             "function_path": null
@@ -72063,8 +72063,8 @@
             "name": "output_power_limit",
             "register": 3,
             "length": 1,
-            "scale": 10,
-            "read_write": false,
+            "scale": 1,
+            "read_write": true,
             "value_type": "int",
             "function": null,
             "function_path": null
@@ -72127,9 +72127,9 @@
           }
         ]
       },
-      "data_type": "datatype:canonical:length_bytes:conflict|signed:conflict|textual:false|divide:?|scale:conflict|multiplier:1|unit:conflict|text_category:?",
+      "data_type": "datatype:canonical:length_bytes:conflict|signed:conflict|textual:false|divide:?|scale:1|multiplier:1|unit:conflict|text_category:?",
       "alternate_data_types": [
-        "datatype:home_assistant:len1|signed|scale10.0",
+        "datatype:home_assistant:len1|signed|scale1.0",
         "datatype:manual:len2|unsigned|scale1|unit:%",
         "datatype:openinverter_gateway:len2|unsigned|mult1|unit:PERCENTAGE"
       ],
@@ -160512,9 +160512,10 @@
         ]
       },
       {
-        "id": "datatype:canonical:length_bytes:conflict|signed:conflict|textual:false|divide:?|scale:conflict|multiplier:1|unit:conflict|text_category:?",
+        "id": "datatype:canonical:length_bytes:conflict|signed:conflict|textual:false|divide:?|scale:1|multiplier:1|unit:conflict|text_category:?",
         "namespace": "canonical",
         "textual": false,
+        "scale": 1.0,
         "multiplier": 1,
         "sources": [
           "home_assistant",
@@ -160530,17 +160531,13 @@
             "False",
             "True"
           ],
-          "scale": [
-            "1",
-            "10.0"
-          ],
           "unit": [
             "%",
             "PERCENTAGE"
           ]
         },
         "source_datatypes": [
-          "datatype:home_assistant:len1|signed|scale10.0",
+          "datatype:home_assistant:len1|signed|scale1.0",
           "datatype:manual:len2|unsigned|scale1|unit:%",
           "datatype:openinverter_gateway:len2|unsigned|mult1|unit:PERCENTAGE"
         ]
@@ -161014,6 +161011,17 @@
         "scale": 1000.0,
         "raw": {
           "value_type": "float"
+        }
+      },
+      {
+        "id": "datatype:home_assistant:len1|signed|scale1.0",
+        "namespace": "home_assistant",
+        "length_bytes": 1,
+        "signed": true,
+        "textual": false,
+        "scale": 1.0,
+        "raw": {
+          "value_type": "int"
         }
       },
       {

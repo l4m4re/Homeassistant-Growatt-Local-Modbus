@@ -132,17 +132,24 @@ class GrowattModbusBase:
         )
 
     async def write_device_time(
-        self, year: int, month: int, day: int, hour: int, minute: int, second: int
+        self,
+        year: int,
+        month: int,
+        day: int,
+        hour: int,
+        minute: int,
+        second: int,
+        device_id: int,
     ):
         """Writing current date/time to device."""
         # TODO: test if it works with current asyc libary
         # TODO: update with dynamic register values
-        await self.client.write_register(45, year - 2000)
-        await self.client.write_register(46, month)
-        await self.client.write_register(47, day)
-        await self.client.write_register(48, hour)
-        await self.client.write_register(49, minute)
-        await self.client.write_register(50, second)
+        await self.client.write_register(45, year - 2000, device_id=device_id)
+        await self.client.write_register(46, month, device_id=device_id)
+        await self.client.write_register(47, day, device_id=device_id)
+        await self.client.write_register(48, hour, device_id=device_id)
+        await self.client.write_register(49, minute, device_id=device_id)
+        await self.client.write_register(50, second, device_id=device_id)
 
     async def write_register(
         self, register: int, value: int | Sequence[int], device_id: int
@@ -291,7 +298,13 @@ class GrowattDevice:
         device_time = await self.modbus.read_device_time(self.device_id)
         time = datetime.now()
         await self.modbus.write_device_time(
-            time.year, time.month, time.day, time.hour, time.minute, time.second
+            time.year,
+            time.month,
+            time.day,
+            time.hour,
+            time.minute,
+            time.second,
+            self.device_id,
         )
 
         return time - device_time

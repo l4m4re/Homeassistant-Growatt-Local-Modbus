@@ -34,8 +34,16 @@ async def async_setup_entry(
     coordinator: GrowattLocalCoordinator = hass.data[DOMAIN][config_entry.data[CONF_SERIAL_NUMBER]]
     entities = []
 
-    entities.append(InverterPowerLimitEntity(coordinator, entry=config_entry, description=INVERTER_OUTPUT_POWER_LIMIT))
-    coordinator.get_keys_by_name(INVERTER_OUTPUT_POWER_LIMIT.key, True)
+    if (
+        config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False)
+        and INVERTER_OUTPUT_POWER_LIMIT.key in coordinator.growatt_api.get_register_names()
+    ):
+        entities.append(
+            InverterPowerLimitEntity(
+                coordinator, entry=config_entry, description=INVERTER_OUTPUT_POWER_LIMIT
+            )
+        )
+        coordinator.get_keys_by_name(INVERTER_OUTPUT_POWER_LIMIT.key, True)
 
     async_add_entities(entities, True)
 

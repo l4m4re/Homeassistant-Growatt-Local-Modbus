@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import hashlib
+import argparse
 import json
 import re
 import pickle
@@ -1783,7 +1784,7 @@ def build_canonical_registers(graph: nx.MultiDiGraph) -> Dict[str, Dict[str, Any
         if attrs.get("type") != "register":
             continue
         register_info = collect_register_data(graph, node_id)
-        if not register_info.get("register") or not register_info.get("table"):
+        if register_info.get("register") is None or not register_info.get("table"):
             continue
         canonical[node_id] = drop_optionals(
             register_info,
@@ -2287,6 +2288,7 @@ def generate_from_graph(graph: nx.MultiDiGraph) -> Dict[str, Any]:
 
 
 def generate_payload_from_sources() -> Dict[str, Any]:
+    """Build the pre-graph export for explicit legacy comparisons only."""
     vendor_tables = load_json(VENDOR_TABLE_PATH)
     spec_data = load_json(BEST_GUESS_PATH)
 
@@ -2419,9 +2421,77 @@ def generate_payload_from_sources() -> Dict[str, Any]:
 
 def generate_payload() -> Dict[str, Any]:
     graph = load_graph(GRAPH_PATH)
-    if graph is not None:
-        return generate_from_graph(graph)
-    return generate_payload_from_sources()
+    if graph is None:
+        raise RuntimeError(
+            f"Canonical register graph not found at {GRAPH_PATH}. "
+            "Build it first, or use --legacy-fallback with an explicit output path "
+            "for diagnostic comparison only."
+        )
+    return generate_from_graph(graph)
+
+
+def validate_register_identity(payload: Dict[str, Any]) -> None:
+    """Reject numeric-only or cross-table register identity loss."""
+
+    registers = payload.get("canonical_registers")
+    if not isinstance(registers, dict):
+        raise ValueError("canonical_registers is missing from graph export")
+
+    for register_id, entry in registers.items():
+        table = entry.get("table")
+        register = entry.get("register")
+        expected_id = f"register:{table}:{register}"
+        if register_id != expected_id:
+            raise ValueError(
+                f"register identity mismatch: key={register_id!r}, "
+                f"table={table!r}, register={register!r}"
+            )
+
+    for table, register in (
+        ("holding", 0),
+        ("holding", 3047),
+        ("holding", 3081),
+        ("input", 0),
+        ("input", 3047),
+        ("input", 3081),
+    ):
+        register_id = f"register:{table}:{register}"
+        if register_id not in registers:
+            raise ValueError(f"required register identity missing: {register_id}")
+
+    semantic_checks = (
+        ("holding", 3047, "openinverter_gateway", "label", "BDCChargePowerRate"),
+        ("holding", 3081, "vendor", "variable", "UPSFreqSet"),
+        ("input", 3047, "spec", "name", "Run time"),
+        ("input", 3081, "spec", "name", "PV4 energy total"),
+    )
+    for table, register, source, field, expected in semantic_checks:
+        entry = registers[f"register:{table}:{register}"]
+        source_entries = entry.get("sources", {}).get(source, [])
+        if not any(item.get(field) == expected for item in source_entries):
+            raise ValueError(
+                f"semantic identity check failed for {table}:{register}: "
+                f"{source}.{field} != {expected!r}"
+            )
+
+
+def validate_schema(payload: Dict[str, Any], schema_path: Path) -> None:
+    try:
+        from jsonschema import Draft7Validator
+    except ImportError as exc:  # pragma: no cover - depends on tooling environment
+        raise RuntimeError(
+            "jsonschema is required for --validate-schema"
+        ) from exc
+
+    schema = load_json(schema_path)
+    Draft7Validator.check_schema(schema)
+    errors = sorted(Draft7Validator(schema).iter_errors(payload), key=lambda error: list(error.path))
+    if errors:
+        details = "; ".join(
+            f"{'.'.join(str(part) for part in error.path) or '<root>'}: {error.message}"
+            for error in errors[:5]
+        )
+        raise ValueError(f"schema validation failed ({len(errors)} errors): {details}")
 
 
 def _prune_redundant_mqtt_tables(node: Any) -> Any:
@@ -2445,13 +2515,46 @@ def _prune_redundant_mqtt_tables(node: Any) -> Any:
 
 
 def main() -> None:
-    payload = generate_payload()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="Output path; required explicitly with --legacy-fallback",
+    )
+    parser.add_argument(
+        "--schema",
+        type=Path,
+        default=DOC_DIR / "consolidated_register_ref.schema.json",
+        help="Schema used by --validate-schema",
+    )
+    parser.add_argument(
+        "--validate-schema",
+        action="store_true",
+        help="Validate the generated payload against the graph export schema",
+    )
+    parser.add_argument(
+        "--legacy-fallback",
+        action="store_true",
+        help="Generate the pre-graph payload for comparison only",
+    )
+    args = parser.parse_args()
+    if args.legacy_fallback and args.output is None:
+        parser.error("--legacy-fallback requires an explicit --output path")
+
+    payload = generate_payload_from_sources() if args.legacy_fallback else generate_payload()
     # Final compacting pass: remove redundant MQTT tables
     payload = _prune_redundant_mqtt_tables(payload)
-    with OUTPUT_PATH.open("w", encoding="utf-8") as handle:
+    if not args.legacy_fallback:
+        validate_register_identity(payload)
+    if args.validate_schema:
+        validate_schema(payload, args.schema)
+    output_path = args.output or OUTPUT_PATH
+    if not output_path.is_absolute():
+        output_path = DOC_DIR / output_path
+    with output_path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)
         handle.write("\n")
-    print(f"Wrote {OUTPUT_PATH.relative_to(DOC_DIR)}")
+    print(f"Wrote {output_path.relative_to(DOC_DIR) if output_path.is_relative_to(DOC_DIR) else output_path}")
 
 
 if __name__ == "__main__":

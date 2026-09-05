@@ -4,6 +4,67 @@ This directory collects the source specification and machine-readable material
 for Growatt's “Inverter Modbus RTU Protocol v1.24”, along with generated
 reference docs for the Home Assistant `growatt_local` integration.
 
+## Authoritative register pipeline
+
+The authoritative machine-readable route is:
+
+```text
+source JSON inputs -> doc/build_register_graph.py
+                   -> doc/register_graph.gpickle
+                   -> doc/generate_consolidated_ref.py
+                   -> doc/consolidated_register_ref.json
+```
+
+The graph keeps register identity as `(table, register)`; holding and input
+registers with the same numeric address are different records. It retains
+source payloads, alternate datatypes and conflicts so disagreements remain
+inspectable. OpenInverter mappings are graph inputs, while MIN live-validation
+evidence and web-derived proposals remain separate evidence artefacts.
+
+From the integration checkout, rebuild and validate the canonical export with:
+
+```sh
+python3 doc/build_register_graph.py --output doc/register_graph.gpickle
+python3 doc/generate_consolidated_ref.py --validate-schema
+```
+
+`generate_consolidated_ref.py` fails if the graph is absent. Its old direct
+source merge is retained only for explicit comparison:
+
+```sh
+python3 doc/generate_consolidated_ref.py --legacy-fallback --output /tmp/consolidated-legacy.json
+```
+
+That fallback is not a canonical export and is intentionally not accepted by
+the graph-export schema.
+
+The graph pickle is a NetworkX intermediate; its raw pickle hash can vary with
+Python object memoisation even when nodes, edges and attributes are unchanged.
+Determinism is therefore checked semantically: rebuild the graph, compare the
+node/edge model and compare the consolidated JSON after removing only
+`meta.generated_at` and the graph-file fingerprint.
+
+### HA-4b parity decision
+
+The representative holding and input audit covered the common ranges, the
+TL-XH telemetry/control ranges, BDC battery registers, and non-MIN examples
+such as holding `23–27`, `43`, `44` and `88`. The differences are structural:
+the graph is per-register with explicit table identity, family links,
+canonical/alternate datatypes and source payloads, while the fallback is
+block-oriented with source summaries and legacy datatype names.
+
+The fallback did expose useful OpenInverter register entries that the old graph
+builder had kept only on a device node. Those mappings are now graph edges and
+register payload provenance, including the holding `3047/3048` battery-first
+controls and input `3047–3048`/`3081–3082` telemetry. The graph also retains
+datatype conflicts instead of flattening them. The numeric-address-zero export
+bug was fixed at the graph exporter, so holding and input `0` are retained.
+
+The fallback is therefore retained temporarily as an explicitly noncanonical
+parity/debug view (decision B), not as a second supported generation route.
+No MIN live-validation data, web proposal, overlay or Shine evidence was
+ingested into the graph.
+
 ## Source versus best-guess datasets
 
 - `Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English.pdf` is the vendor

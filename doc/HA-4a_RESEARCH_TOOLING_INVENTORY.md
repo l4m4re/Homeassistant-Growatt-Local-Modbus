@@ -58,10 +58,10 @@ present; the current graph/export code is the executable description.
 | `doc/extract_growatt_datatypes_overlay.py` | datatype catalogue + v2 + catalogue → `overlays/growatt_datatypes_overlay.json` | Reproducible overlay; currently not ingested by the graph builder. |
 | `doc/extract_HA_local_registers.py` | live integration Python modules/translations → `HA_local_registers.json` | Reproducible snapshot; graph input and an important runtime-to-doc bridge. |
 | `doc/extract_grott_register_layouts.py` | local `external/grott` → `grott_register_layouts.json` | Reproducible only with the local Grott checkout; graph input. |
-| `doc/extract_openinverter_gateway.py` | local OpenInverter source/docs → `openinverter_gateway_registers.json` | Reproducible only with that submodule; graph input, although current graph ingestion retains less detail than the export. |
+| `doc/extract_openinverter_gateway.py` | local OpenInverter source/docs → `openinverter_gateway_registers.json` | Reproducible only with that submodule; graph input with explicit register mappings and provenance. |
 | `doc/extract_inverter_to_mqtt_registers.py` | local inverter-to-mqtt Markdown/source → `inverter_to_mqtt_registers.json` | Reproducible only with that submodule; graph input. |
 | `doc/build_register_graph.py` | vendor tables, best-guess, Grott, HA, manual datatypes, OpenInverter, inverter-to-mqtt → `register_graph.gpickle` | Current knowledge-graph builder. It does not ingest web metadata, overlays, v2, catalogue JSON, live-validation JSON or the MIN-specific overlay. |
-| `doc/generate_consolidated_ref.py` | normally the graph pickle; fallback is vendor + best-guess + HA/OIG/MQTT/Grott JSON → `consolidated_register_ref.json` | Current canonical export generator. If `doc/register_graph.gpickle` exists, the graph path wins and the loose-source path is bypassed. |
+| `doc/generate_consolidated_ref.py` | graph pickle → `consolidated_register_ref.json`; explicit legacy fallback for comparison | Graph path is canonical and fails loudly when the graph is absent. The loose-source path requires `--legacy-fallback` and an explicit noncanonical output path. |
 | `doc/compare_openinverter_gateway.py` | OIG export + best-guess + datatypes → `doc/ref/openinverter_gateway_comparison.md` | Comparison report; does not feed runtime or graph. |
 | `doc/render_register_spec.py` | best-guess + HA snapshot → local Markdown preview | Ad-hoc renderer; output is not currently committed. |
 | `doc/showSettings.py` | saved settings/capture material → human-readable settings analysis | One-off research helper; no structured output pipeline was found. |
@@ -127,9 +127,9 @@ correlation test against all six local log formats.
 | `grott_register_layouts.json` | generated external-source snapshot | Keep with the Grott checkout/version; graph input. |
 | OIG and inverter-to-MQTT exports | generated external-source snapshots | Keep as provenance and graph inputs; do not treat either as universal truth. |
 | `overlays/*.json` | generated additive overlays | Keep for provenance, but current graph/export does not consume them. The documented promotion/conflict queue is not implemented. |
-| `doc/register_graph.gpickle` | graph-derived intermediate | Current graph input to consolidated export; hash `d29983f1…98514`. |
-| `doc/doc/register_graph.gpickle` | duplicate/stale graph artifact | Different hash (`d81cdd8e…17ac2c`) and older timestamp; generator does not use this path. Quarantine/remove only in a later explicit cleanup. |
-| `consolidated_register_ref.json` + schema | graph-derived canonical cross-reference | Current broad machine-readable export: 1,990 canonical register nodes, 650 holding ranges and 986 input ranges. It is an output, not an input to the general pipeline. |
+| `doc/register_graph.gpickle` | graph-derived intermediate | Graph input to consolidated export; the HA-4b rebuild supersedes the HA-4a snapshot. |
+| `doc/doc/register_graph.gpickle` | duplicate/stale graph artifact | Removed in HA-4b after source search found no generator reference. |
+| `consolidated_register_ref.json` + schema | graph-derived canonical cross-reference | Current broad machine-readable export; it is an output, not an input to the general pipeline. |
 | `ref/REGISTERS.md`, OIG comparison | human/source-specific references | Keep as readable evidence, but label as source-specific/legacy where applicable. |
 | `min_6000tl_xh_register_map.json` + `ref/MIN_6000TL_XH_REGISTER_MAP.md` | model-specific resolved view | Strongest current MIN 6000TL-XH semantic reference; intentionally separate holding/input namespaces. |
 | `min_6000tl_xh_live_validation.json` | hardware evidence | Read-only FC03/FC04 capture via broker `:5021`, unit 1, with identity, telemetry and raw responses. It is evidence for this device, not all families. |
@@ -179,16 +179,16 @@ is no separate conflict-resolution queue or reviewed promotion implementation.
 Holding/input identity is generally explicit in graph node IDs and in the
 consolidated `canonical_registers` keys (`register:holding:*` and
 `register:input:*`). It is not safe to collapse by numeric address alone in
-downstream consumers. The known contamination path is the generic manual
-datatype catalogue/family definitions: holding `3047–3048` and `3079–3082`
-can be given legacy energy semantics even though the MIN device's FC03 words
-are battery-first/UPS controls. The MIN overlay resolves this by table-specific
-selection; the broad graph does not enforce that selection rule.
+downstream consumers. The known contamination path was the generic manual
+datatype catalogue: holding `3047–3048` and `3079–3082` could receive legacy
+energy semantics even though the MIN device's FC03 words are battery-first/UPS
+controls. HA-4b removed those overrides and added table-aware identity checks;
+MIN evidence remains outside the general graph.
 
-The current broad export is graph-derived because the current graph pickle
-exists. The fallback code still bypasses the graph and directly merges loose
-JSON. Web artifacts, overlays, v2, catalogue, live evidence and MIN map do not
-affect either path. This is the central architectural split to resolve later.
+The current broad export is graph-derived. The fallback remains available only
+as an explicit comparison artifact because it still exposes block-level source
+details that are useful for audit. Web artifacts, overlays, v2, catalogue,
+live evidence and MIN map do not affect either canonical path.
 
 ## E. Web scrape state
 
@@ -305,7 +305,7 @@ Do not delete anything in this inventory. The likely next cleanup decisions are:
 - declare `growatt_registers_best_guess.json` the curated source and make v2,
   overlays and consolidated output visibly derived from it, or explicitly
   migrate authority into the graph;
-- reconcile or quarantine the duplicate `doc/doc/register_graph.gpickle`;
+- keep the graph/export validation path healthy after future source changes;
 - consolidate `build_input_spec.py`, `normalize_register_spec.py` and the
   datatype/build steps so in-place mutation is not confused with generation;
 - implement the documented overlay promotion/conflict-review step, or remove

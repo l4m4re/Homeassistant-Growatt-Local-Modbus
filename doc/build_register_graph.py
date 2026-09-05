@@ -6,10 +6,8 @@ from __future__ import annotations
 import argparse
 import json
 import pickle
-import re
 from collections import defaultdict
 import re
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
@@ -1467,10 +1465,89 @@ def ingest_openinverter(graph: nx.MultiDiGraph) -> None:
             file=info.get("file"),
         )
         add_edge(graph, device_node, source_id, type="SOURCED_FROM")
-        # Current export does not include explicit register mappings; retain metadata only for now.
         mqtt_keys = info.get("mqtt_keys") or []
         if mqtt_keys:
             graph.nodes[device_node]["mqtt_keys"] = mqtt_keys
+
+        for table_key, table in (
+            ("input_registers", "input"),
+            ("holding_registers", "holding"),
+        ):
+            entries = info.get(table_key) or []
+            if not isinstance(entries, list):
+                continue
+            for entry in entries:
+                address = entry.get("address")
+                if not isinstance(address, int):
+                    continue
+                length = {
+                    "SIZE_16BIT": 1,
+                    "SIZE_16BIT_S": 1,
+                    "SIZE_32BIT": 2,
+                    "SIZE_32BIT_S": 2,
+                }.get(entry.get("size"), 1)
+                end = address + length - 1
+                payload = {
+                    "device": device,
+                    "enum": entry.get("enum"),
+                    "enum_value": entry.get("enum_value"),
+                    "label": entry.get("label"),
+                    "address": address,
+                    "length": length,
+                    "size": entry.get("size"),
+                    "default": entry.get("default"),
+                    "multiplier": entry.get("multiplier"),
+                    "resolution": entry.get("resolution"),
+                    "unit": entry.get("unit"),
+                    "frontend": entry.get("frontend"),
+                    "plot": entry.get("plot"),
+                }
+                if entry.get("comment"):
+                    payload["comment"] = entry["comment"]
+                if entry.get("label") in mqtt_keys:
+                    payload["mqtt_key"] = entry["label"]
+
+                signed = entry.get("size") == "SIZE_32BIT_S"
+                dtype_id = ensure_canonical_datatype(
+                    graph,
+                    "openinverter_gateway",
+                    length=length * 2,
+                    signed=signed,
+                    multiplier=entry.get("multiplier"),
+                    unit=entry.get("unit"),
+                    raw={"size": entry.get("size"), "label": entry.get("label")},
+                )
+
+                block_id = ensure_block(
+                    graph,
+                    table,
+                    address,
+                    end,
+                    source="openinverter_gateway",
+                    data=payload,
+                )
+                range_id = ensure_register_range(graph, table, address, end)
+                add_edge(graph, block_id, source_id, type="SOURCED_FROM")
+                for register in range(address, end + 1):
+                    register_id = ensure_register(
+                        graph,
+                        register,
+                        table,
+                        source="openinverter_gateway",
+                        data=payload,
+                    )
+                    add_edge(graph, register_id, source_id, type="SOURCED_FROM")
+                    add_edge(
+                        graph,
+                        register_id,
+                        dtype_id,
+                        type="REGISTER_HAS_DATATYPE",
+                        source="openinverter_gateway",
+                    )
+                    add_edge(graph, block_id, register_id, type="BLOCK_CONTAINS")
+                    add_edge(graph, register_id, block_id, type="REGISTER_IN_BLOCK")
+                    add_edge(graph, range_id, register_id, type="RANGE_CONTAINS_REGISTER")
+                    add_edge(graph, register_id, range_id, type="REGISTER_IN_RANGE")
 
 
 def ingest_inverter_to_mqtt(graph: nx.MultiDiGraph) -> None:
@@ -1792,14 +1869,14 @@ def link_block_device_groups(graph: nx.MultiDiGraph) -> None:
                 if edge_data.get("type") == "REGISTER_SUPPORTED_BY_DEVICE":
                     covered_devices.add(device_node)
 
-        for group_node in covered_groups:
+        for group_node in sorted(covered_groups):
             add_edge(
                 graph,
                 block_id,
                 group_node,
                 type="BLOCK_COVERED_BY_GROUP",
             )
-        for device_node in covered_devices:
+        for device_node in sorted(covered_devices):
             add_edge(
                 graph,
                 block_id,
@@ -2008,7 +2085,6 @@ def build_repeated_sections(graph: nx.MultiDiGraph) -> None:
 
 def build_graph() -> nx.MultiDiGraph:
     graph = nx.MultiDiGraph()
-    graph.graph["generated_at"] = datetime.now(timezone.utc).isoformat()
     graph.graph["generator"] = "build_register_graph.py"
 
     ingest_vendor_tables(graph)

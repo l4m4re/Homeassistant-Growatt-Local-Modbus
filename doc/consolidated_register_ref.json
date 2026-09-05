@@ -1,12 +1,12 @@
 {
   "meta": {
     "version": "0.5.0",
-    "generated_at": "2026-09-05T19:59:04.867605+00:00",
+    "generated_at": "2026-09-05T20:15:51.434854+00:00",
     "generator": "generate_consolidated_ref.py",
     "source_files": {
       "register_graph": {
         "path": "register_graph.gpickle",
-        "sha256": "e6990b95e4cab2f020a3eebc3915a28615d688ebdea706c712ad120dfa36a9c3"
+        "sha256": "f0bed2b6d8335b89b924a659f66f337e4db06f1dd7c7c86ec3f979d37bb335c7"
       }
     }
   },
@@ -71791,6 +71791,17 @@
             "register": 0,
             "length": 1,
             "scale": 10,
+            "read_write": false,
+            "value_type": "int",
+            "function": null,
+            "function_path": null
+          },
+          {
+            "device": "storage",
+            "name": "inverter_enabled",
+            "register": 0,
+            "length": 1,
+            "scale": 10,
             "read_write": true,
             "value_type": "int",
             "function": null,
@@ -71997,6 +72008,9 @@
       "id": "register:holding:3",
       "register": 3,
       "table": "holding",
+      "attributes": [
+        "output_power_limit"
+      ],
       "families": [
         "storage",
         "tl3",
@@ -72030,6 +72044,30 @@
             "unit": "%",
             "initial": "255",
             "note": null
+          }
+        ],
+        "home_assistant": [
+          {
+            "device": "tlx",
+            "name": "output_power_limit",
+            "register": 3,
+            "length": 1,
+            "scale": 10,
+            "read_write": false,
+            "value_type": "int",
+            "function": null,
+            "function_path": null
+          },
+          {
+            "device": "storage",
+            "name": "output_power_limit",
+            "register": 3,
+            "length": 1,
+            "scale": 10,
+            "read_write": false,
+            "value_type": "int",
+            "function": null,
+            "function_path": null
           }
         ],
         "openinverter_gateway": [
@@ -72089,17 +72127,38 @@
           }
         ]
       },
-      "data_type": "datatype:canonical:length_bytes:2|signed:false|textual:false|divide:?|scale:1|multiplier:1|unit:conflict|text_category:?",
+      "data_type": "datatype:canonical:length_bytes:conflict|signed:conflict|textual:false|divide:?|scale:conflict|multiplier:1|unit:conflict|text_category:?",
       "alternate_data_types": [
+        "datatype:home_assistant:len1|signed|scale10.0",
         "datatype:manual:len2|unsigned|scale1|unit:%",
         "datatype:openinverter_gateway:len2|unsigned|mult1|unit:PERCENTAGE"
+      ],
+      "home_assistant": [
+        {
+          "device": "tlx",
+          "group": "holding_common",
+          "name": "output_power_limit"
+        },
+        {
+          "device": "storage",
+          "group": "holding_common",
+          "name": "output_power_limit"
+        }
+      ],
+      "device_groups": [
+        {
+          "group": "holding_common",
+          "devices": [
+            "storage",
+            "tlx"
+          ]
+        }
       ],
       "description": "Active P Rate",
       "tooltip": "Inverter Max output activepowerpercent",
       "help": "255:powerisnotbelimited",
       "unit": "%",
-      "writable": true,
-      "data_width_words": 1
+      "writable": true
     },
     "register:holding:4": {
       "id": "register:holding:4",
@@ -158488,29 +158547,6 @@
         ]
       },
       {
-        "id": "datatype:canonical:length_bytes:2|signed:false|textual:false|divide:?|scale:1|multiplier:1|unit:conflict|text_category:?",
-        "namespace": "canonical",
-        "length_bytes": 2,
-        "signed": false,
-        "textual": false,
-        "scale": 1,
-        "multiplier": 1,
-        "sources": [
-          "manual",
-          "openinverter_gateway"
-        ],
-        "conflicts": {
-          "unit": [
-            "%",
-            "PERCENTAGE"
-          ]
-        },
-        "source_datatypes": [
-          "datatype:manual:len2|unsigned|scale1|unit:%",
-          "datatype:openinverter_gateway:len2|unsigned|mult1|unit:PERCENTAGE"
-        ]
-      },
-      {
         "id": "datatype:canonical:length_bytes:2|signed:false|textual:false|divide:?|scale:1|multiplier:?|unit:%|text_category:?",
         "namespace": "canonical",
         "length_bytes": 2,
@@ -160473,6 +160509,40 @@
         "source_datatypes": [
           "datatype:home_assistant:len2|signed|scale10.0",
           "datatype:manual:len4|unsigned|scale10"
+        ]
+      },
+      {
+        "id": "datatype:canonical:length_bytes:conflict|signed:conflict|textual:false|divide:?|scale:conflict|multiplier:1|unit:conflict|text_category:?",
+        "namespace": "canonical",
+        "textual": false,
+        "multiplier": 1,
+        "sources": [
+          "home_assistant",
+          "manual",
+          "openinverter_gateway"
+        ],
+        "conflicts": {
+          "length_bytes": [
+            "1",
+            "2"
+          ],
+          "signed": [
+            "False",
+            "True"
+          ],
+          "scale": [
+            "1",
+            "10.0"
+          ],
+          "unit": [
+            "%",
+            "PERCENTAGE"
+          ]
+        },
+        "source_datatypes": [
+          "datatype:home_assistant:len1|signed|scale10.0",
+          "datatype:manual:len2|unsigned|scale1|unit:%",
+          "datatype:openinverter_gateway:len2|unsigned|mult1|unit:PERCENTAGE"
         ]
       },
       {

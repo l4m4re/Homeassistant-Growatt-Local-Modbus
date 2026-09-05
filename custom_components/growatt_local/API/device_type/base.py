@@ -15,6 +15,7 @@ ATTR_MODBUS_VERSION = "modbus version"
 # Attribute names for values in the holding register
 ATTR_INVERTER_ENABLED = "inverter_enabled"
 ATTR_AC_CHARGE_ENABLED = "ac_charge_enabled"
+ATTR_OUTPUT_POWER_LIMIT = "output_power_limit"
 
 # Attribute names for values in the input register
 ATTR_STATUS = "status"
@@ -207,6 +208,9 @@ ATTR_BATTERY_DISCHARGE_AMPERAGE = "battery_discharge_amperage"  # A
 
 ATTR_AC_DISCHARGE_TODAY = "ac_discharge_energy_today"  # kWh
 ATTR_AC_DISCHARGE_TOTAL = "ac_discharge_energy_total"  # kWh
+
+ATTR_AC_LOAD_TODAY = "ac_load_energy_today"  # kWh
+ATTR_AC_LOAD_TOTAL = "ac_load_energy_total"  # kWh
 
 ATTR_BATTERY_POWER = "battery_power"  # W
 

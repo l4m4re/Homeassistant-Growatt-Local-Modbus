@@ -373,3 +373,45 @@ another parallel register map.
 9. The fork is 154 ahead/36 behind upstream/master as of this inventory.
 10. The smallest next task is graph/fallback parity and ownership
     reconciliation, not another live experiment or new data representation.
+
+## K. HA-5 controlled upstream reconciliation
+
+HA-5 was performed on a dedicated branch, `maintenance/upstream-sync-20260905`,
+created from the exact HA-4b fork baseline
+`9c82748cec96d4dd35c58f9589136c731b5efdbc`. The upstream ref was fetched from
+`WouterTuinstra/Homeassistant-Growatt-Local-Modbus` without changing the
+parent repository or the `fix/min-6000xh` branch:
+
+- `upstream/master`: `93dbda335815e26032f943f33c43fcf44a1fbb60`;
+- merge base: `50a24849e6627647f8a37468b283f154bed986e3`;
+- pre-merge divergence: fork `156` commits ahead and `36` behind;
+- the branch was pushed to the fork before the merge for recovery and review.
+
+The upstream-only history is primarily general integration maintenance: number
+entities and output-power-limit support, PyModbus `device_id` naming, release
+automation, state-class/powermeter/AC-load sensors, and storage/hybrid power
+control fixes. It is not a Shine or broker change. The untracked local
+`doc/growatt_web/` research tree has no path collision with upstream.
+
+The merge was performed with `--no-ff`. The two content conflicts were
+resolved semantically. The merged runtime retains upstream's `device_id` API
+and number/sensor improvements, while preserving the fork-local MIN/TL-XH
+register documentation, corrected 3000-series addresses, reactive-power and
+hybrid telemetry extensions, and the HA-4b graph/export ownership. The local
+typed write path was retained and now uses `device_id` consistently. The
+upstream output-power-limit register is represented in the runtime snapshot;
+its source disagreement with the existing manual/OpenInverter datatype is
+visible in the canonical graph rather than silently flattened.
+
+Because runtime definitions changed, `HA_local_registers.json`, the NetworkX
+graph, and the graph-derived consolidated export were regenerated. The
+canonical export schema and the MIN/TL-XH validator pass. Python compilation
+of the integration and documentation scripts passes. The standalone
+integration pytest collection remains environment-blocked by the existing
+missing Home Assistant test modules (`homeassistant.helpers` through
+`pytest_homeassistant_custom_component`); this was not repaired as part of the
+upstream sync.
+
+No live HA, inverter, broker, Shine, parent gitlink, or live integration
+version was changed. The maintenance branch is intentionally not merged back
+into `fix/min-6000xh`; it is the review point for this reconciliation.

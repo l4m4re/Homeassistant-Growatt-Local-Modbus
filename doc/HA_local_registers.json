@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T20:41:23.844814+00:00",
+  "generated_at": "2026-09-05T21:46:20.147036+00:00",
   "source": "custom_components.growatt_local.API",
   "devices": {
     "tlx": {
@@ -1726,7 +1726,8 @@
           "read_write": false,
           "value_type": "float",
           "function": null,
-          "function_path": null
+          "function_path": null,
+          "signed": true
         },
         {
           "name": "bms_cell_max_temp",
@@ -2646,7 +2647,8 @@
           "read_write": false,
           "value_type": "float",
           "function": null,
-          "function_path": null
+          "function_path": null,
+          "signed": true
         },
         {
           "name": "bms_cell_max_temp",
@@ -2869,6 +2871,7 @@
         "3072": "Front 1 tracker PV Storage",
         "3328": "OffGrid SPF 3-5K",
         "5376": "2 tracker and 3phase Grid connect Hybrid inverter",
+        "4864": "MIN TL-XH hybrid inverter",
         "10001": "RF-ShineVersion",
         "10002": "Web-ShinePano",
         "10003": "Web-ShineWebBox",

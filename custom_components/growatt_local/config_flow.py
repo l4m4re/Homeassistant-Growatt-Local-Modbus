@@ -343,7 +343,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if device_info:
                 return self._async_show_device_form(
                     model=device_info.model,
-                    device_type=device_info.device_type,
+                    device_type=device_info.device_family or DeviceTypes.INVERTER_120,
                     mppt_trackers=device_info.mppt_trackers,
                     grid_phases=device_info.grid_phases,
                     modbus_version=device_info.modbus_version,
@@ -441,7 +441,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if device_info:
                 return self._async_show_device_form(
                     model=device_info.model,
-                    device_type=device_info.device_type,
+                    device_type=device_info.device_family or DeviceTypes.INVERTER_120,
                     mppt_trackers=device_info.mppt_trackers,
                     grid_phases=device_info.grid_phases,
                     modbus_version=device_info.modbus_version,
@@ -524,6 +524,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         }
 
         self.data.update(user_input)
+        options[CONF_INVERTER_POWER_CONTROL] = self.data[CONF_INVERTER_POWER_CONTROL]
 
         return self.async_create_entry(
             title=f"Growatt {self.data[CONF_MODEL]}", data=self.data, options=options

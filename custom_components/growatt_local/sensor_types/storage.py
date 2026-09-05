@@ -19,7 +19,6 @@ from .switch_entity_description import GrowattSwitchEntityDescription
 
 from ..API.device_type.base import (
     ATTR_AC_CHARGE_ENABLED,
-    ATTR_INVERTER_ENABLED,
     ATTR_SOC_PERCENTAGE,
     ATTR_DISCHARGE_POWER,
     ATTR_CHARGE_POWER,
@@ -89,14 +88,6 @@ STORAGE_TL_XH_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
         name="AC Charge",
         state_on=0x1,
         state_off=0x0,
-    ),
-    GrowattSwitchEntityDescription(
-        key=ATTR_INVERTER_ENABLED,
-        name="Power control",
-        translation_key="inverter_enabled",
-        state_on=0x1,
-        state_off=0x0,
-        mask=0x1,
     ),
 )
 

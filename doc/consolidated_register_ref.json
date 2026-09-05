@@ -1,12 +1,12 @@
 {
   "meta": {
     "version": "0.5.0",
-    "generated_at": "2026-09-05T20:41:45.644966+00:00",
+    "generated_at": "2026-09-05T21:49:22.001348+00:00",
     "generator": "generate_consolidated_ref.py",
     "source_files": {
       "register_graph": {
         "path": "register_graph.gpickle",
-        "sha256": "6e375ed18005871a51b8bc8f15d08be8c5e446f2dfdc60a6867d3512fceffaca"
+        "sha256": "45bd4cca4bce971a070d187291a3b14fbbb769496f180f12e2f45801d04d298e"
       }
     }
   },
@@ -69428,7 +69428,7 @@
                 "table": "input",
                 "register": 3217,
                 "register_end": 3217,
-                "type": "u16_scale100",
+                "type": "s16_scale100",
                 "attributes": [
                   "bms_battery_current"
                 ],
@@ -151119,7 +151119,8 @@
             "read_write": false,
             "value_type": "float",
             "function": null,
-            "function_path": null
+            "function_path": null,
+            "signed": true
           },
           {
             "device": "storage",
@@ -151130,20 +151131,21 @@
             "read_write": false,
             "value_type": "float",
             "function": null,
-            "function_path": null
+            "function_path": null,
+            "signed": true
           }
         ],
         "manual": [
           {
-            "type": "u16_scale100"
+            "type": "s16_scale100"
           }
         ]
       },
-      "data_type": "datatype:canonical:length_bytes:conflict|signed:conflict|textual:false|divide:100|scale:100|multiplier:?|unit:?|text_category:?",
+      "data_type": "datatype:canonical:length_bytes:conflict|signed:true|textual:false|divide:100|scale:100|multiplier:?|unit:?|text_category:?",
       "alternate_data_types": [
         "datatype:grott:len2|signed|div100",
-        "datatype:home_assistant:len1|scale100.0",
-        "datatype:manual:len2|unsigned|scale100"
+        "datatype:home_assistant:len1|signed|scale100.0",
+        "datatype:manual:len2|signed|scale100"
       ],
       "home_assistant": [
         {
@@ -160948,6 +160950,30 @@
         ]
       },
       {
+        "id": "datatype:canonical:length_bytes:conflict|signed:true|textual:false|divide:100|scale:100|multiplier:?|unit:?|text_category:?",
+        "namespace": "canonical",
+        "signed": true,
+        "textual": false,
+        "divide": 100,
+        "scale": 100.0,
+        "sources": [
+          "grott",
+          "home_assistant",
+          "manual"
+        ],
+        "conflicts": {
+          "length_bytes": [
+            "1",
+            "2"
+          ]
+        },
+        "source_datatypes": [
+          "datatype:grott:len2|signed|div100",
+          "datatype:home_assistant:len1|signed|scale100.0",
+          "datatype:manual:len2|signed|scale100"
+        ]
+      },
+      {
         "id": "datatype:canonical:length_bytes:conflict|signed:true|textual:false|divide:conflict|scale:?|multiplier:?|unit:?|text_category:?",
         "namespace": "canonical",
         "signed": true,
@@ -161033,6 +161059,17 @@
         "scale": 10.0,
         "raw": {
           "value_type": "int"
+        }
+      },
+      {
+        "id": "datatype:home_assistant:len1|signed|scale100.0",
+        "namespace": "home_assistant",
+        "length_bytes": 1,
+        "signed": true,
+        "textual": false,
+        "scale": 100.0,
+        "raw": {
+          "value_type": "float"
         }
       },
       {
@@ -161400,6 +161437,18 @@
         "raw": {
           "kind": "raw",
           "name": "bdc_protocol_version_word"
+        }
+      },
+      {
+        "id": "datatype:manual:len2|signed|scale100",
+        "namespace": "manual",
+        "length_bytes": 2,
+        "signed": true,
+        "textual": false,
+        "scale": 100,
+        "raw": {
+          "kind": "scaled_signed",
+          "name": "s16_scale100"
         }
       },
       {

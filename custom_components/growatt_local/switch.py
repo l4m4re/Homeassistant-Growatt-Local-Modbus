@@ -19,8 +19,8 @@ from homeassistant.helpers.update_coordinator import (
 from .const import (
     CONF_FIRMWARE,
     CONF_SERIAL_NUMBER,
-    CONF_INVERTER_POWER_CONTROL,
     DOMAIN,
+    inverter_power_control_enabled,
 )
 from .sensor_types.inverter import INVERTER_POWER_SWITCH
 from .sensor_types.storage import STORAGE_TL_XH_SWITCH_TYPES
@@ -31,6 +31,26 @@ _LOGGER = logging.getLogger(__name__)
 SCAN_INTERVAL = timedelta(minutes=1)
 
 
+def get_switch_descriptions(
+    config_entry: ConfigEntry, supported_key_names: set[str]
+) -> list[GrowattSwitchEntityDescription]:
+    """Return switch descriptions allowed by the entry and device mapping."""
+
+    descriptions = [
+        description
+        for description in STORAGE_TL_XH_SWITCH_TYPES
+        if description.key in supported_key_names
+    ]
+
+    if (
+        inverter_power_control_enabled(config_entry)
+        and INVERTER_POWER_SWITCH.key in supported_key_names
+    ):
+        descriptions.append(INVERTER_POWER_SWITCH)
+
+    return descriptions
+
+
 async def async_setup_entry(
         hass: HomeAssistant,
         config_entry: ConfigEntry,
@@ -38,23 +58,8 @@ async def async_setup_entry(
 ) -> None:
     coordinator = hass.data[DOMAIN][config_entry.data[CONF_SERIAL_NUMBER]]
     entities = []
-    sensor_descriptions: list[GrowattSwitchEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
-
-    for sensor in STORAGE_TL_XH_SWITCH_TYPES:
-        if sensor.key not in supported_key_names:
-            continue
-        sensor_descriptions.append(sensor)
-
-    if (
-        config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False)
-        and INVERTER_POWER_SWITCH.key in supported_key_names
-        and all(
-            description.key != INVERTER_POWER_SWITCH.key
-            for description in sensor_descriptions
-        )
-    ):
-        sensor_descriptions.append(INVERTER_POWER_SWITCH)
+    sensor_descriptions = get_switch_descriptions(config_entry, supported_key_names)
 
     coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
 

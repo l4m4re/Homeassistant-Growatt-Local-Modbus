@@ -248,7 +248,7 @@ def process_registers(
         processed_value: Any
 
         if register.value_type == int:
-            processed_value = value
+            processed_value = ctypes.c_int16(value).value if register.signed else value
 
         elif register.value_type == float and register.length == 2:
             if (second_value := register_values.get(key + 1, None)) is None:
@@ -257,7 +257,8 @@ def process_registers(
             processed_value = round(float(signed_value) / register.scale, 3)
 
         elif register.value_type == float:
-            processed_value = round(float(value) / register.scale, 3)
+            signed_value = ctypes.c_int16(value).value if register.signed else value
+            processed_value = round(float(signed_value) / register.scale, 3)
 
         elif register.value_type == str:
             string = ""

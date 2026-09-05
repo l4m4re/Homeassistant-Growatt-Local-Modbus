@@ -107,7 +107,8 @@ class GrowattModbusBase:
             mppt_trackers=results[ATTR_NUMBER_OF_TRACKERS_AND_PHASES][0],
             grid_phases=results[ATTR_NUMBER_OF_TRACKERS_AND_PHASES][1],
             modbus_version=results[ATTR_MODBUS_VERSION],
-            device_type=results[ATTR_DEVICE_TYPE_CODE]
+            device_type=results[ATTR_DEVICE_TYPE_CODE],
+            device_type_code=register_values[43],
         )
 
         return device_info
@@ -481,6 +482,59 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
     return DeviceRegisters(holding_register, input_register, max_length)
 
 
+_PROTOCOL_120_DEVICE_TYPE_FAMILIES = {
+    0x0100,
+    0x0200,
+    0x0300,
+    0x0400,
+    0x0500,
+    0x0600,
+    0x0700,
+    0x0800,
+    0x0900,
+    0x0A00,
+    0x0C00,
+    0x1300,
+    0x1500,
+}
+
+
+def _device_family_for_code(device_type_code: int) -> DeviceTypes | None:
+    """Map known device-code families to the corresponding register layout."""
+
+    family_code = device_type_code & 0xFF00
+    if family_code == 0x1300:
+        return DeviceTypes.HYBRID_120_TL_XH
+    if family_code in {0x0C00, 0x1500}:
+        return DeviceTypes.HYBRID_120
+    if family_code == 0x0D00:
+        return DeviceTypes.OFFGRID_SPF
+    if family_code in _PROTOCOL_120_DEVICE_TYPE_FAMILIES:
+        return DeviceTypes.INVERTER_120
+    return None
+
+
+def select_device_info(
+    inverter_v120: GrowattDeviceInfo,
+    inverter_v315: GrowattDeviceInfo,
+) -> GrowattDeviceInfo | None:
+    """Select a register-layout family using the device type code."""
+
+    if inverter_v120.device_type_code is not None and (
+        device_family := _device_family_for_code(inverter_v120.device_type_code)
+    ) not in (None, DeviceTypes.OFFGRID_SPF):
+        inverter_v120.device_family = device_family
+        return inverter_v120
+
+    if inverter_v315.device_type_code is not None and (
+        device_family := _device_family_for_code(inverter_v315.device_type_code)
+    ) == DeviceTypes.OFFGRID_SPF:
+        inverter_v315.device_family = device_family
+        return inverter_v315
+
+    return None
+
+
 async def get_device_info(device: GrowattModbusBase, unit: int, fixed_device_types: DeviceTypes | None = None) -> GrowattDeviceInfo | None:
     # Needs to determine minimal maximum length as all devices need to be able to support this
     minimal_length = min((MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_315))
@@ -501,10 +555,11 @@ async def get_device_info(device: GrowattModbusBase, unit: int, fixed_device_typ
     inverter_v315 = await device.get_device_info(HOLDING_REGISTERS_315, minimal_length, unit)
     _LOGGER.info(f"Inverter Protocol v3.15: {inverter_v315}")
 
-    if 1.0 < inverter_v120.modbus_version < 1.20:
-        return inverter_v120
-    elif 3.0 < inverter_v315.modbus_version < 3.15:
-        return inverter_v315
-    else:
-        _LOGGER.warning(f"Inverter Modbus version not default supported.\nCheck full logs to get device information using the supported protocols.")
-        return None
+    if (device_info := select_device_info(inverter_v120, inverter_v315)):
+        return device_info
+
+    _LOGGER.warning(
+        "Could not identify a supported register-layout family from device type "
+        "code; select the protocol family explicitly."
+    )
+    return None

@@ -22,8 +22,8 @@ from . import GrowattLocalCoordinator
 from .const import (
     CONF_FIRMWARE,
     CONF_SERIAL_NUMBER,
-    CONF_INVERTER_POWER_CONTROL,
     DOMAIN,
+    inverter_power_control_enabled,
 )
 
 async def async_setup_entry(
@@ -35,7 +35,7 @@ async def async_setup_entry(
     entities = []
 
     if (
-        config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False)
+        inverter_power_control_enabled(config_entry)
         and INVERTER_OUTPUT_POWER_LIMIT.key in coordinator.growatt_api.get_register_names()
     ):
         entities.append(

@@ -232,6 +232,7 @@ class GrowattDeviceRegisters:
     scale: int = 10
     function: Callable | None = None
     read_write: bool = False
+    signed: bool = False
 
 
 @dataclass
@@ -243,6 +244,8 @@ class GrowattDeviceInfo:
     grid_phases: int
     modbus_version: float
     device_type: str = ""
+    device_type_code: int | None = None
+    device_family: str | None = None
 
 
 DEVICE_TYPE_CODES = {
@@ -259,6 +262,7 @@ DEVICE_TYPE_CODES = {
     0xC00: "Front 1 tracker PV Storage",
     0xD00: "OffGrid SPF 3-5K",
     0x1500: "2 tracker and 3phase Grid connect Hybrid inverter",
+    0x1300: "MIN TL-XH hybrid inverter",
     10001: "RF-ShineVersion",
     10002: "Web-ShinePano",
     10003: "Web-ShineWebBox",

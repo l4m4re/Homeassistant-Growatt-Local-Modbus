@@ -368,7 +368,11 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_BMS_BATTERY_VOLTAGE, register=3216, value_type=float, scale=100
     ),
     GrowattDeviceRegisters(
-        name=ATTR_BMS_BATTERY_CURRENT, register=3217, value_type=float, scale=100
+        name=ATTR_BMS_BATTERY_CURRENT,
+        register=3217,
+        value_type=float,
+        scale=100,
+        signed=True,
     ),
     GrowattDeviceRegisters(
         name=ATTR_BMS_CELL_MAX_TEMP, register=3218, value_type=float

@@ -1036,7 +1036,9 @@ def ingest_ha_registers(graph: nx.MultiDiGraph) -> None:
                 vt_lower = value_type.lower()
                 textual = vt_lower.startswith("str")
                 signed: Optional[bool]
-                if vt_lower.startswith("i"):
+                if entry.get("signed") is not None:
+                    signed = bool(entry["signed"])
+                elif vt_lower.startswith("i"):
                     signed = True
                 elif vt_lower.startswith("u"):
                     signed = False
@@ -1290,11 +1292,14 @@ def ingest_manual_datatypes(graph: nx.MultiDiGraph) -> None:
                 scale = entry.get("scale", 10)
                 read_write = entry.get("read_write", False)
                 value_type = entry.get("value_type", "int")
+                signed = entry.get("signed", False)
                 register = entry["register"]
                 register_end = register + length - 1
-                tid = brdt.type_id(length, scale, read_write, value_type)
+                tid = brdt.type_id(length, scale, read_write, value_type, signed)
 
-                brdt.ensure_type(types, tid, length, scale, read_write, value_type)
+                brdt.ensure_type(
+                    types, tid, length, scale, read_write, value_type, signed
+                )
 
                 info = reg_map.setdefault(
                     (table, register),

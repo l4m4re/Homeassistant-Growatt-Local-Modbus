@@ -890,14 +890,21 @@ MANUAL_REGISTER_TYPES: tuple[dict[str, Any], ...] = (
 
 def load_mapping() -> dict:
     with MAPPING_PATH.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
+        data = json.load(handle)
+    return data.get("devices", data)
 
 
 def table_from_group(group_name: str) -> str:
     return "holding" if "holding" in group_name else "input"
 
 
-def type_id(length: int, scale: float | int, read_write: bool, value_type: str) -> str:
+def type_id(
+    length: int,
+    scale: float | int,
+    read_write: bool,
+    value_type: str,
+    signed: bool = False,
+) -> str:
     if value_type == "str":
         return f"ascii_{length * 2}"
     if value_type == "custom_function":
@@ -910,7 +917,7 @@ def type_id(length: int, scale: float | int, read_write: bool, value_type: str) 
     else:
         scale_part = f"scale{int(scale)}"
     suffix = "_rw" if read_write else ""
-    return f"u{bits}_{scale_part}{suffix}"
+    return f"{'s' if signed else 'u'}{bits}_{scale_part}{suffix}"
 
 
 def ensure_type(
@@ -920,6 +927,7 @@ def ensure_type(
     scale: float | int,
     read_write: bool,
     value_type: str,
+    signed: bool = False,
 ) -> None:
     if tid in types:
         return
@@ -939,7 +947,7 @@ def ensure_type(
         }
     else:
         types[tid] = {
-            "kind": "scaled",
+            "kind": "scaled_signed" if signed else "scaled",
             "registers": length,
             "bits": length * 16,
             "scale": scale,
@@ -979,11 +987,12 @@ def main() -> None:
                 scale = entry.get("scale", 10)
                 read_write = entry.get("read_write", False)
                 value_type = entry.get("value_type", "int")
+                signed = entry.get("signed", False)
                 register = entry["register"]
                 register_end = register + length - 1
-                tid = type_id(length, scale, read_write, value_type)
+                tid = type_id(length, scale, read_write, value_type, signed)
 
-                ensure_type(types, tid, length, scale, read_write, value_type)
+                ensure_type(types, tid, length, scale, read_write, value_type, signed)
 
                 info = reg_map.setdefault(
                     (table, register),

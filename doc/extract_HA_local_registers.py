@@ -117,7 +117,7 @@ def serialise_register(
             }
         )
 
-    return {
+    payload = {
         "name": register.name,
         "register": register.register,
         "length": register.length,
@@ -127,6 +127,9 @@ def serialise_register(
         "function": function_name,
         "function_path": function_path,
     }
+    if register.signed:
+        payload["signed"] = True
+    return payload
 
 
 def extract_group(

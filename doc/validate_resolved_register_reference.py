@@ -54,11 +54,16 @@ def validate_contract(reference: dict) -> None:  # noqa: C901
         "summary",
         "resolution_model",
         "evidence_legend",
+        "semantic_model",
+        "capability_validation",
+        "read_plans",
+        "runtime_audit",
     }
     missing = required - set(reference)
     if missing:
         fail(f"missing top-level fields: {sorted(missing)}")
     records = record_map(reference)
+    record_ids = {record["id"] for record in records.values()}
     if not records:
         fail("reference contains no records")
     if not any(record["address"] == 0 for record in records.values()):
@@ -78,6 +83,14 @@ def validate_contract(reference: dict) -> None:  # noqa: C901
             and not record["provenance"]
         ):
             fail(f"missing provenance in {record['id']}")
+        if record.get("semantic_key") is None:
+            if record.get("semantic_role") != "unknown":
+                fail(f"unkeyed record has semantic role {record['id']}")
+        elif record.get("semantic_role") == "unknown":
+            fail(f"semantic record has unknown role {record['id']}")
+        for relationship in record.get("relationships", []):
+            if relationship.get("target") not in record_ids:
+                fail(f"relationship target missing from {record['id']}")
 
     min_records = {
         (record["table"], record["address"]): record
@@ -123,6 +136,19 @@ def validate_contract(reference: dict) -> None:  # noqa: C901
         fail(
             "MIN holding 3217 was removed instead of retaining the independent holding namespace"
         )
+    legacy_soc = min_records.get(("input", 1014))
+    preferred_soc = min_records.get(("input", 3171))
+    if (
+        not legacy_soc
+        or not preferred_soc
+        or legacy_soc["semantic_key"] != "battery_soc"
+        or preferred_soc["semantic_key"] != "battery_soc"
+        or legacy_soc["semantic_role"] != "legacy"
+        or preferred_soc["semantic_role"] != "preferred"
+    ):
+        fail("MIN battery SOC legacy/preferred semantic relationship is missing")
+    if min_records.get(("input", 3036), {}).get("length_registers") != 2:
+        fail("MIN input 3036 must remain a two-register value")
 
     summary = reference["summary"]
     actual_status = Counter(record["resolution_status"] for record in records.values())
@@ -135,6 +161,109 @@ def validate_contract(reference: dict) -> None:  # noqa: C901
             fail(f"summary status count mismatch for {status}")
     if summary["write_verified"] != 0:
         fail("write evidence was incorrectly promoted")
+
+    capabilities = reference["capability_validation"]
+    if capabilities.get("family") != "min_tl_xh":
+        fail("MIN capability validation family is missing")
+    for capability in capabilities.get("capabilities", []):
+        if capability.get("write_verified"):
+            fail(
+                f"capability write evidence was incorrectly promoted: {capability['key']}"
+            )
+        for register_id in capability.get("supporting_registers", []):
+            if register_id not in record_ids:
+                fail(f"capability register is missing: {register_id}")
+
+    runtime_audit = reference["runtime_audit"]
+    findings = runtime_audit.get("findings", [])
+    if runtime_audit.get("finding_count") != len(findings):
+        fail("runtime consistency audit finding count is stale")
+    expected_audit_status = "consistent" if not findings else "issues_found"
+    if runtime_audit.get("status") != expected_audit_status:
+        fail("runtime consistency audit status is stale")
+    if any(
+        finding.get("family") == "min_tl_xh"
+        and finding.get("table") == "input"
+        and finding.get("address") == 3170
+        and any(
+            issue.get("kind") == "signedness_mismatch"
+            for issue in finding.get("issues", [])
+        )
+        for finding in findings
+    ):
+        fail("MIN input 3170 still has a runtime signedness mismatch")
+    if any(
+        finding.get("family") == "min_tl_xh"
+        and finding.get("table") == "input"
+        and finding.get("address") == 3036
+        and any(
+            issue.get("kind") == "length_mismatch"
+            for issue in finding.get("issues", [])
+        )
+        for finding in findings
+    ):
+        fail("MIN input 3036 still has a runtime length mismatch")
+
+    read_plans = reference["read_plans"]
+    transport = read_plans.get("vendor_transport", {})
+    if {
+        transport.get("minimum_cmd_period_ms"),
+        transport.get("recommended_cmd_period_ms"),
+        transport.get("maximum_read_words"),
+        transport.get("maximum_write_words"),
+    } != {850, 1000, 125}:
+        fail("V1.24 vendor transport constraints are missing or incorrect")
+    for profile in [
+        *read_plans.get("profiles", []),
+        *read_plans.get("source_derived_profiles", []),
+    ]:
+        blocks = profile.get("blocks", [])
+        if profile.get("transaction_count") != len(blocks):
+            fail(f"read-plan transaction count mismatch for {profile.get('id')}")
+        for block in blocks:
+            if block.get("end") != block.get("start", 0) + block.get("count", 0) - 1:
+                fail(f"read-plan block end mismatch for {profile.get('id')}")
+            expected_function = 3 if block.get("table") == "holding" else 4
+            if block.get("function_code") != expected_function:
+                fail(f"read-plan function code mismatch for {profile.get('id')}")
+            if block.get("count", 0) > profile.get("max_register_words", 0):
+                fail(f"read-plan block exceeds family limit for {profile.get('id')}")
+            if block.get("gap_words") != block.get("additional_words_fetched"):
+                fail(f"read-plan gap accounting mismatch for {profile.get('id')}")
+    dynamic = next(
+        (
+            profile
+            for profile in read_plans.get("profiles", [])
+            if profile.get("id") == "min_dynamic_tariff"
+        ),
+        None,
+    )
+    if dynamic is None or dynamic.get("transaction_count") != 3:
+        fail("MIN dynamic-tariff read plan must contain three native transactions")
+    if dynamic and any(
+        not block.get("hardware_block_read_validated")
+        or not block.get("safe_range_id")
+        or block.get("count") != 125
+        for block in dynamic.get("blocks", [])
+    ):
+        fail("MIN dynamic-tariff plan is not backed by validated native blocks")
+    bms = next(
+        (
+            profile
+            for profile in read_plans.get("profiles", [])
+            if profile.get("id") == "min_bms_diagnostics"
+        ),
+        None,
+    )
+    if bms is None or bms.get("transaction_count") != 1:
+        fail("MIN BMS diagnostic read plan must contain one transaction")
+    if bms and (
+        len(bms.get("blocks", [])) != 1
+        or bms["blocks"][0].get("start") != 3125
+        or bms["blocks"][0].get("count") != 125
+        or not bms["blocks"][0].get("hardware_block_read_validated")
+    ):
+        fail("MIN BMS diagnostic plan is not the validated input 3125 native block")
 
     family_counts = defaultdict(Counter)
     for record in records.values():

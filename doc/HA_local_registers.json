@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T21:46:20.147036+00:00",
+  "generated_at": "2026-09-06T08:46:03.764339+00:00",
   "source": "custom_components.growatt_local.API",
   "devices": {
     "tlx": {
@@ -1386,7 +1386,8 @@
           "read_write": false,
           "value_type": "float",
           "function": null,
-          "function_path": null
+          "function_path": null,
+          "signed": true
         },
         {
           "name": "soc",
@@ -2307,7 +2308,8 @@
           "read_write": false,
           "value_type": "float",
           "function": null,
-          "function_path": null
+          "function_path": null,
+          "signed": true
         },
         {
           "name": "soc",

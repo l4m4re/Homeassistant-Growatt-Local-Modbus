@@ -223,7 +223,11 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_BATTERY_VOLTAGE, register=3169, value_type=float, scale=100
     ),
     GrowattDeviceRegisters(
-        name=ATTR_BATTERY_CURRENT, register=3170, value_type=float, scale=10
+        name=ATTR_BATTERY_CURRENT,
+        register=3170,
+        value_type=float,
+        scale=10,
+        signed=True,
     ),
     GrowattDeviceRegisters(
         name=ATTR_SOC_PERCENTAGE, register=3171, value_type=int

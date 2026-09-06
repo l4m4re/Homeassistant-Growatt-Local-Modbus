@@ -1,12 +1,12 @@
 {
   "meta": {
     "version": "0.5.0",
-    "generated_at": "2026-09-06T07:25:48.500691+00:00",
+    "generated_at": "2026-09-06T08:46:10.894087+00:00",
     "generator": "generate_consolidated_ref.py",
     "source_files": {
       "register_graph": {
         "path": "register_graph.gpickle",
-        "sha256": "e3134773cfae7cd44e06b20eecd86cc68056eaa28a1251767c4fb291de32a8f4"
+        "sha256": "1526eb0eb5aa8cc4da563ed97e48eeda90903226e2ae69ed889d2484da371753"
       }
     }
   },
@@ -66804,7 +66804,7 @@
                 "table": "input",
                 "register": 3170,
                 "register_end": 3170,
-                "type": "u16_scale10",
+                "type": "s16_scale10",
                 "attributes": [
                   "battery_current"
                 ],
@@ -146062,7 +146062,8 @@
             "read_write": false,
             "value_type": "float",
             "function": null,
-            "function_path": null
+            "function_path": null,
+            "signed": true
           },
           {
             "device": "storage",
@@ -146073,7 +146074,8 @@
             "read_write": false,
             "value_type": "float",
             "function": null,
-            "function_path": null
+            "function_path": null,
+            "signed": true
           }
         ],
         "openinverter_gateway": [
@@ -146096,15 +146098,15 @@
         ],
         "manual": [
           {
-            "type": "u16_scale10"
+            "type": "s16_scale10"
           }
         ]
       },
       "data_type": "datatype:canonical:length_bytes:conflict|signed:conflict|textual:false|divide:10|scale:10|multiplier:0.1|unit:CURRENT|text_category:?",
       "alternate_data_types": [
         "datatype:grott:len2|signed|div10",
-        "datatype:home_assistant:len1|scale10.0",
-        "datatype:manual:len2|unsigned|scale10",
+        "datatype:home_assistant:len1|signed|scale10.0",
+        "datatype:manual:len2|signed|scale10",
         "datatype:openinverter_gateway:len2|unsigned|mult0.1|unit:CURRENT"
       ],
       "home_assistant": [
@@ -161437,6 +161439,18 @@
         "raw": {
           "kind": "raw",
           "name": "bdc_protocol_version_word"
+        }
+      },
+      {
+        "id": "datatype:manual:len2|signed|scale10",
+        "namespace": "manual",
+        "length_bytes": 2,
+        "signed": true,
+        "textual": false,
+        "scale": 10,
+        "raw": {
+          "kind": "scaled_signed",
+          "name": "s16_scale10"
         }
       },
       {

@@ -11,6 +11,8 @@ The primary public lookup is now:
 - [`growatt_register_reference.json`](growatt_register_reference.json) — resolved machine-readable reference;
 - [`GROWATT_REGISTER_REFERENCE.md`](GROWATT_REGISTER_REFERENCE.md) — generated human-readable view;
 - [`growatt_register_reference.schema.json`](growatt_register_reference.schema.json) — output contract.
+- [`GROWATT_RUNTIME_REGISTER_AUDIT.md`](GROWATT_RUNTIME_REGISTER_AUDIT.md) — current HA runtime mapping and transaction audit;
+- [`min_6000tl_xh_block_validation.json`](min_6000tl_xh_block_validation.json) — bounded live validation of vendor-native MIN pages.
 
 Build and validate them with:
 
@@ -26,6 +28,13 @@ validation from write verification. The graph and consolidated export below
 remain useful audit/intermediate artefacts; they are not a substitute for the
 resolved public view. Original vendor, runtime, external, model-specific and
 live-evidence files remain retained as provenance.
+
+The reference also separates semantic register selection from physical read
+planning. For the modern V1.24/120 family, the vendor-declared 125-word pages
+and 850 ms minimum / 1 second recommended command period are transport
+metadata, not broker-only assumptions. The live MIN 6000TL-XH page probes are
+bounded, read-only, repeated twice, and used to mark the native pages safe for
+the MIN plans. Runtime polling has not been rewritten in this phase.
 
 ## Authoritative register pipeline
 

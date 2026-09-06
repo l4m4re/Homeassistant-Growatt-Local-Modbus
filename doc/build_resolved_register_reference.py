@@ -22,6 +22,8 @@ CANONICAL_PATH = DOC_DIR / "consolidated_register_ref.json"
 MIN_MAP_PATH = DOC_DIR / "min_6000tl_xh_register_map.json"
 MIN_LIVE_PATH = DOC_DIR / "min_6000tl_xh_live_validation.json"
 OPENINVERTER_PATH = DOC_DIR / "openinverter_gateway_registers.json"
+HA_RUNTIME_PATH = DOC_DIR / "HA_local_registers.json"
+MIN_BLOCK_VALIDATION_PATH = DOC_DIR / "min_6000tl_xh_block_validation.json"
 OUTPUT_PATH = DOC_DIR / "growatt_register_reference.json"
 MARKDOWN_PATH = DOC_DIR / "GROWATT_REGISTER_REFERENCE.md"
 
@@ -86,6 +88,12 @@ SOURCE_DEFINITIONS: dict[str, dict[str, Any]] = {
         "label": "MIN 6000TL-XH live read validation",
         "kind": "live_hardware_evidence",
         "path": "min_6000tl_xh_live_validation.json",
+        "independent": True,
+    },
+    "min_block_validation": {
+        "label": "MIN 6000TL-XH bounded block-read validation",
+        "kind": "live_hardware_evidence",
+        "path": "min_6000tl_xh_block_validation.json",
         "independent": True,
     },
     "ha5_regression_tests": {
@@ -221,6 +229,274 @@ UNIT_MAP = {
 }
 
 MIN_BMS_INPUT_REGISTERS = set(range(3212, 3223))
+
+SEMANTIC_DEFINITIONS: dict[str, dict[str, Any]] = {
+    "inverter_status": {
+        "name": "Inverter operating status",
+        "category": "status",
+        "aliases": ["status_code", "Inverter status", "operating state"],
+    },
+    "battery_soc": {
+        "name": "Battery state of charge",
+        "category": "battery",
+        "aliases": ["battery_soc", "batSoc", "Battery SOC", "BMS SOC", "SOC"],
+    },
+    "battery_voltage": {
+        "name": "Battery voltage",
+        "category": "battery",
+        "aliases": ["battery_voltage", "Battery voltage", "BMS battery voltage"],
+    },
+    "battery_current": {
+        "name": "Battery current",
+        "category": "battery",
+        "aliases": ["battery_current", "Battery current", "BMS battery current"],
+    },
+    "battery_discharge_power": {
+        "name": "Battery discharge power",
+        "category": "battery",
+        "aliases": ["discharge_power", "Battery discharge power", "Pdischarge"],
+    },
+    "battery_charge_power": {
+        "name": "Battery charge power",
+        "category": "battery",
+        "aliases": ["charge_power", "Battery charge power", "Pcharge"],
+    },
+    "pv_total_power": {
+        "name": "PV total power",
+        "category": "telemetry",
+        "aliases": ["input_power", "Total PV/input power", "PV total power"],
+    },
+    "grid_import_power": {
+        "name": "Grid import power",
+        "category": "telemetry",
+        "aliases": ["power_to_user", "Power to user/grid import", "grid import"],
+    },
+    "grid_export_power": {
+        "name": "Grid export power",
+        "category": "telemetry",
+        "aliases": ["power_to_grid", "Power to grid/export", "grid export"],
+    },
+    "house_load_power": {
+        "name": "House load power",
+        "category": "telemetry",
+        "aliases": ["power_user_load", "User load power", "house load"],
+    },
+    "grid_frequency": {
+        "name": "Grid frequency",
+        "category": "telemetry",
+        "aliases": ["grid_frequency", "Grid frequency"],
+    },
+    "ac_charge_enabled": {
+        "name": "AC charging enabled",
+        "category": "control",
+        "aliases": ["ac_charge_enabled", "AC charge enabled"],
+    },
+    "battery_first_charge_rate": {
+        "name": "Battery-first charge power rate",
+        "category": "control",
+        "aliases": ["Battery-first charge power rate"],
+    },
+    "battery_first_stop_soc": {
+        "name": "Battery-first stop SOC",
+        "category": "control",
+        "aliases": ["Battery-first stop SOC"],
+    },
+    "grid_first_discharge_rate": {
+        "name": "Grid-first discharge power rate",
+        "category": "control",
+        "aliases": ["Grid-first discharge power rate"],
+    },
+    "grid_first_stop_soc": {
+        "name": "Grid-first stop SOC",
+        "category": "control",
+        "aliases": ["Grid-first stop SOC"],
+    },
+    "load_first_stop_soc": {
+        "name": "Load-first stop SOC",
+        "category": "control",
+        "aliases": ["Load-first stop SOC"],
+    },
+    "ac_phase_l3_power": {
+        "name": "AC phase L3 power",
+        "category": "telemetry",
+        "aliases": ["output_3_power", "AC phase L3 power", "Pac3H", "Pac3L"],
+    },
+    "inverter_runtime": {
+        "name": "Inverter runtime",
+        "category": "telemetry",
+        "aliases": ["operation_hours", "Inverter runtime", "runtime"],
+    },
+    "pv4_energy_total": {
+        "name": "PV4 energy total",
+        "category": "energy",
+        "aliases": ["PV4 energy total", "input_4_energy_total"],
+    },
+}
+
+SEMANTIC_RULES: tuple[tuple[str, re.Pattern[str]], ...] = tuple(
+    (key, re.compile(pattern, re.IGNORECASE))
+    for key, pattern in (
+        ("battery_first_charge_rate", r"battery[- ]first.*charge.*rate"),
+        ("battery_first_stop_soc", r"battery[- ]first.*stop.*soc"),
+        ("grid_first_discharge_rate", r"grid[- ]first.*discharge.*rate"),
+        ("grid_first_stop_soc", r"grid[- ]first.*stop.*soc"),
+        ("load_first_stop_soc", r"load[- ]first.*stop.*soc"),
+        ("ac_charge_enabled", r"(?:ac|grid).*charge.*enabled|ac_charge_enabled"),
+        ("grid_import_power", r"power_to_user|user/grid import|grid import"),
+        ("grid_export_power", r"power_to_grid|grid/export|grid export"),
+        ("house_load_power", r"power_user_load|user load power|house load"),
+        ("battery_discharge_power", r"discharge_power|battery discharge power"),
+        ("battery_charge_power", r"charge_power|battery charge power"),
+        ("battery_voltage", r"battery voltage|bms battery voltage"),
+        ("battery_current", r"battery current|bms battery current"),
+        ("battery_soc", r"battery soc|bms soc|state.?of.?charge|(?:^|\W)soc(?:$|\W)"),
+        ("pv_total_power", r"total pv/input power|input_power|pv total power"),
+        ("inverter_status", r"inverter status|status_code|operating state"),
+        ("grid_frequency", r"grid_frequency|grid frequency"),
+        ("ac_phase_l3_power", r"output_3_power|ac phase l3 power|pac3[hl]"),
+        ("inverter_runtime", r"operation_hours|inverter runtime|runtime"),
+        ("pv4_energy_total", r"pv4 energy total|input_4_energy_total"),
+    )
+)
+
+PROTOCOL_TRANSPORT_MODEL = {
+    "120": {
+        "name": "Modern 120-family / V1.24",
+        "minimum_cmd_period_ms": 850,
+        "recommended_cmd_period_ms": 1000,
+        "maximum_read_words": 125,
+        "maximum_write_words": 125,
+        "vendor_defined_read_blocks": [
+            {"table": "holding", "start": 0, "count": 125, "end": 124},
+            {"table": "holding", "start": 3000, "count": 125, "end": 3124},
+            {
+                "table": "holding",
+                "start": 3125,
+                "count": 125,
+                "end": 3249,
+                "applicability": "TL-XH US where applicable",
+            },
+            {"table": "input", "start": 3000, "count": 125, "end": 3124},
+            {"table": "input", "start": 3125, "count": 125, "end": 3249},
+            {"table": "input", "start": 3250, "count": 125, "end": 3374},
+        ],
+        "source": "Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English.txt lines 45-62, 211-216",
+    },
+    "3.15": {
+        "name": "Older V3.14 / 3.15-family",
+        "minimum_cmd_period_ms": 850,
+        "recommended_cmd_period_ms": 1000,
+        "maximum_read_words": 45,
+        "maximum_write_words": 45,
+        "vendor_defined_read_blocks": [
+            {
+                "description": "Vendor-defined 45-word grouping boundaries; crossing restrictions apply."
+            }
+        ],
+        "source": "Growatt PV Inverter Modbus RS485 RTU Protocol V3.14; family-specific validation not performed here",
+    },
+    "SPF": {
+        "name": "SPF family",
+        "minimum_cmd_period_ms": None,
+        "recommended_cmd_period_ms": None,
+        "maximum_read_words": None,
+        "maximum_write_words": None,
+        "vendor_defined_read_blocks": [],
+        "source": "Not resolved in this release; do not inherit V1.24/V3.14 limits",
+    },
+}
+
+MIN_LEGACY_BRIDGES = (("input", 1014),)
+
+SEMANTIC_ROLE_OVERRIDES = {
+    ("min_tl_xh", "input", 1014): "legacy",
+    ("min_tl_xh", "input", 3171): "preferred",
+    ("min_tl_xh", "input", 3215): "alternate",
+    ("min_tl_xh", "input", 3169): "preferred",
+    ("min_tl_xh", "input", 3216): "alternate",
+    ("min_tl_xh", "input", 3170): "preferred",
+    ("min_tl_xh", "input", 3217): "alternate",
+}
+
+MIN_CAPABILITY_DEFINITIONS = (
+    {
+        "key": "pv_generation",
+        "name": "PV generation telemetry",
+        "semantic_keys": ["pv_total_power"],
+    },
+    {
+        "key": "grid_exchange",
+        "name": "Grid import/export telemetry",
+        "semantic_keys": ["grid_import_power", "grid_export_power"],
+    },
+    {
+        "key": "house_load",
+        "name": "House load telemetry",
+        "semantic_keys": ["house_load_power"],
+    },
+    {
+        "key": "battery_telemetry",
+        "name": "Battery voltage/current/SOC telemetry",
+        "semantic_keys": [
+            "battery_voltage",
+            "battery_current",
+            "battery_soc",
+            "battery_discharge_power",
+            "battery_charge_power",
+        ],
+    },
+    {
+        "key": "bms_telemetry",
+        "name": "BMS telemetry",
+        "semantic_keys": ["battery_soc", "battery_voltage", "battery_current"],
+        "preferred_addresses": [3215, 3216, 3217],
+    },
+    {
+        "key": "dynamic_tariff_controls",
+        "name": "Dynamic-tariff charge/discharge controls",
+        "semantic_keys": [
+            "ac_charge_enabled",
+            "battery_first_charge_rate",
+            "battery_first_stop_soc",
+            "grid_first_discharge_rate",
+            "grid_first_stop_soc",
+            "load_first_stop_soc",
+        ],
+    },
+)
+
+READ_PLAN_PROFILES = (
+    {
+        "id": "min_dynamic_tariff",
+        "name": "MIN/TL-XH dynamic-tariff control and telemetry",
+        "semantic_keys": [
+            "inverter_status",
+            "pv_total_power",
+            "grid_import_power",
+            "grid_export_power",
+            "house_load_power",
+            "battery_voltage",
+            "battery_current",
+            "battery_soc",
+            "battery_discharge_power",
+            "battery_charge_power",
+            "ac_charge_enabled",
+            "battery_first_charge_rate",
+            "battery_first_stop_soc",
+            "grid_first_discharge_rate",
+            "grid_first_stop_soc",
+            "load_first_stop_soc",
+        ],
+        "max_register_words": 125,
+    },
+    {
+        "id": "min_bms_diagnostics",
+        "name": "MIN/TL-XH BMS diagnostics",
+        "semantic_keys": ["battery_soc", "battery_voltage", "battery_current"],
+        "preferred_addresses": [3215, 3216, 3217],
+        "max_register_words": 125,
+    },
+)
 
 
 def load_json(path: Path) -> Any:
@@ -366,6 +642,49 @@ def aliases_from_sources(sources: dict[str, Any]) -> dict[str, list[str]]:
     return {key: sorted(values) for key, values in sorted(aliases.items()) if values}
 
 
+def semantic_match(text: str) -> str | None:
+    for key, pattern in SEMANTIC_RULES:
+        if pattern.search(text):
+            return key
+    return None
+
+
+def semantic_for_record(
+    canonical_name: str, description: str, aliases: dict[str, list[str]]
+) -> tuple[str | None, dict[str, Any]]:
+    alias_text = " ".join(value for values in aliases.values() for value in values)
+    semantic_key = semantic_match(f"{canonical_name} {description} {alias_text}")
+    if semantic_key is None:
+        return None, {}
+    definition = SEMANTIC_DEFINITIONS[semantic_key]
+    return semantic_key, {
+        "semantic_key": semantic_key,
+        "semantic_name": definition["name"],
+        "semantic_aliases": definition["aliases"],
+    }
+
+
+def record_length(raw: dict[str, Any], parsed_type: dict[str, Any]) -> int:
+    candidates = [
+        int(raw.get("data_width_words", 0) or 0),
+        int(parsed_type.get("length_bytes", 0) / 2),
+    ]
+    for source_rows in raw.get("sources", {}).values():
+        rows = source_rows if isinstance(source_rows, list) else [source_rows]
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            if row.get("length"):
+                candidates.append(int(row["length"]))
+            if row.get("register_start") == raw.get("register") and row.get(
+                "register_end"
+            ):
+                candidates.append(
+                    int(row["register_end"]) - int(row["register_start"]) + 1
+                )
+    return max([candidate for candidate in candidates if candidate > 0] or [1])
+
+
 def enum_definitions(payload: dict[str, Any]) -> list[dict[str, Any]]:
     text = " ".join(
         str(value)
@@ -441,6 +760,9 @@ def base_record(
     )
     access = access_from_payload(raw)
     aliases = aliases_from_sources(raw_sources)
+    semantic_key, semantic_fields = semantic_for_record(
+        canonical_name, raw.get("help") or raw.get("tooltip") or "", aliases
+    )
     record: dict[str, Any] = {
         "id": f"register:{family['id']}:{table}:{address}",
         "family": family["id"],
@@ -453,8 +775,7 @@ def base_record(
         or raw.get("tooltip")
         or raw.get("description")
         or "",
-        "length_registers": raw.get("data_width_words")
-        or int(parsed_type.get("length_bytes", 2) / 2),
+        "length_registers": record_length(raw, parsed_type),
         "encoding": parsed_type.get("text_category") or "register value",
         "signed": parsed_type.get("signed"),
         "divisor": parsed_type.get("divide") or parsed_type.get("scale"),
@@ -465,6 +786,12 @@ def base_record(
         "enum_definitions": enum_definitions(raw),
         "bitfields": [],
         "semantic_category": semantic_category(canonical_name, access, aliases),
+        "semantic_key": semantic_key,
+        "semantic_name": semantic_fields.get("semantic_name"),
+        "semantic_aliases": semantic_fields.get("semantic_aliases", []),
+        "semantic_role": "unknown" if semantic_key is None else "supported",
+        "alternate_registers": [],
+        "relationships": [],
         "resolution_status": "SOURCE_ONLY",
         "confidence": "medium" if independent_source_count(source_ids) > 1 else "low",
         "provenance": source_ids or ["graph_export"],
@@ -479,6 +806,10 @@ def base_record(
                 for value in raw.get("families", [])
             }
         ),
+        "applicability": {
+            "status": "family_source_range",
+            "models": [],
+        },
     }
     if independent_source_count(source_ids) >= 2:
         record["evidence_levels"].append("semantic_correlated")
@@ -519,6 +850,18 @@ def apply_openinverter(record: dict[str, Any], entry: dict[str, Any]) -> None:
     )
     if "source_claim" not in record["evidence_levels"]:
         record["evidence_levels"].append("source_claim")
+
+
+def refresh_semantic(record: dict[str, Any]) -> None:
+    semantic_key, semantic_fields = semantic_for_record(
+        record.get("canonical_name", ""),
+        record.get("description", ""),
+        record.get("source_aliases", {}),
+    )
+    record["semantic_key"] = semantic_key
+    record["semantic_name"] = semantic_fields.get("semantic_name")
+    record["semantic_aliases"] = semantic_fields.get("semantic_aliases", [])
+    record["semantic_role"] = "unknown" if semantic_key is None else "supported"
 
 
 def live_ranges(live: dict[str, Any]) -> dict[str, list[tuple[int, int, str]]]:
@@ -597,8 +940,15 @@ def apply_min_overlay(
             "provenance": sorted(
                 set(record.get("provenance", [])) | {"min_resolved_map"}
             ),
+            "applicability": {
+                "status": "live_read_verified"
+                if live_match(live_index, record["table"], record["address"])
+                else "model_overlay",
+                "models": [row.get("applicability", "MIN 6000TL-XH")],
+            },
         }
     )
+    refresh_semantic(record)
     if relocation_note:
         record["conflicts"].append(
             {"kind": "table_reconciliation", "detail": relocation_note}
@@ -632,6 +982,529 @@ def apply_min_overlay(
                 "detail": "0xFEB6 decodes to -3.30 A at 0.01 A resolution.",
             }
         )
+
+
+def add_min_legacy_bridges(
+    records: dict[tuple[str, str, int], dict[str, Any]],
+    canonical: dict[str, Any],
+    family: dict[str, Any],
+) -> None:
+    for table, address in MIN_LEGACY_BRIDGES:
+        source = canonical.get("canonical_registers", {}).get(
+            f"register:{table}:{address}"
+        )
+        if source is None:
+            continue
+        key = (family["id"], table, address)
+        record = base_record(source, family, table, address)
+        record["model_applicability"] = ["MIN/TL-XH legacy/base map"]
+        record["applicability"] = {
+            "status": "legacy_source_supported",
+            "models": ["MIN 6000TL-XH"],
+        }
+        record["notes"] = (
+            "Legacy/base register retained because newer TL-XH families may expose "
+            "the older storage block; no MIN live read was issued for this address."
+        )
+        records[key] = record
+
+
+def add_semantic_relationships(
+    records: list[dict[str, Any]],
+) -> None:
+    grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    for record in records:
+        if record.get("semantic_key"):
+            grouped[(record["family"], record["semantic_key"])].append(record)
+    for group in grouped.values():
+        group.sort(key=lambda item: (item["table"], item["address"]))
+        preferred = next(
+            (
+                item
+                for item in group
+                if SEMANTIC_ROLE_OVERRIDES.get(
+                    (item["family"], item["table"], item["address"])
+                )
+                == "preferred"
+            ),
+            None,
+        )
+        if preferred is None and len(group) > 1:
+            preferred = next(
+                (item for item in group if "read_verified" in item["evidence_levels"]),
+                group[0],
+            )
+        for record in group:
+            override = SEMANTIC_ROLE_OVERRIDES.get(
+                (record["family"], record["table"], record["address"])
+            )
+            record["semantic_role"] = override or (
+                "supported" if len(group) == 1 else "alternate"
+            )
+            alternate_records = [item for item in group if item is not record]
+            record["alternate_registers"] = [item["id"] for item in alternate_records]
+            record["relationships"] = [
+                {
+                    "type": "alternate_registers",
+                    "target": item["id"],
+                }
+                for item in alternate_records
+            ]
+            if preferred is not None and preferred is not record:
+                record["relationships"].append(
+                    {
+                        "type": "preferred_register",
+                        "target": preferred["id"],
+                    }
+                )
+                if record["semantic_role"] == "legacy":
+                    record["relationships"].append(
+                        {"type": "superseded_by", "target": preferred["id"]}
+                    )
+            if preferred is record:
+                for item in alternate_records:
+                    if item["semantic_role"] == "legacy":
+                        record["relationships"].append(
+                            {"type": "supersedes", "target": item["id"]}
+                        )
+            record["relationships"] = sorted(
+                record["relationships"],
+                key=lambda item: (item["type"], item["target"]),
+            )
+
+
+def build_capability_validation(
+    records: list[dict[str, Any]],
+) -> dict[str, Any]:
+    family_records = [record for record in records if record["family"] == "min_tl_xh"]
+    by_semantic: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in family_records:
+        if record.get("semantic_key"):
+            by_semantic[record["semantic_key"]].append(record)
+    capabilities = []
+    for definition in MIN_CAPABILITY_DEFINITIONS:
+        selected = []
+        for semantic_key in definition["semantic_keys"]:
+            candidates = by_semantic.get(semantic_key, [])
+            preferred_addresses = definition.get("preferred_addresses", [])
+            if preferred_addresses:
+                candidates = [
+                    candidate
+                    for candidate in candidates
+                    if candidate["address"] in preferred_addresses
+                ]
+            candidate = next(
+                (item for item in candidates if item["semantic_role"] == "preferred"),
+                next(
+                    (
+                        item
+                        for item in candidates
+                        if "read_verified" in item["evidence_levels"]
+                    ),
+                    candidates[0] if candidates else None,
+                ),
+            )
+            if candidate is not None:
+                selected.append(candidate)
+        complete = len(selected) == len(definition["semantic_keys"])
+        read_verified = complete and all(
+            "read_verified" in record["evidence_levels"] for record in selected
+        )
+        capabilities.append(
+            {
+                "key": definition["key"],
+                "name": definition["name"],
+                "semantic_keys": definition["semantic_keys"],
+                "status": (
+                    "read_verified"
+                    if read_verified
+                    else "source_supported"
+                    if complete
+                    else "missing_registers"
+                ),
+                "supporting_registers": [record["id"] for record in selected],
+                "write_verified": False,
+                "write_policy": "Read-only evidence; no writes were issued.",
+            }
+        )
+    return {
+        "family": "min_tl_xh",
+        "model": "MIN 6000TL-XH",
+        "evidence_source": "min_live_validation",
+        "capabilities": capabilities,
+    }
+
+
+def choose_read_records(
+    records: list[dict[str, Any]], profile: dict[str, Any]
+) -> list[dict[str, Any]]:
+    candidates = [
+        record
+        for record in records
+        if record["family"] == profile.get("family", "min_tl_xh")
+    ]
+    selected = []
+    for semantic_key in profile["semantic_keys"]:
+        matching = [
+            record
+            for record in candidates
+            if record.get("semantic_key") == semantic_key
+        ]
+        preferred_addresses = profile.get("preferred_addresses", [])
+        if preferred_addresses:
+            matching = [
+                record
+                for record in matching
+                if record["address"] in preferred_addresses
+            ]
+        record = next(
+            (item for item in matching if item["semantic_role"] == "preferred"),
+            next(
+                (
+                    item
+                    for item in matching
+                    if "read_verified" in item["evidence_levels"]
+                ),
+                matching[0] if matching else None,
+            ),
+        )
+        if record is not None and record not in selected:
+            selected.append(record)
+    return sorted(selected, key=lambda item: (item["table"], item["address"]))
+
+
+def plan_contiguous_blocks(
+    records: list[dict[str, Any]],
+    max_register_words: int,
+    safe_ranges: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    if safe_ranges:
+        blocks = []
+        assigned: set[str] = set()
+        for safe_range in sorted(
+            safe_ranges, key=lambda item: (item["table"], item["start"])
+        ):
+            covered = [
+                record
+                for record in records
+                if record["id"] not in assigned
+                and record["table"] == safe_range["table"]
+                and record["address"] >= safe_range["start"]
+                and record["address"] + record["length_registers"] - 1
+                <= safe_range["end"]
+            ]
+            if not covered:
+                continue
+            assigned.update(record["id"] for record in covered)
+            blocks.append(
+                {
+                    "table": safe_range["table"],
+                    "function_code": 3 if safe_range["table"] == "holding" else 4,
+                    "start": safe_range["start"],
+                    "count": safe_range["count"],
+                    "end": safe_range["end"],
+                    "registers": [record["id"] for record in covered],
+                    "required_semantic_keys": sorted(
+                        {
+                            record["semantic_key"]
+                            for record in covered
+                            if record.get("semantic_key")
+                        }
+                    ),
+                    "additional_words_fetched": safe_range["count"]
+                    - sum(record["length_registers"] for record in covered),
+                    "gap_words": safe_range["count"]
+                    - sum(record["length_registers"] for record in covered),
+                    "hardware_block_read_validated": safe_range.get(
+                        "hardware_block_read_validated", False
+                    ),
+                    "safe_range_id": safe_range.get("id"),
+                    "source_basis": safe_range.get("source_basis", []),
+                    "validation": {
+                        "maximum_tested_block_length": safe_range.get(
+                            "maximum_tested_block_length"
+                        ),
+                        "all_words_respond_safely": safe_range.get(
+                            "all_words_respond_safely"
+                        ),
+                        "repeatability": safe_range.get("repeatability"),
+                        "observed_response_seconds": safe_range.get(
+                            "observed_response_seconds", []
+                        ),
+                    },
+                }
+            )
+        records = [record for record in records if record["id"] not in assigned]
+
+    blocks = blocks if safe_ranges else []
+    for table in ("holding", "input"):
+        table_records = [record for record in records if record["table"] == table]
+        current: list[dict[str, Any]] = []
+        current_start = current_end = None
+        for record in table_records:
+            start = record["address"]
+            end = start + record["length_registers"] - 1
+            proposed_end = end if current_end is None else max(current_end, end)
+            if current and proposed_end - current_start + 1 > max_register_words:
+                blocks.append(
+                    {
+                        "table": table,
+                        "function_code": 3 if table == "holding" else 4,
+                        "start": current_start,
+                        "count": current_end - current_start + 1,
+                        "end": current_end,
+                        "registers": [record["id"] for record in current],
+                        "required_semantic_keys": sorted(
+                            {
+                                record["semantic_key"]
+                                for record in current
+                                if record.get("semantic_key")
+                            }
+                        ),
+                        "additional_words_fetched": current_end
+                        - current_start
+                        + 1
+                        - sum(item["length_registers"] for item in current),
+                        "gap_words": (
+                            current_end
+                            - current_start
+                            + 1
+                            - sum(item["length_registers"] for item in current)
+                        ),
+                        "hardware_block_read_validated": False,
+                        "source_basis": ["resolved_reference_contiguous_fallback"],
+                    }
+                )
+                current = []
+                current_start = current_end = None
+            if not current:
+                current_start = start
+            current.append(record)
+            current_end = end if current_end is None else max(current_end, end)
+        if current:
+            blocks.append(
+                {
+                    "table": table,
+                    "function_code": 3 if table == "holding" else 4,
+                    "start": current_start,
+                    "count": current_end - current_start + 1,
+                    "end": current_end,
+                    "registers": [record["id"] for record in current],
+                    "required_semantic_keys": sorted(
+                        {
+                            record["semantic_key"]
+                            for record in current
+                            if record.get("semantic_key")
+                        }
+                    ),
+                    "additional_words_fetched": current_end
+                    - current_start
+                    + 1
+                    - sum(item["length_registers"] for item in current),
+                    "gap_words": (
+                        current_end
+                        - current_start
+                        + 1
+                        - sum(item["length_registers"] for item in current)
+                    ),
+                    "hardware_block_read_validated": False,
+                    "source_basis": ["resolved_reference_contiguous_fallback"],
+                }
+            )
+    return blocks
+
+
+def build_read_plans(
+    records: list[dict[str, Any]], block_validation: dict[str, Any]
+) -> dict[str, Any]:
+    safe_ranges = block_validation.get("validated_ranges", [])
+    profiles = []
+    for profile in READ_PLAN_PROFILES:
+        selected = choose_read_records(records, profile)
+        blocks = plan_contiguous_blocks(
+            selected, profile["max_register_words"], safe_ranges
+        )
+        profiles.append(
+            {
+                "id": profile["id"],
+                "name": profile["name"],
+                "selection_semantic_keys": profile["semantic_keys"],
+                "selected_registers": [record["id"] for record in selected],
+                "max_register_words": profile["max_register_words"],
+                "transaction_count": len(blocks),
+                "blocks": blocks,
+            }
+        )
+    source_derived_profiles = []
+    core_profile = {
+        "semantic_keys": [
+            "inverter_status",
+            "pv_total_power",
+            "grid_frequency",
+            "grid_import_power",
+            "grid_export_power",
+            "house_load_power",
+            "battery_voltage",
+            "battery_current",
+            "battery_soc",
+        ]
+    }
+    for family in FAMILY_DEFINITIONS:
+        if family["id"] == "min_tl_xh":
+            continue
+        transport = PROTOCOL_TRANSPORT_MODEL[family["protocol_group"]]
+        if transport["maximum_read_words"] is None:
+            continue
+        family_profile = {**core_profile, "family": family["id"]}
+        selected = choose_read_records(records, family_profile)
+        blocks = plan_contiguous_blocks(selected, transport["maximum_read_words"])
+        source_derived_profiles.append(
+            {
+                "id": f"{family['id']}_core_source_derived",
+                "family": family["id"],
+                "name": f"{family['name']} core telemetry (source-derived)",
+                "polling_class": "CORE_TELEMETRY",
+                "selection_semantic_keys": core_profile["semantic_keys"],
+                "selected_registers": [record["id"] for record in selected],
+                "max_register_words": transport["maximum_read_words"],
+                "transaction_count": len(blocks),
+                "hardware_validated": False,
+                "blocks": blocks,
+            }
+        )
+    return {
+        "planning_policy": "Use vendor-declared native blocks first; optimize transaction count, not returned-word count. Decode selected semantic values locally and do not expose fetched gaps as entities.",
+        "transaction_rate_assumption": "Vendor V1.24 minimum command period is 850 ms; vendor recommendation and current broker period are 1000 ms.",
+        "vendor_transport": PROTOCOL_TRANSPORT_MODEL["120"],
+        "vendor_declared_blocks": block_validation.get("vendor_declared_blocks", []),
+        "hardware_validated_ranges": [
+            item["id"] for item in block_validation.get("validated_ranges", [])
+        ],
+        "hardware_validated_pages": [
+            {
+                "id": item["id"],
+                "table": item["table"],
+                "function_code": item["function_code"],
+                "start": item["start"],
+                "count": item["count"],
+                "end": item["end"],
+                "polling_class": item["polling_class"],
+                "applicability": item["applicability"],
+                "required_semantic_keys": item["required_semantic_keys"],
+                "additional_words_fetched": item["additional_words_fetched"],
+                "hardware_block_read_validated": item["hardware_block_read_validated"],
+                "repeatability": item["repeatability"],
+                "observed_response_seconds": item["observed_response_seconds"],
+            }
+            for item in block_validation.get("validated_ranges", [])
+        ],
+        "profiles": profiles,
+        "source_derived_profiles": source_derived_profiles,
+    }
+
+
+def build_runtime_audit(
+    records: list[dict[str, Any]], runtime: dict[str, Any]
+) -> dict[str, Any]:
+    family_by_group = {
+        ("tlx", "holding_common"): "min_tl_xh",
+        ("tlx", "input_tl_xh"): "min_tl_xh",
+        ("storage", "holding_tl_xh"): "min_tl_xh",
+        ("storage", "input_tl_xh"): "min_tl_xh",
+        ("storage", "input_common"): "storage_mix",
+    }
+    by_identity = {
+        (record["family"], record["table"], record["address"]): record
+        for record in records
+    }
+    findings = []
+    checked = 0
+    for device, payload in runtime.get("devices", {}).items():
+        for group_name, rows in payload.items():
+            family = family_by_group.get((device, group_name))
+            if family is None or not isinstance(rows, list):
+                continue
+            table = "holding" if "holding" in group_name else "input"
+            for row in rows:
+                if not isinstance(row, dict) or "register" not in row:
+                    continue
+                checked += 1
+                address = int(row["register"])
+                record = by_identity.get((family, table, address))
+                runtime_name = str(row.get("name", ""))
+                runtime_semantic = semantic_match(runtime_name)
+                base = {
+                    "device": device,
+                    "group": group_name,
+                    "family": family,
+                    "table": table,
+                    "address": address,
+                    "runtime_name": runtime_name,
+                    "runtime_semantic_key": runtime_semantic,
+                }
+                if record is None:
+                    findings.append({**base, "kind": "missing_reference_record"})
+                    continue
+                issues = []
+                if int(row.get("length", 1)) != record["length_registers"]:
+                    issues.append(
+                        {
+                            "kind": "length_mismatch",
+                            "reference": record["length_registers"],
+                            "runtime": row.get("length", 1),
+                        }
+                    )
+                runtime_signed = bool(row.get("signed", False))
+                # process_registers decodes all two-word float values as signed
+                # int32, even when the dataclass flag is absent.
+                effective_runtime_signed = runtime_signed or (
+                    row.get("value_type") == "float" and row.get("length", 1) == 2
+                )
+                if (
+                    record["signed"] is not None
+                    and effective_runtime_signed != record["signed"]
+                ):
+                    issues.append(
+                        {
+                            "kind": "signedness_mismatch",
+                            "reference": record["signed"],
+                            "runtime": effective_runtime_signed,
+                            "declared": runtime_signed,
+                        }
+                    )
+                if row.get("value_type") == "float" and record["divisor"] is not None:
+                    runtime_scale = row.get("scale", 10)
+                    if float(runtime_scale) != float(record["divisor"]):
+                        issues.append(
+                            {
+                                "kind": "scale_mismatch",
+                                "reference": record["divisor"],
+                                "runtime": runtime_scale,
+                            }
+                        )
+                if (
+                    runtime_semantic is not None
+                    and record.get("semantic_key") is not None
+                    and runtime_semantic != record["semantic_key"]
+                ):
+                    issues.append(
+                        {
+                            "kind": "semantic_mismatch",
+                            "reference": record["semantic_key"],
+                            "runtime": runtime_semantic,
+                        }
+                    )
+                if issues:
+                    findings.append(
+                        {**base, "reference_id": record["id"], "issues": issues}
+                    )
+    return {
+        "source": "HA_local_registers",
+        "checked_mappings": checked,
+        "finding_count": len(findings),
+        "status": "consistent" if not findings else "issues_found",
+        "findings": findings,
+    }
 
 
 def classify(record: dict[str, Any], has_min_overlay: bool) -> None:
@@ -674,6 +1547,8 @@ def build_reference() -> dict[str, Any]:
     min_map = load_json(MIN_MAP_PATH)
     live = load_json(MIN_LIVE_PATH)
     openinverter = load_json(OPENINVERTER_PATH)
+    runtime = load_json(HA_RUNTIME_PATH)
+    block_validation = load_json(MIN_BLOCK_VALIDATION_PATH)
     ranges = graph_ranges(canonical)
     family_by_id = {family["id"]: family for family in FAMILY_DEFINITIONS}
     records: dict[tuple[str, str, int], dict[str, Any]] = {}
@@ -754,6 +1629,8 @@ def build_reference() -> dict[str, Any]:
                 set(records[key].get("model_applicability", [])) | {"MIN 6000TL-XH"}
             )
 
+    add_min_legacy_bridges(records, canonical, min_family)
+
     for key, record in records.items():
         classify(record, key in min_overlays)
         record["evidence_levels"] = sorted(set(record.get("evidence_levels", [])))
@@ -777,6 +1654,10 @@ def build_reference() -> dict[str, Any]:
         records.values(),
         key=lambda item: (item["family"], item["table"], item["address"]),
     )
+    add_semantic_relationships(ordered_records)
+    capability_validation = build_capability_validation(ordered_records)
+    read_plans = build_read_plans(ordered_records, block_validation)
+    runtime_audit = build_runtime_audit(ordered_records, runtime)
     family_output = []
     for family in FAMILY_DEFINITIONS:
         family_records = [
@@ -790,6 +1671,7 @@ def build_reference() -> dict[str, Any]:
                 key: value
                 for key, value in {
                     **family,
+                    "transport": PROTOCOL_TRANSPORT_MODEL[family["protocol_group"]],
                     "coverage": {
                         "total": len(family_records),
                         "holding": sum(
@@ -826,6 +1708,7 @@ def build_reference() -> dict[str, Any]:
         "grott": DOC_DIR / SOURCE_DEFINITIONS["grott"]["path"],
         "min_resolved_map": MIN_MAP_PATH,
         "min_live_validation": MIN_LIVE_PATH,
+        "min_block_validation": MIN_BLOCK_VALIDATION_PATH,
         "graph_export": CANONICAL_PATH,
     }
     for source_id, source in SOURCE_DEFINITIONS.items():
@@ -848,6 +1731,11 @@ def build_reference() -> dict[str, Any]:
         },
         "families": family_output,
         "records": ordered_records,
+        "semantic_model": SEMANTIC_DEFINITIONS,
+        "protocol_transport_model": PROTOCOL_TRANSPORT_MODEL,
+        "capability_validation": capability_validation,
+        "read_plans": read_plans,
+        "runtime_audit": runtime_audit,
         "unresolved_or_conflicted_records": [
             record["id"]
             for record in ordered_records
@@ -903,9 +1791,9 @@ def render_markdown(reference: dict[str, Any]) -> str:
         "",
         "> This file is generated from `doc/growatt_register_reference.json`. The JSON file is the primary machine-readable public reference; the original vendor, runtime, external and live-evidence files remain the provenance corpus.",
         "",
-        f"Reference version: `{reference['meta']['reference_version']}`  ",
-        f"Records: **{reference['summary']['total_records']}** ({reference['summary']['holding_records']} holding, {reference['summary']['input_records']} input)  ",
-        f"Live read verified: **{reference['summary']['live_read_verified']}**  ",
+        f"Reference version: `{reference['meta']['reference_version']}`",
+        f"Records: **{reference['summary']['total_records']}** ({reference['summary']['holding_records']} holding, {reference['summary']['input_records']} input)",
+        f"Live read verified: **{reference['summary']['live_read_verified']}**",
         "Write verified: **0** (the current hardware evidence is read-only)",
         "",
         "## Family overview",
@@ -945,6 +1833,111 @@ def render_markdown(reference: dict[str, Any]) -> str:
             "",
             "The graph export, datatype catalogues and overlays are generated or curated derivatives. They are retained for audit but do not count as independent corroboration of their own upstream claims. The MIN 6000TL-XH model overlay is reconciled against the runtime mapping and the read-only live validation. In particular, BMS register 3217 is published as input-table signed int16 / 100 A; the older model-map placement under holding is retained as a table-reconciliation note.",
             "",
+            "## Semantic concepts and MIN capabilities",
+            "",
+            "Physical identity remains family + table + address. `semantic_key` is the stable implementation-neutral concept identity, so multiple physical registers can intentionally represent one concept. The MIN/TL-XH legacy/base `input 1014` SOC register is retained alongside preferred `input 3171`; it is not merged with it.",
+            "",
+            "| Capability | Status | Supporting registers | Write verified |",
+            "|---|---|---|---:|",
+        ]
+    )
+    lines.extend(
+        [
+            f"| {markdown_escape(capability['name'])} | {capability['status']} | "
+            f"{markdown_escape(', '.join(capability['supporting_registers'])) or '—'} | "
+            f"{'yes' if capability['write_verified'] else 'no'} |"
+            for capability in reference["capability_validation"]["capabilities"]
+        ]
+    )
+    lines.extend(
+        [
+            "",
+            "### Family-specific block-read plans",
+            "",
+            "The vendor V1.24 transport model declares an 850 ms minimum command period, recommends 1 second, and permits up to 125 words per read. The current MIN hardware evidence validates the complete native pages below twice each; the observed response durations are device evidence, not a replacement for the vendor timing rule.",
+            "",
+            f"Vendor transport: **{reference['read_plans']['vendor_transport']['minimum_cmd_period_ms']} ms minimum**, **{reference['read_plans']['vendor_transport']['recommended_cmd_period_ms']} ms recommended**, **{reference['read_plans']['vendor_transport']['maximum_read_words']} words maximum**.",
+            "",
+            "Semantic selection and physical read planning are separate. These plans optimize Modbus transaction count first; local decoding extracts the selected registers from each returned block. Holding and input spaces always remain separate FC03/FC04 transactions.",
+            "",
+            "| Profile | Transactions | Blocks |",
+            "|---|---:|---|",
+        ]
+    )
+    for profile in reference["read_plans"]["profiles"]:
+        block_text = "; ".join(
+            f"FC{block['function_code']} {block['start']}+{block['count']}"
+            for block in profile["blocks"]
+        )
+        lines.append(
+            f"| {markdown_escape(profile['name'])} | {profile['transaction_count']} | "
+            f"{markdown_escape(block_text)} |"
+        )
+    lines.extend(
+        [
+            "",
+            "#### Hardware-validated native pages",
+            "",
+            "These are the bounded live MIN 6000TL-XH page probes used by the planner. `additional_words_fetched` are decoded locally only; they do not become Home Assistant entities.",
+            "",
+            "| Page | Class | Function | Range | Required semantics | Extra words | Repeatability |",
+            "|---|---|---:|---|---|---:|---|",
+        ]
+    )
+    lines.extend(
+        [
+            f"| {page['id']} | {page['polling_class']} | FC{page['function_code']} | "
+            f"{page['start']}–{page['end']} ({page['count']} words) | "
+            f"{markdown_escape(', '.join(page['required_semantic_keys']) or 'none listed')} | "
+            f"{page['additional_words_fetched']} | {markdown_escape(page['repeatability'])} |"
+            for page in reference["read_plans"].get("hardware_validated_pages", [])
+        ]
+    )
+    lines.extend(
+        [
+            "",
+            "#### Source-derived family plans",
+            "",
+            "Non-MIN plans are derived from the family/protocol source corpus and are not hardware validated by the live MIN probe.",
+            "",
+            "| Family plan | Transactions | Maximum words | Hardware validated |",
+            "|---|---:|---:|---:|",
+        ]
+    )
+    lines.extend(
+        [
+            f"| {markdown_escape(profile['name'])} | {profile['transaction_count']} | "
+            f"{profile['max_register_words']} | {'yes' if profile.get('hardware_validated') else 'no'} |"
+            for profile in reference["read_plans"].get("source_derived_profiles", [])
+        ]
+    )
+    lines.extend(
+        [
+            "",
+            "## Runtime consistency audit",
+            "",
+            f"HA runtime mappings checked: **{reference['runtime_audit']['checked_mappings']}**; findings: **{reference['runtime_audit']['finding_count']}**; status: **{reference['runtime_audit']['status']}**.",
+            "",
+        ]
+    )
+    if reference["runtime_audit"]["findings"]:
+        lines.extend(
+            [
+                "| Family | Table | Address | Runtime name | Finding |",
+                "|---|---|---:|---|---|",
+            ]
+        )
+        for finding in reference["runtime_audit"]["findings"]:
+            detail = finding.get("kind") or "; ".join(
+                issue["kind"] for issue in finding.get("issues", [])
+            )
+            lines.append(
+                f"| {finding['family']} | {finding['table']} | {finding['address']} | "
+                f"{markdown_escape(finding['runtime_name'])} | {markdown_escape(detail)} |"
+            )
+        lines.append("")
+    lines.extend(
+        [
             "## Register tables by family",
             "",
         ]
@@ -958,8 +1951,8 @@ def render_markdown(reference: dict[str, Any]) -> str:
         ]
         lines.extend(
             [
-                "| Table | Address | Name | Description | Encoding / scale | Unit | Access | Status | Evidence | Notes |",
-                "|---|---:|---|---|---|---|---|---|---|---|",
+                "| Table | Address | Semantic | Role | Name | Description | Encoding / scale | Unit | Access | Status | Evidence | Notes |",
+                "|---|---:|---|---|---|---|---|---|---|---|---|---|",
             ]
         )
         for record in family_records:
@@ -967,13 +1960,32 @@ def render_markdown(reference: dict[str, Any]) -> str:
             if record.get("divisor") is not None:
                 scale += f"; /{record['divisor']}"
             evidence = ", ".join(record.get("evidence_levels", [])) or "—"
-            notes = "; ".join(conflict["detail"] for conflict in record.get("conflicts", [])) or "—"
+            notes = (
+                "; ".join(
+                    [
+                        *(
+                            conflict["detail"]
+                            for conflict in record.get("conflicts", [])
+                        ),
+                        record.get("notes", ""),
+                        (
+                            "alternates: "
+                            + ", ".join(record.get("alternate_registers", []))
+                            if record.get("alternate_registers")
+                            else ""
+                        ),
+                    ]
+                )
+                or "—"
+            )
             lines.append(
                 "| "
                 + " | ".join(
                     [
                         record["table"],
                         str(record["address"]),
+                        markdown_escape(record.get("semantic_key") or "—"),
+                        record.get("semantic_role", "unknown"),
                         markdown_escape(record["canonical_name"]),
                         markdown_escape(record.get("description") or "—"),
                         markdown_escape(scale),

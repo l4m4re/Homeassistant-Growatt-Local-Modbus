@@ -11,7 +11,11 @@
     "unresolved_or_conflicted_records",
     "summary",
     "resolution_model",
-    "evidence_legend"
+    "evidence_legend",
+    "semantic_model",
+    "capability_validation",
+    "read_plans",
+    "runtime_audit"
   ],
   "properties": {
     "meta": {"$ref": "#/$defs/meta"},
@@ -21,6 +25,11 @@
     "summary": {"$ref": "#/$defs/summary"},
     "resolution_model": {"type": "object", "additionalProperties": {"type": "string"}},
     "evidence_legend": {"type": "object", "additionalProperties": {"type": "string"}}
+    ,"protocol_transport_model": {"type": "object", "additionalProperties": {"type": "object"}}
+    ,"semantic_model": {"type": "object", "additionalProperties": {"$ref": "#/$defs/semantic_definition"}}
+    ,"capability_validation": {"$ref": "#/$defs/capability_validation"}
+    ,"read_plans": {"$ref": "#/$defs/read_plans"}
+    ,"runtime_audit": {"$ref": "#/$defs/runtime_audit"}
   },
   "$defs": {
     "meta": {
@@ -93,6 +102,12 @@
         "unit",
         "access",
         "semantic_category",
+        "semantic_key",
+        "semantic_name",
+        "semantic_aliases",
+        "semantic_role",
+        "alternate_registers",
+        "relationships",
         "resolution_status",
         "confidence",
         "provenance",
@@ -116,12 +131,18 @@
         "signed": {"type": ["boolean", "null"]},
         "divisor": {"type": ["number", "null"]},
         "scale": {"type": ["number", "null"]},
-        "multiplier": {"type": ["number", "null"]},
+        "multiplier": {"type": ["number", "string", "null"]},
         "unit": {"type": ["string", "null"]},
         "access": {"enum": ["R", "W", "R/W", "UNKNOWN"]},
         "enum_definitions": {"type": "array"},
         "bitfields": {"type": "array"},
         "semantic_category": {"type": "string"},
+        "semantic_key": {"type": ["string", "null"]},
+        "semantic_name": {"type": ["string", "null"]},
+        "semantic_aliases": {"type": "array", "items": {"type": "string"}},
+        "semantic_role": {"enum": ["preferred", "supported", "legacy", "alternate", "unknown"]},
+        "alternate_registers": {"type": "array", "items": {"type": "string"}},
+        "relationships": {"type": "array", "items": {"$ref": "#/$defs/relationship"}},
         "resolution_status": {"enum": ["RESOLVED", "RESOLVED_WITH_NOTES", "CONFLICTED", "SOURCE_ONLY", "UNKNOWN_RESERVED"]},
         "confidence": {"enum": ["high", "medium", "low"]},
         "provenance": {"type": "array", "minItems": 1, "items": {"type": "string"}},
@@ -130,6 +151,7 @@
         "alternatives": {"type": "array"},
         "source_aliases": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
         "validation_evidence": {"type": "array", "items": {"type": "object"}}
+        ,"applicability": {"$ref": "#/$defs/applicability"}
       },
       "additionalProperties": true
     },
@@ -146,6 +168,123 @@
         "write_evidence_policy": {"type": "string"}
       },
       "additionalProperties": true
+    },
+    "semantic_definition": {
+      "type": "object",
+      "required": ["name", "category", "aliases"],
+      "properties": {
+        "name": {"type": "string"},
+        "category": {"type": "string"},
+        "aliases": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "relationship": {
+      "type": "object",
+      "required": ["type", "target"],
+      "properties": {
+        "type": {"type": "string"},
+        "target": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "applicability": {
+      "type": "object",
+      "required": ["status", "models"],
+      "properties": {
+        "status": {"type": "string"},
+        "models": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "capability_validation": {
+      "type": "object",
+      "required": ["family", "model", "evidence_source", "capabilities"],
+      "properties": {
+        "family": {"type": "string"},
+        "model": {"type": "string"},
+        "evidence_source": {"type": "string"},
+        "capabilities": {"type": "array", "items": {"$ref": "#/$defs/capability"}}
+      },
+      "additionalProperties": false
+    },
+    "capability": {
+      "type": "object",
+      "required": ["key", "name", "semantic_keys", "status", "supporting_registers", "write_verified"],
+      "properties": {
+        "key": {"type": "string"},
+        "name": {"type": "string"},
+        "semantic_keys": {"type": "array", "items": {"type": "string"}},
+        "status": {"type": "string"},
+        "supporting_registers": {"type": "array", "items": {"type": "string"}},
+        "write_verified": {"type": "boolean"},
+        "write_policy": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "read_plans": {
+      "type": "object",
+      "required": ["planning_policy", "transaction_rate_assumption", "profiles"],
+      "properties": {
+        "planning_policy": {"type": "string"},
+        "transaction_rate_assumption": {"type": "string"},
+        "vendor_transport": {"type": "object"},
+        "vendor_declared_blocks": {"type": "array", "items": {"type": "object"}},
+        "hardware_validated_ranges": {"type": "array", "items": {"type": "string"}},
+        "hardware_validated_pages": {"type": "array", "items": {"type": "object"}},
+        "profiles": {"type": "array", "items": {"$ref": "#/$defs/read_plan"}},
+        "source_derived_profiles": {"type": "array", "items": {"$ref": "#/$defs/read_plan"}}
+      },
+      "additionalProperties": true
+    },
+    "read_plan": {
+      "type": "object",
+      "required": ["id", "name", "selection_semantic_keys", "selected_registers", "max_register_words", "transaction_count", "blocks"],
+      "properties": {
+        "id": {"type": "string"},
+        "family": {"type": "string"},
+        "name": {"type": "string"},
+        "polling_class": {"type": "string"},
+        "selection_semantic_keys": {"type": "array", "items": {"type": "string"}},
+        "selected_registers": {"type": "array", "items": {"type": "string"}},
+        "max_register_words": {"type": "integer", "minimum": 1},
+        "transaction_count": {"type": "integer", "minimum": 0},
+        "hardware_validated": {"type": "boolean"},
+        "blocks": {"type": "array", "items": {"$ref": "#/$defs/read_block"}}
+      },
+      "additionalProperties": false
+    },
+    "read_block": {
+      "type": "object",
+      "required": ["table", "function_code", "start", "count", "registers", "gap_words"],
+      "properties": {
+        "table": {"enum": ["holding", "input"]},
+        "function_code": {"enum": [3, 4]},
+        "start": {"type": "integer", "minimum": 0},
+        "count": {"type": "integer", "minimum": 1},
+        "end": {"type": "integer", "minimum": 0},
+        "registers": {"type": "array", "items": {"type": "string"}},
+        "required_semantic_keys": {"type": "array", "items": {"type": "string"}},
+        "additional_words_fetched": {"type": "integer", "minimum": 0},
+        "gap_words": {"type": "integer", "minimum": 0},
+        "hardware_block_read_validated": {"type": "boolean"},
+        "safe_range_id": {"type": ["string", "null"]},
+        "source_basis": {"type": "array", "items": {"type": "string"}},
+        "validation": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "runtime_audit": {
+      "type": "object",
+      "required": ["source", "checked_mappings", "finding_count", "status", "findings"],
+      "properties": {
+        "source": {"type": "string"},
+        "checked_mappings": {"type": "integer", "minimum": 0},
+        "finding_count": {"type": "integer", "minimum": 0},
+        "status": {"enum": ["consistent", "issues_found"]},
+        "findings": {"type": "array", "items": {"type": "object"}}
+      },
+      "additionalProperties": false
     }
   }
 }

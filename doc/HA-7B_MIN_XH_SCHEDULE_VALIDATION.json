@@ -1,0 +1,88 @@
+{
+  "model": "MIN 6000TL-XH",
+  "captured_at": "2026-09-06T13:16:05.708Z/2026-09-06T13:18:08.162Z",
+  "endpoint": "192.168.1.148:5021",
+  "unit": 1,
+  "access": "FC03/FC04 read-only",
+  "writes_issued": 0,
+  "capture_sha256": "493ef2c48ae0538a0b4e0c1702010b8f7b582d68668bdb029ed395ef0a965b03",
+  "capture_path": "/tmp/growatt-ha7b-schedule-20260906-131604.jsonl",
+  "sniff_analysis": {
+    "analyser": "external/growatt-rtu-broker/tools/analyze_sniff_log.py",
+    "relevant_client_source": "TCP:192.168.1.139:*",
+    "requests": 5,
+    "responses": 5,
+    "timeouts": 0,
+    "drops": 0,
+    "crc_bad": 0,
+    "writes_detected": 0
+  },
+  "clock": {
+    "registers": {
+      "H45": 2026,
+      "H46": 9,
+      "H47": 6,
+      "H48": 15,
+      "H49": 15,
+      "H50": 47
+    },
+    "growatt_local": "2026-09-06 15:15:47",
+    "host_europe_amsterdam_at_read": "2026-09-06 15:16:05.795+02:00",
+    "offset_seconds_growatt_minus_host": -19,
+    "source": "FC03 H0-H124 read; vendor labels H45-H50 as local system time"
+  },
+  "holding": {
+    "H3036": 70,
+    "H3037": 10,
+    "H3038": 14080,
+    "H3039": 5947,
+    "H3040": 40960,
+    "H3041": 1792,
+    "H3042": 8192,
+    "H3043": 1083,
+    "H3044": 0,
+    "H3045": 0,
+    "H3046": 0,
+    "H3047": 70,
+    "H3048": 90,
+    "H3049": 0,
+    "H3050": 0,
+    "H3051": 0,
+    "H3052": 0,
+    "H3053": 0,
+    "H3054": 0,
+    "H3055": 0,
+    "H3056": 0,
+    "H3057": 0,
+    "H3058": 0,
+    "H3059": 0,
+    "H3082": 0
+  },
+  "slots": [
+    {"slot": 1, "start_register": "H3038", "start_raw": "0x3700", "start": "23:00", "priority": 1, "enabled": false, "end_register": "H3039", "end_raw": "0x173B", "end": "23:59"},
+    {"slot": 2, "start_register": "H3040", "start_raw": "0xA000", "start": "00:00", "priority": 1, "enabled": true, "end_register": "H3041", "end_raw": "0x0700", "end": "07:00"},
+    {"slot": 3, "start_register": "H3042", "start_raw": "0x2000", "start": "00:00", "priority": 1, "enabled": false, "end_register": "H3043", "end_raw": "0x043B", "end": "04:59"},
+    {"slot": 4, "start_register": "H3044", "start_raw": "0x0000", "start": "00:00", "priority": 0, "enabled": false, "end_register": "H3045", "end_raw": "0x0000", "end": "00:00"},
+    {"slot": 5, "start_register": "H3050", "start_raw": "0x0000", "start": "00:00", "priority": 0, "enabled": false, "end_register": "H3051", "end_raw": "0x0000", "end": "00:00"},
+    {"slot": 6, "start_register": "H3052", "start_raw": "0x0000", "start": "00:00", "priority": 0, "enabled": false, "end_register": "H3053", "end_raw": "0x0000", "end": "00:00"},
+    {"slot": 7, "start_register": "H3054", "start_raw": "0x0000", "start": "00:00", "priority": 0, "enabled": false, "end_register": "H3055", "end_raw": "0x0000", "end": "00:00"},
+    {"slot": 8, "start_register": "H3056", "start_raw": "0x0000", "start": "00:00", "priority": 0, "enabled": false, "end_register": "H3057", "end_raw": "0x0000", "end": "00:00"},
+    {"slot": 9, "start_register": "H3058", "start_raw": "0x0000", "start": "00:00", "priority": 0, "enabled": false, "end_register": "H3059", "end_raw": "0x0000", "end": "00:00"}
+  ],
+  "all_slots_disabled": false,
+  "current_enabled_slots": [2],
+  "priority_samples": [
+    {"timestamp": "2026-09-06T13:16:08.096Z", "register": "I3144", "raw": 0, "decoded": "Load First"},
+    {"timestamp": "2026-09-06T13:17:08.118Z", "register": "I3144", "raw": 0, "decoded": "Load First"},
+    {"timestamp": "2026-09-06T13:18:08.141Z", "register": "I3144", "raw": 0, "decoded": "Load First"}
+  ],
+  "baseline": {
+    "H3036": {"meaning": "Grid First discharge power rate", "raw": 70, "decoded": "70%"},
+    "H3037": {"meaning": "Grid First stop SOC", "raw": 10, "decoded": "10%"},
+    "H3047": {"meaning": "Battery First charge power rate", "raw": 70, "decoded": "70%"},
+    "H3048": {"meaning": "Battery First stop SOC", "raw": 90, "decoded": "90%"},
+    "H3049": {"meaning": "AC Charge Enable", "raw": 0, "decoded": "disabled"},
+    "H3082": {"meaning": "Load First stop SOC", "raw": 0, "decoded": "raw value below vendor-listed 13-100 range; not reinterpreted"}
+  },
+  "primary_conclusion": "The live precondition all nine XH schedule slots disabled is false. I3144 repeatedly reported Load First while the only enabled slot (Time 2, 00:00-07:00 Battery First) was outside its active interval. This is an observed outside-active-window state, not proof of the all-disabled fallback rule."
+}

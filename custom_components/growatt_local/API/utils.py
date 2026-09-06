@@ -18,7 +18,21 @@ K = TypeVar('K')
 V = TypeVar('V')
 D = TypeVar('D')
 
-__all__ = ('LRUCache', 'get_keys_from_register', 'get_all_keys_from_register', 'keys_sequences', 'split_sequence', 'process_registers')
+__all__ = (
+    "DeviceRegisters",
+    "LRUCache",
+    "MIN_TLXH_NATIVE_BLOCKS",
+    "MIN_TLXH_READ_PLAN",
+    "RegisterKeys",
+    "RegisterSequences",
+    "get_keys_from_register",
+    "get_all_keys_from_register",
+    "keys_sequences",
+    "min_tlxh_read_plan",
+    "process_registers",
+    "register_sequences",
+    "split_sequence",
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -28,6 +42,7 @@ class DeviceRegisters:
     holding: dict[int, GrowattDeviceRegisters]
     input: dict[int, GrowattDeviceRegisters]
     max_length: int
+    native_blocks: dict[str, tuple[tuple[int, int], ...]] | None = None
 
 
 @dataclass
@@ -55,22 +70,77 @@ class RegisterSequences:
         return len(self.holding) + len(self.input)
 
 
+MIN_TLXH_NATIVE_BLOCKS: dict[str, tuple[tuple[int, int], ...]] = {
+    "holding": ((0, 125), (3000, 125)),
+    "input": ((3000, 125), (3125, 125), (3250, 125)),
+}
+
+MIN_TLXH_READ_PLAN: dict[str, tuple[tuple[str, int, int], ...]] = {
+    "fast": (("input", 3000, 125), ("input", 3125, 125)),
+    "control": (("holding", 3000, 125),),
+    "static": (("holding", 0, 125),),
+    "diagnostic": (("input", 3250, 125),),
+}
+
+
+def min_tlxh_read_plan() -> dict[str, tuple[tuple[str, int, int], ...]]:
+    """Return the inspectable native polling plan for MIN/TL-XH."""
+
+    return {cadence: tuple(blocks) for cadence, blocks in MIN_TLXH_READ_PLAN.items()}
+
+
 def register_sequences(
     register_keys: RegisterKeys,
     device_registers: DeviceRegisters
 ) -> RegisterSequences:
 
+    native_blocks = device_registers.native_blocks or {}
+
     if register_keys.holding:
-        holding_sequence = keys_sequences(get_all_keys_from_register(device_registers.holding, register_keys.holding), device_registers.max_length)
+        holding_keys = get_all_keys_from_register(
+            device_registers.holding, register_keys.holding
+        )
+        holding_sequence = _native_block_sequences(
+            holding_keys, device_registers.max_length, native_blocks.get("holding")
+        )
     else:
         holding_sequence = set()
 
     if register_keys.input:
-        input_sequence = keys_sequences(get_all_keys_from_register(device_registers.input, register_keys.input), device_registers.max_length)
+        input_keys = get_all_keys_from_register(
+            device_registers.input, register_keys.input
+        )
+        input_sequence = _native_block_sequences(
+            input_keys, device_registers.max_length, native_blocks.get("input")
+        )
     else:
         input_sequence = set()
 
     return RegisterSequences(holding_sequence, input_sequence)
+
+
+def _native_block_sequences(
+    keys: set[int], maximum_length: int, native_blocks: tuple[tuple[int, int], ...] | None
+) -> set[tuple[int, int]]:
+    """Select complete vendor pages and retain the legacy fallback for other keys."""
+
+    if not native_blocks:
+        return keys_sequences(keys, maximum_length)
+
+    selected: set[tuple[int, int]] = set()
+    fallback_keys: set[int] = set()
+    for key in keys:
+        for start, length in native_blocks:
+            if start <= key < start + length:
+                selected.add((start, length))
+                break
+        else:
+            fallback_keys.add(key)
+
+    if fallback_keys:
+        selected.update(keys_sequences(fallback_keys, maximum_length))
+
+    return selected
 
 
 def get_keys_from_register(register: dict[int, GrowattDeviceRegisters]) -> set[int]:

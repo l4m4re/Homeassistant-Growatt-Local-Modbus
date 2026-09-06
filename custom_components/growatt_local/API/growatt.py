@@ -52,7 +52,8 @@ from .utils import (
     register_sequences,
     keys_sequences,
     process_registers,
-    LRUCache
+    LRUCache,
+    MIN_TLXH_NATIVE_BLOCKS,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -422,6 +423,8 @@ class GrowattDevice:
 
 
 def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
+    native_blocks = None
+
     if GrowattDeviceType in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315):
         max_length = MAXIMUM_DATA_LENGTH_315
         holding_register = {
@@ -468,6 +471,7 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
         input_register.update({
             obj.register: obj for obj in STORAGE_INPUT_REGISTERS_120_TL_XH
         })
+        native_blocks = MIN_TLXH_NATIVE_BLOCKS
     elif GrowattDeviceType == DeviceTypes.STORAGE_120:
         max_length = MAXIMUM_DATA_LENGTH_120
         holding_register = {
@@ -479,7 +483,7 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
     else:
         raise TypeError("Unsupported Growatt device type")
 
-    return DeviceRegisters(holding_register, input_register, max_length)
+    return DeviceRegisters(holding_register, input_register, max_length, native_blocks)
 
 
 _PROTOCOL_120_DEVICE_TYPE_FAMILIES = {

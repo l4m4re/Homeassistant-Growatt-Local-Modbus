@@ -2,9 +2,12 @@
   "meta": {
     "schema_version": "1.0.0",
     "reference_version": "2026.09-resolved",
-    "generated_at": "2026-09-06T10:07:25.575765+00:00",
+    "generated_at": "2026-09-06T11:43:14.421605+00:00",
     "generator": "build_resolved_register_reference.py",
-    "primary_public_reference": true,
+    "canonical": false,
+    "generated_compatibility_view": true,
+    "canonical_reference": "doc/register-spec/growatt-register-spec.json",
+    "primary_public_reference": false,
     "identity": "(family, table, address)",
     "source_files": {
       "vendor_v124": {

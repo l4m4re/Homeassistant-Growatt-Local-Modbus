@@ -1,6 +1,6 @@
 # Register research cleanup manifest
 
-HA-6C does not delete or move the research corpus. This manifest records the
+HA-6D does not delete or move the research corpus. This manifest records the
 intended future separation after independent review.
 
 ## Product
@@ -29,4 +29,4 @@ intended future separation after independent review.
 
 Future work may move source/evidence into an archive and delete obsolete
 intermediates only after the canonical product has been independently reviewed.
-No destructive cleanup is part of HA-6C.
+No destructive cleanup is part of HA-6D.

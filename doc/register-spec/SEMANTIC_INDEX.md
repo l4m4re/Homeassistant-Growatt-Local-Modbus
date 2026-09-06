@@ -10,94 +10,26 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `ac.phase.l3_power`
 
-- `min_tl_xh` input 48 — grid / grid_meter_or_inverter — `preferred`
-- `min_tl_xh` input 49 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3036 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3037 — ac / ac_phase — `supported`
-- `min_tl_xh` input 3156 — ac / ac_phase — `preferred`
-- `min_tl_xh` input 3157 — ac / ac_phase — `alternate`
-- `mod_tl3_xh` input 3036 — grid / grid_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3037 — ac / ac_phase — `supported`
-- `mod_tl3_xh` input 3156 — ac / ac_phase — `preferred`
-- `mod_tl3_xh` input 3157 — ac / ac_phase — `alternate`
-- `storage_mix` input 48 — grid / grid_meter_or_inverter — `preferred`
-- `storage_mix` input 49 — grid / grid_meter_or_inverter — `alternate`
-- `storage_sph` input 48 — grid / grid_meter_or_inverter — `preferred`
-- `storage_sph` input 49 — grid / grid_meter_or_inverter — `alternate`
-- `tl3_max_mid_mac` input 48 — grid / grid_meter_or_inverter — `preferred`
-- `tl3_max_mid_mac` input 49 — grid / grid_meter_or_inverter — `alternate`
+- logical field `logical:min_tl_xh:input:48:ac_phase_l3_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I48 high_word, I49 low_word
+- logical field `logical:min_tl_xh:input:3156:ac_phase_l3_power` — ac / ac_phase — `supported` — high_low / VA — I3156 high_word, I3157 low_word
+- logical field `logical:mod_tl3_xh:input:3036:ac_phase_l3_power` — grid / grid_meter_or_inverter — `supported` — high_low / Threephase gridoutput power — I3036 high_word, I3037 low_word
+- logical field `logical:mod_tl3_xh:input:3156:ac_phase_l3_power` — ac / ac_phase — `supported` — high_low / VA — I3156 high_word, I3157 low_word
+- logical field `logical:storage_mix:input:48:ac_phase_l3_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I48 high_word, I49 low_word
+- logical field `logical:storage_sph:input:48:ac_phase_l3_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I48 high_word, I49 low_word
+- logical field `logical:tl3_max_mid_mac:input:48:ac_phase_l3_power` — grid / grid_meter_or_inverter — `supported` — high_low / VA — I48 high_word, I49 low_word
+- logical field `logical:min_tl_xh:input:3036` — grid / grid_meter_or_inverter — `supported` — unknown / VA — I3036 word_1, I3037 word_2
 
-## `battery.battery_charge_today`
+## `battery.ac_charge_energy_today`
 
-- `min_tl_xh` input 3129 — storage_device / bdc_or_storage_device — `preferred`
-- `min_tl_xh` input 3130 — storage_device / bdc_or_storage_device — `alternate`
-- `mod_tl3_xh` input 3129 — storage_device / bdc_or_storage_device — `preferred`
-- `mod_tl3_xh` input 3130 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_mix` input 3129 — storage_device / bdc_or_storage_device — `preferred`
-- `storage_mix` input 3130 — storage_device / bdc_or_storage_device — `alternate`
+- `tl3_max_mid_mac` input 1124 — unknown / unknown — `supported`
+- logical field `logical:min_tl_xh:input:3133:battery_ac_charge_energy_today` — unknown / unknown — `supported` — high_low / kWh — I3133 high_word, I3134 low_word
+- logical field `logical:mod_tl3_xh:input:3133:battery_ac_charge_energy_today` — unknown / unknown — `supported` — high_low / Todayenergy ofACcharge — I3133 high_word, I3134 low_word
 
-## `battery.battery_charge_total`
+## `battery.ac_charge_energy_total`
 
-- `min_tl_xh` input 3131 — storage_device / bdc_or_storage_device — `preferred`
-- `min_tl_xh` input 3132 — storage_device / bdc_or_storage_device — `alternate`
-- `mod_tl3_xh` input 3131 — storage_device / bdc_or_storage_device — `preferred`
-- `mod_tl3_xh` input 3132 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_mix` input 3131 — storage_device / bdc_or_storage_device — `preferred`
-- `storage_mix` input 3132 — storage_device / bdc_or_storage_device — `alternate`
-
-## `battery.battery_discharge_today`
-
-- `min_tl_xh` input 3125 — storage_device / bdc_or_storage_device — `preferred`
-- `min_tl_xh` input 3126 — storage_device / bdc_or_storage_device — `alternate`
-- `mod_tl3_xh` input 3125 — storage_device / bdc_or_storage_device — `preferred`
-- `mod_tl3_xh` input 3126 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_mix` input 3125 — storage_device / bdc_or_storage_device — `preferred`
-- `storage_mix` input 3126 — storage_device / bdc_or_storage_device — `alternate`
-
-## `battery.battery_discharge_total`
-
-- `min_tl_xh` input 3127 — storage_device / bdc_or_storage_device — `preferred`
-- `min_tl_xh` input 3128 — storage_device / bdc_or_storage_device — `alternate`
-- `mod_tl3_xh` input 3127 — storage_device / bdc_or_storage_device — `preferred`
-- `mod_tl3_xh` input 3128 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_mix` input 3127 — storage_device / bdc_or_storage_device — `preferred`
-- `storage_mix` input 3128 — storage_device / bdc_or_storage_device — `alternate`
-
-## `battery.battery_load_voltage`
-
-- `min_tl_xh` input 3232 — storage_device / bdc_or_storage_device — `supported`
-- `mod_tl3_xh` input 3232 — storage_device / bdc_or_storage_device — `supported`
-
-## `battery.battery_pack_count`
-
-- `tl3_max_mid_mac` holding 185 — storage_device / bdc_or_storage_device — `supported`
-
-## `battery.battery_request_flags`
-
-- `min_tl_xh` input 3211 — storage_device / bdc_or_storage_device — `supported`
-- `mod_tl3_xh` input 3211 — storage_device / bdc_or_storage_device — `supported`
-- `storage_mix` input 3211 — storage_device / bdc_or_storage_device — `supported`
-
-## `battery.batterystate`
-
-- `tl3_max_mid_mac` input 1041 — storage_device / bdc_or_storage_device — `supported`
-
-## `battery.batterytyp_e`
-
-- `storage_mix` holding 1048 — storage_device / bdc_or_storage_device — `supported`
-- `storage_spa` holding 1048 — storage_device / bdc_or_storage_device — `supported`
-- `storage_sph` holding 1048 — storage_device / bdc_or_storage_device — `supported`
-
-## `battery.batterytype`
-
-- `storage_mix` input 119 — storage_device / bdc_or_storage_device — `supported`
-- `storage_spa` input 2119 — storage_device / bdc_or_storage_device — `supported`
-- `storage_sph` input 119 — storage_device / bdc_or_storage_device — `supported`
-- `tl3_max_mid_mac` input 119 — storage_device / bdc_or_storage_device — `supported`
-
-## `battery.batteryvoltage`
-
-- `tl3_max_mid_mac` input 1013 — storage_device / bdc_or_storage_device — `supported`
+- `tl3_max_mid_mac` input 1126 — unknown / unknown — `supported`
+- logical field `logical:min_tl_xh:input:3135:battery_ac_charge_energy_total` — unknown / unknown — `supported` — high_low / kWh — I3135 high_word, I3136 low_word
+- logical field `logical:mod_tl3_xh:input:3135:battery_ac_charge_energy_total` — unknown / unknown — `supported` — high_low / Totalenergy ofACcharge — I3135 high_word, I3136 low_word
 
 ## `battery.battsoc`
 
@@ -340,17 +272,26 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_spa` input 1103 — bms / bms — `supported`
 - `storage_sph` input 1103 — bms / bms — `supported`
 
+## `battery.charge_energy_today`
+
+- logical field `logical:min_tl_xh:input:3129:battery_charge_energy_today` — storage_device / bdc_or_storage_device — `supported` — high_low / kWh — I3129 high_word, I3130 low_word
+- logical field `logical:mod_tl3_xh:input:3129:battery_charge_energy_today` — storage_device / bdc_or_storage_device — `supported` — high_low / Charge energytoday — I3129 high_word, I3130 low_word
+- logical field `logical:storage_mix:input:3129:battery_charge_energy_today` — storage_device / bdc_or_storage_device — `supported` — high_low / Charge energytoday — I3129 high_word, I3130 low_word
+
+## `battery.charge_energy_total`
+
+- logical field `logical:min_tl_xh:input:3131:battery_charge_energy_total` — storage_device / bdc_or_storage_device — `supported` — high_low / kWh — I3131 high_word, I3132 low_word
+- logical field `logical:mod_tl3_xh:input:3131:battery_charge_energy_total` — storage_device / bdc_or_storage_device — `supported` — high_low / Charge energytotal — I3131 high_word, I3132 low_word
+- logical field `logical:storage_mix:input:3131:battery_charge_energy_total` — storage_device / bdc_or_storage_device — `supported` — high_low / Charge energytotal — I3131 high_word, I3132 low_word
+
 ## `battery.charge_power`
 
-- `min_tl_xh` input 3180 — storage_device / bdc_or_storage_device — `preferred`
-- `min_tl_xh` input 3181 — storage_device / bdc_or_storage_device — `alternate`
-- `mod_tl3_xh` input 3180 — storage_device / bdc_or_storage_device — `preferred`
-- `mod_tl3_xh` input 3181 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_mix` input 1011 — storage_device / bdc_or_storage_device — `preferred`
-- `storage_mix` input 3180 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_mix` input 3181 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_spa` input 1011 — storage_device / bdc_or_storage_device — `supported`
-- `storage_sph` input 1011 — storage_device / bdc_or_storage_device — `supported`
+- logical field `logical:min_tl_xh:input:3180:battery_charge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I3180 high_word, I3181 low_word
+- logical field `logical:mod_tl3_xh:input:3180:battery_charge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I3180 high_word, I3181 low_word
+- logical field `logical:storage_mix:input:1011:battery_charge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I1011 high_word, I1012 low_word
+- logical field `logical:storage_mix:input:3180:battery_charge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I3180 high_word, I3181 low_word
+- logical field `logical:storage_spa:input:1011:battery_charge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I1011 high_word, I1012 low_word
+- logical field `logical:storage_sph:input:1011:battery_charge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I1011 high_word, I1012 low_word
 
 ## `battery.current`
 
@@ -361,17 +302,35 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_mix` input 3170 — storage_device / bdc_or_storage_device — `supported`
 - `storage_mix` input 3217 — bms / bms — `supported`
 
+## `battery.discharge_energy_today`
+
+- logical field `logical:min_tl_xh:input:3125:battery_discharge_energy_today` — storage_device / bdc_or_storage_device — `supported` — high_low / kWh — I3125 high_word, I3126 low_word
+- logical field `logical:mod_tl3_xh:input:3125:battery_discharge_energy_today` — storage_device / bdc_or_storage_device — `supported` — high_low / Today discharge energy — I3125 high_word, I3126 low_word
+- logical field `logical:storage_mix:input:3125:battery_discharge_energy_today` — storage_device / bdc_or_storage_device — `supported` — high_low / Today discharge energy — I3125 high_word, I3126 low_word
+
+## `battery.discharge_energy_total`
+
+- logical field `logical:min_tl_xh:input:3127:battery_discharge_energy_total` — storage_device / bdc_or_storage_device — `supported` — high_low / kWh — I3127 high_word, I3128 low_word
+- logical field `logical:mod_tl3_xh:input:3127:battery_discharge_energy_total` — storage_device / bdc_or_storage_device — `supported` — high_low / Total discharge energy — I3127 high_word, I3128 low_word
+- logical field `logical:storage_mix:input:3127:battery_discharge_energy_total` — storage_device / bdc_or_storage_device — `supported` — high_low / Total discharge energy — I3127 high_word, I3128 low_word
+
 ## `battery.discharge_power`
 
-- `min_tl_xh` input 3178 — storage_device / bdc_or_storage_device — `preferred`
-- `min_tl_xh` input 3179 — storage_device / bdc_or_storage_device — `alternate`
-- `mod_tl3_xh` input 3178 — storage_device / bdc_or_storage_device — `preferred`
-- `mod_tl3_xh` input 3179 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_mix` input 1009 — storage_device / bdc_or_storage_device — `preferred`
-- `storage_mix` input 3178 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_mix` input 3179 — storage_device / bdc_or_storage_device — `alternate`
-- `storage_spa` input 1009 — storage_device / bdc_or_storage_device — `supported`
-- `storage_sph` input 1009 — storage_device / bdc_or_storage_device — `supported`
+- logical field `logical:min_tl_xh:input:3178:battery_discharge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I3178 high_word, I3179 low_word
+- logical field `logical:mod_tl3_xh:input:3178:battery_discharge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I3178 high_word, I3179 low_word
+- logical field `logical:storage_mix:input:1009:battery_discharge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I1009 high_word, I1010 low_word
+- logical field `logical:storage_mix:input:3178:battery_discharge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I3178 high_word, I3179 low_word
+- logical field `logical:storage_spa:input:1009:battery_discharge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I1009 high_word, I1010 low_word
+- logical field `logical:storage_sph:input:1009:battery_discharge_power` — storage_device / bdc_or_storage_device — `supported` — high_low / W — I1009 high_word, I1010 low_word
+
+## `battery.discharge_start_voltage`
+
+- `min_tl_xh` holding 3029 — storage_device / bdc_or_storage_device — `supported`
+- `mod_tl3_xh` holding 3029 — storage_device / bdc_or_storage_device — `supported`
+- `storage_mix` holding 1002 — unknown / unknown — `supported`
+- `storage_mix` holding 3029 — storage_device / bdc_or_storage_device — `supported`
+- `storage_spa` holding 1002 — unknown / unknown — `supported`
+- `storage_sph` holding 1002 — unknown / unknown — `supported`
 
 ## `battery.first.charge.rate`
 
@@ -386,6 +345,11 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_mix` holding 1091 — storage_device / bdc_or_storage_device — `supported`
 - `storage_spa` holding 1091 — storage_device / bdc_or_storage_device — `supported`
 - `storage_sph` holding 1091 — storage_device / bdc_or_storage_device — `supported`
+
+## `battery.load_voltage`
+
+- `min_tl_xh` input 3232 — storage_device / bdc_or_storage_device — `supported`
+- `mod_tl3_xh` input 3232 — storage_device / bdc_or_storage_device — `supported`
 
 ## `battery.maxcellvolt`
 
@@ -448,11 +412,21 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_spa` input 1169 — storage_device / bdc_or_storage_device — `supported`
 - `storage_sph` input 1169 — storage_device / bdc_or_storage_device — `supported`
 
+## `battery.pack_count`
+
+- `tl3_max_mid_mac` holding 185 — storage_device / bdc_or_storage_device — `supported`
+
 ## `battery.parallel_battery_count`
 
 - `min_tl_xh` input 3198 — storage_device / bdc_or_storage_device — `supported`
 - `mod_tl3_xh` input 3198 — storage_device / bdc_or_storage_device — `supported`
 - `storage_mix` input 3198 — storage_device / bdc_or_storage_device — `supported`
+
+## `battery.request_flags`
+
+- `min_tl_xh` input 3211 — storage_device / bdc_or_storage_device — `supported`
+- `mod_tl3_xh` input 3211 — storage_device / bdc_or_storage_device — `supported`
+- `storage_mix` input 3211 — storage_device / bdc_or_storage_device — `supported`
 
 ## `battery.soc`
 
@@ -475,10 +449,25 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_sph` input 1014 — storage_device / bdc_or_storage_device — `supported`
 - `tl3_max_mid_mac` input 1014 — storage_device / bdc_or_storage_device — `supported`
 
+## `battery.state`
+
+- `tl3_max_mid_mac` input 1041 — storage_device / bdc_or_storage_device — `supported`
+
 ## `battery.totalcellnum`
 
 - `storage_spa` input 1203 — unknown / unknown — `supported`
 - `storage_sph` input 1203 — unknown / unknown — `supported`
+
+## `battery.type`
+
+- `storage_mix` holding 1048 — storage_device / bdc_or_storage_device — `legacy_or_supported`
+- `storage_mix` input 119 — storage_device / bdc_or_storage_device — `preferred`
+- `storage_spa` holding 1048 — storage_device / bdc_or_storage_device — `preferred`
+- `storage_spa` input 2119 — storage_device / bdc_or_storage_device — `legacy_or_supported`
+- `storage_sph` holding 1048 — storage_device / bdc_or_storage_device — `legacy_or_supported`
+- `storage_sph` input 119 — storage_device / bdc_or_storage_device — `preferred`
+- `tl3_max_mid_mac` input 119 — storage_device / bdc_or_storage_device — `supported`
+- logical field `logical:min_tl_xh:holding:3070` — storage_device / bdc_or_storage_device — `supported` — unknown / kWh — I3070 word_1, I3071 word_2
 
 ## `battery.uwmaxcellvolt`
 
@@ -512,6 +501,7 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `mod_tl3_xh` input 3216 — bms / bms — `supported`
 - `storage_mix` input 3169 — storage_device / bdc_or_storage_device — `supported`
 - `storage_mix` input 3216 — bms / bms — `supported`
+- `tl3_max_mid_mac` input 1013 — storage_device / bdc_or_storage_device — `supported`
 
 ## `control.70_inv_power_adjust`
 
@@ -520,24 +510,18 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `control.ac_charge_power_h`
 
-- `storage_spa` input 1128 — control / inverter_control — `supported`
 - `storage_sph` input 1128 — control / inverter_control — `supported`
+- logical field `logical:storage_spa:input:1128:control_ac_charge_power_h` — control / inverter_control — `supported` — high_low / unitless — I1128 high_word, I1129 low_word
 
 ## `control.ac_charge_powerl`
 
-- `storage_spa` input 1129 — control / inverter_control — `supported`
 - `storage_sph` input 1129 — control / inverter_control — `supported`
 
 ## `control.accharge_energytodayh`
 
 - `storage_mix` input 1124 — control / inverter_control — `supported`
-- `storage_spa` input 1124 — control / inverter_control — `supported`
-- `storage_sph` input 1124 — control / inverter_control — `supported`
-
-## `control.accharge_energytodayl`
-
-- `storage_spa` input 1125 — control / inverter_control — `supported`
-- `storage_sph` input 1125 — control / inverter_control — `supported`
+- logical field `logical:storage_spa:input:1124:control_accharge_energytodayh` — control / inverter_control — `supported` — high_low / kWh — I1124 high_word, I1125 low_word
+- logical field `logical:storage_sph:input:1124:control_accharge_energytodayh` — control / inverter_control — `supported` — high_low / kWh — I1124 high_word, I1125 low_word
 
 ## `control.active_power_limit_setpoint`
 
@@ -616,9 +600,8 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `control.batmdlseria_paralnum`
 
-- `min_tl_xh` holding 3071 — control / inverter_control — `supported`
-- `mod_tl3_xh` holding 3071 — control / inverter_control — `supported`
-- `storage_mix` holding 3071 — control / inverter_control — `supported`
+- logical field `logical:mod_tl3_xh:holding:3071` — control / inverter_control — `supported` — unknown / kWh — I3071 word_1, I3072 word_2
+- logical field `logical:storage_mix:holding:3071` — control / inverter_control — `supported` — unknown / kWh — I3071 word_1, I3072 word_2
 
 ## `control.battemp_lower_limit_d`
 
@@ -642,12 +625,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 - `min_tl_xh` holding 3027 — storage_device / bdc_or_storage_device — `supported`
 - `mod_tl3_xh` holding 3027 — storage_device / bdc_or_storage_device — `supported`
-
-## `control.battery_discharge_start_voltage`
-
-- `min_tl_xh` holding 3029 — storage_device / bdc_or_storage_device — `supported`
-- `mod_tl3_xh` holding 3029 — storage_device / bdc_or_storage_device — `supported`
-- `storage_mix` holding 3029 — storage_device / bdc_or_storage_device — `supported`
 
 ## `control.battery_first_ac_charge_enable`
 
@@ -761,36 +738,9 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `control.battery_rack_serial`
 
-- `min_tl_xh` holding 3087 — storage_device / bdc_or_storage_device — `preferred`
-- `min_tl_xh` holding 3088 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `min_tl_xh` holding 3089 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `min_tl_xh` holding 3090 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `min_tl_xh` holding 3091 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `min_tl_xh` holding 3092 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `min_tl_xh` holding 3093 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `min_tl_xh` holding 3094 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `mod_tl3_xh` holding 3087 — storage_device / bdc_or_storage_device — `preferred`
-- `mod_tl3_xh` holding 3088 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `mod_tl3_xh` holding 3089 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `mod_tl3_xh` holding 3090 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `mod_tl3_xh` holding 3091 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `mod_tl3_xh` holding 3092 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `mod_tl3_xh` holding 3093 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `mod_tl3_xh` holding 3094 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `storage_mix` holding 3087 — storage_device / bdc_or_storage_device — `preferred`
-- `storage_mix` holding 3088 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `storage_mix` holding 3089 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `storage_mix` holding 3090 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `storage_mix` holding 3091 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `storage_mix` holding 3092 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `storage_mix` holding 3093 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-- `storage_mix` holding 3094 — storage_device / bdc_or_storage_device — `legacy_or_supported`
-
-## `control.batterytype`
-
-- `min_tl_xh` holding 3070 — storage_device / bdc_or_storage_device — `supported`
-- `mod_tl3_xh` holding 3070 — storage_device / bdc_or_storage_device — `supported`
-- `storage_mix` holding 3070 — storage_device / bdc_or_storage_device — `supported`
+- logical field `logical:min_tl_xh:holding:3087` — storage_device / bdc_or_storage_device — `supported` — unknown / ASCII — I3087 word_1, I3088 word_2, I3089 word_3, I3090 word_4, I3091 word_5, I3092 word_6, I3093 word_7, I3094 word_8
+- logical field `logical:mod_tl3_xh:holding:3087` — storage_device / bdc_or_storage_device — `supported` — unknown / ASCII — I3087 word_1, I3088 word_2, I3089 word_3, I3090 word_4, I3091 word_5, I3092 word_6, I3093 word_7, I3094 word_8
+- logical field `logical:storage_mix:holding:3087` — storage_device / bdc_or_storage_device — `supported` — unknown / ASCII — I3087 word_1, I3088 word_2, I3089 word_3, I3090 word_4, I3091 word_5, I3092 word_6, I3093 word_7, I3094 word_8
 
 ## `control.bctmode`
 
@@ -834,15 +784,7 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `control.bdc_slot_1_metadata`
 
-- `min_tl_xh` holding 5000 — control / inverter_control — `preferred`
-- `min_tl_xh` holding 5001 — control / inverter_control — `alternate`
-- `min_tl_xh` holding 5002 — control / inverter_control — `alternate`
-- `min_tl_xh` holding 5003 — control / inverter_control — `alternate`
-- `min_tl_xh` holding 5004 — control / inverter_control — `alternate`
-- `min_tl_xh` holding 5005 — control / inverter_control — `alternate`
-- `min_tl_xh` holding 5006 — control / inverter_control — `alternate`
-- `min_tl_xh` holding 5007 — control / inverter_control — `alternate`
-- `min_tl_xh` holding 5008 — control / inverter_control — `alternate`
+- `min_tl_xh` holding 5008 — control / inverter_control — `preferred`
 - `min_tl_xh` holding 5009 — control / inverter_control — `alternate`
 - `min_tl_xh` holding 5010 — control / inverter_control — `alternate`
 - `min_tl_xh` holding 5011 — control / inverter_control — `alternate`
@@ -874,15 +816,7 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `min_tl_xh` holding 5037 — control / inverter_control — `alternate`
 - `min_tl_xh` holding 5038 — control / inverter_control — `alternate`
 - `min_tl_xh` holding 5039 — control / inverter_control — `alternate`
-- `mod_tl3_xh` holding 5000 — control / inverter_control — `preferred`
-- `mod_tl3_xh` holding 5001 — control / inverter_control — `alternate`
-- `mod_tl3_xh` holding 5002 — control / inverter_control — `alternate`
-- `mod_tl3_xh` holding 5003 — control / inverter_control — `alternate`
-- `mod_tl3_xh` holding 5004 — control / inverter_control — `alternate`
-- `mod_tl3_xh` holding 5005 — control / inverter_control — `alternate`
-- `mod_tl3_xh` holding 5006 — control / inverter_control — `alternate`
-- `mod_tl3_xh` holding 5007 — control / inverter_control — `alternate`
-- `mod_tl3_xh` holding 5008 — control / inverter_control — `alternate`
+- `mod_tl3_xh` holding 5008 — control / inverter_control — `preferred`
 - `mod_tl3_xh` holding 5009 — control / inverter_control — `alternate`
 - `mod_tl3_xh` holding 5010 — control / inverter_control — `alternate`
 - `mod_tl3_xh` holding 5011 — control / inverter_control — `alternate`
@@ -914,6 +848,8 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `mod_tl3_xh` holding 5037 — control / inverter_control — `alternate`
 - `mod_tl3_xh` holding 5038 — control / inverter_control — `alternate`
 - `mod_tl3_xh` holding 5039 — control / inverter_control — `alternate`
+- logical field `logical:min_tl_xh:holding:5000` — control / inverter_control — `supported` — unknown / unitless — I5000 word_1, I5001 word_2, I5002 word_3, I5003 word_4, I5004 word_5, I5005 word_6, I5006 word_7, I5007 word_8
+- logical field `logical:mod_tl3_xh:holding:5000` — control / inverter_control — `supported` — unknown / unitless — I5000 word_1, I5001 word_2, I5002 word_3, I5003 word_4, I5004 word_5, I5005 word_6, I5006 word_7, I5007 word_8
 
 ## `control.bloadfirststo_psocset`
 
@@ -1042,22 +978,10 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `min_tl_xh` holding 3017 — control / inverter_control — `supported`
 - `mod_tl3_xh` holding 3017 — control / inverter_control — `supported`
 
-## `control.dry_contact_enable`
-
-- `min_tl_xh` holding 3016 — control / inverter_control — `supported`
-- `mod_tl3_xh` holding 3016 — control / inverter_control — `supported`
-- `storage_mix` holding 3016 — control / inverter_control — `supported`
-
 ## `control.dry_contact_release_threshold`
 
 - `min_tl_xh` holding 3019 — control / inverter_control — `supported`
 - `mod_tl3_xh` holding 3019 — control / inverter_control — `supported`
-
-## `control.edischarge1_total_l`
-
-- `storage_mix` input 1055 — control / inverter_control — `supported`
-- `storage_spa` input 1055 — control / inverter_control — `supported`
-- `storage_sph` input 1055 — control / inverter_control — `supported`
 
 ## `control.eesysinfo_s_ysseten`
 
@@ -1074,18 +998,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 ## `control.energy_calibration_factor`
 
 - `tl3_max_mid_mac` holding 229 — control / inverter_control — `supported`
-
-## `control.etogrid_todayl`
-
-- `storage_mix` input 1049 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1049 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1049 — grid / grid_meter_or_inverter — `supported`
-
-## `control.etouser_todayl`
-
-- `storage_mix` input 1045 — control / inverter_control — `supported`
-- `storage_spa` input 1045 — control / inverter_control — `supported`
-- `storage_sph` input 1045 — control / inverter_control — `supported`
 
 ## `control.export_limit_enable_mode`
 
@@ -1789,23 +1701,16 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `control.rated_apparent_power`
 
-- `min_tl_xh` holding 6 — control / inverter_control — `preferred`
-- `min_tl_xh` holding 7 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 6 — control / inverter_control — `preferred`
-- `mod_tl3_xh` holding 7 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 6 — control / inverter_control — `preferred`
-- `storage_mix` holding 7 — control / inverter_control — `legacy_or_supported`
-- `storage_spa` holding 6 — control / inverter_control — `preferred`
-- `storage_spa` holding 7 — control / inverter_control — `legacy_or_supported`
-- `storage_sph` holding 6 — control / inverter_control — `preferred`
-- `storage_sph` holding 7 — control / inverter_control — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 6 — control / inverter_control — `preferred`
-- `tl3_max_mid_mac` holding 7 — control / inverter_control — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:6:control_rated_apparent_power` — control / inverter_control — `supported` — high_low / 0.1VA — I6 high_word, I7 low_word
+- logical field `logical:mod_tl3_xh:holding:6:control_rated_apparent_power` — control / inverter_control — `supported` — high_low / 0.1VA — I6 high_word, I7 low_word
+- logical field `logical:storage_mix:holding:6:control_rated_apparent_power` — control / inverter_control — `supported` — high_low / 0.1VA — I6 high_word, I7 low_word
+- logical field `logical:storage_spa:holding:6:control_rated_apparent_power` — control / inverter_control — `supported` — high_low / 0.1VA — I6 high_word, I7 low_word
+- logical field `logical:storage_sph:holding:6:control_rated_apparent_power` — control / inverter_control — `supported` — high_low / 0.1VA — I6 high_word, I7 low_word
+- logical field `logical:tl3_max_mid_mac:holding:6:control_rated_apparent_power` — control / inverter_control — `supported` — high_low / 0.1VA — I6 high_word, I7 low_word
 
 ## `control.reactive_power_direct_control_setpoint`
 
-- `tl3_max_mid_mac` holding 137 — control / inverter_control — `preferred`
-- `tl3_max_mid_mac` holding 138 — control / inverter_control — `legacy_or_supported`
+- logical field `logical:tl3_max_mid_mac:holding:137:control_reactive_power_direct_control_setpoint` — control / inverter_control — `supported` — high_low / 0.1var — I137 high_word, I138 low_word
 
 ## `control.reactive_power_limit_setpoint`
 
@@ -1898,51 +1803,12 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `control.serial_number`
 
-- `min_tl_xh` holding 3001 — control / inverter_control — `preferred`
-- `min_tl_xh` holding 3002 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3003 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3004 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3005 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3006 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3007 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3008 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3009 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3010 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3011 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3012 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3013 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3014 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3015 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3001 — control / inverter_control — `preferred`
-- `mod_tl3_xh` holding 3002 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3003 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3004 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3005 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3006 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3007 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3008 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3009 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3010 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3011 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3012 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3013 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3014 — control / inverter_control — `legacy_or_supported`
-- `mod_tl3_xh` holding 3015 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3001 — control / inverter_control — `preferred`
-- `storage_mix` holding 3002 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3003 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3004 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3005 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3006 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3007 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3008 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3009 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3010 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3011 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3012 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3013 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3014 — control / inverter_control — `legacy_or_supported`
-- `storage_mix` holding 3015 — control / inverter_control — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:3001` — control / inverter_control — `supported` — unknown / ASCII — I3001 word_1, I3002 word_2, I3003 word_3, I3004 word_4, I3005 word_5, I3006 word_6, I3007 word_7, I3008 word_8
+- logical field `logical:min_tl_xh:holding:3009` — control / inverter_control — `supported` — unknown / ASCII — I3009 word_1, I3010 word_2, I3011 word_3, I3012 word_4, I3013 word_5, I3014 word_6, I3015 word_7, I3016 word_8
+- logical field `logical:mod_tl3_xh:holding:3001` — control / inverter_control — `supported` — unknown / ASCII — I3001 word_1, I3002 word_2, I3003 word_3, I3004 word_4, I3005 word_5, I3006 word_6, I3007 word_7, I3008 word_8
+- logical field `logical:mod_tl3_xh:holding:3009` — control / inverter_control — `supported` — unknown / ASCII — I3009 word_1, I3010 word_2, I3011 word_3, I3012 word_4, I3013 word_5, I3014 word_6, I3015 word_7, I3016 word_8
+- logical field `logical:storage_mix:holding:3001` — control / inverter_control — `supported` — unknown / ASCII — I3001 word_1, I3002 word_2, I3003 word_3, I3004 word_4, I3005 word_5, I3006 word_6, I3007 word_7, I3008 word_8
+- logical field `logical:storage_mix:holding:3009` — control / inverter_control — `supported` — unknown / ASCII — I3009 word_1, I3010 word_2, I3011 word_3, I3012 word_4, I3013 word_5, I3014 word_6, I3015 word_7, I3016 word_8
 
 ## `control.sgip_enable`
 
@@ -2183,39 +2049,9 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 - `mod_tl3_xh` holding 3040 — storage_device / bdc_or_storage_device — `supported`
 
-## `control.time3_xh`
-
-- `mod_tl3_xh` holding 3042 — control / inverter_control — `supported`
-- `storage_mix` holding 3042 — control / inverter_control — `supported`
-
-## `control.time4_xh`
-
-- `mod_tl3_xh` holding 3044 — control / inverter_control — `supported`
-- `storage_mix` holding 3044 — control / inverter_control — `supported`
-
 ## `control.time5_xh`
 
 - `mod_tl3_xh` holding 3050 — control / inverter_control — `supported`
-
-## `control.time6_xh`
-
-- `mod_tl3_xh` holding 3052 — control / inverter_control — `supported`
-- `storage_mix` holding 3052 — control / inverter_control — `supported`
-
-## `control.time7_xh`
-
-- `mod_tl3_xh` holding 3054 — control / inverter_control — `supported`
-- `storage_mix` holding 3054 — control / inverter_control — `supported`
-
-## `control.time8_xh`
-
-- `mod_tl3_xh` holding 3056 — control / inverter_control — `supported`
-- `storage_mix` holding 3056 — control / inverter_control — `supported`
-
-## `control.time9_xh`
-
-- `mod_tl3_xh` holding 3058 — control / inverter_control — `supported`
-- `storage_mix` holding 3058 — control / inverter_control — `supported`
 
 ## `control.tracker_coupling_mode`
 
@@ -2247,10 +2083,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 - `min_tl_xh` holding 3081 — grid / grid_meter_or_inverter — `supported`
 
-## `control.ups_eps_function_enable`
-
-- `min_tl_xh` holding 3079 — control / inverter_control — `supported`
-
 ## `control.ups_eps_voltage_selection`
 
 - `min_tl_xh` holding 3080 — control / inverter_control — `supported`
@@ -2272,36 +2104,18 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `control.us_tou_month_groups`
 
-- `min_tl_xh` holding 3125 — control / inverter_control — `preferred`
-- `min_tl_xh` holding 3126 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3127 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3128 — control / inverter_control — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:3125` — control / inverter_control — `supported` — unknown / unitless — I3125 word_1, I3126 word_2, I3127 word_3, I3128 word_4
 
 ## `control.us_tou_reserved_block`
 
-- `min_tl_xh` holding 3239 — control / inverter_control — `preferred`
-- `min_tl_xh` holding 3240 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3241 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3242 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3243 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3244 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3245 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3246 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3247 — control / inverter_control — `legacy_or_supported`
+- `min_tl_xh` holding 3247 — control / inverter_control — `preferred`
 - `min_tl_xh` holding 3248 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3249 — control / inverter_control — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:3239` — control / inverter_control — `supported` — unknown / unitless — I3239 word_1, I3240 word_2, I3241 word_3, I3242 word_4, I3243 word_5, I3244 word_6, I3245 word_7, I3246 word_8
 
 ## `control.us_tou_slot_table`
 
-- `min_tl_xh` holding 3129 — load / load_meter_or_inverter — `supported`
-- `min_tl_xh` holding 3130 — control / inverter_control — `preferred`
-- `min_tl_xh` holding 3131 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3132 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3133 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3134 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3135 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3136 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3137 — control / inverter_control — `legacy_or_supported`
+- `min_tl_xh` holding 3137 — control / inverter_control — `preferred`
 - `min_tl_xh` holding 3138 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3139 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3140 — control / inverter_control — `legacy_or_supported`
@@ -2365,18 +2179,11 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `min_tl_xh` holding 3198 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3199 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3200 — control / inverter_control — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:3129` — load / load_meter_or_inverter — `supported` — unknown / unitless — I3129 word_1, I3130 word_2, I3131 word_3, I3132 word_4, I3133 word_5, I3134 word_6, I3135 word_7, I3136 word_8
 
 ## `control.us_tou_special_day_1`
 
-- `min_tl_xh` holding 3201 — control / inverter_control — `preferred`
-- `min_tl_xh` holding 3202 — grid / grid_meter_or_inverter — `supported`
-- `min_tl_xh` holding 3203 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3204 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3205 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3206 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3207 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3208 — control / inverter_control — `legacy_or_supported`
-- `min_tl_xh` holding 3209 — control / inverter_control — `legacy_or_supported`
+- `min_tl_xh` holding 3209 — control / inverter_control — `preferred`
 - `min_tl_xh` holding 3210 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3211 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3212 — bms / bms — `supported`
@@ -2387,17 +2194,10 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `min_tl_xh` holding 3217 — bms / bms — `supported`
 - `min_tl_xh` holding 3218 — bms / bms — `supported`
 - `min_tl_xh` holding 3219 — bms / bms — `supported`
+- logical field `logical:min_tl_xh:holding:3201` — control / inverter_control — `supported` — unknown / unitless — I3201 word_1, I3202 word_2, I3203 word_3, I3204 word_4, I3205 word_5, I3206 word_6, I3207 word_7, I3208 word_8
 
 ## `control.us_tou_special_day_2`
 
-- `min_tl_xh` holding 3220 — bms / bms — `supported`
-- `min_tl_xh` holding 3221 — bms / bms — `supported`
-- `min_tl_xh` holding 3222 — bms / bms — `supported`
-- `min_tl_xh` holding 3223 — bms / bms — `supported`
-- `min_tl_xh` holding 3224 — bms / bms — `supported`
-- `min_tl_xh` holding 3225 — bms / bms — `supported`
-- `min_tl_xh` holding 3226 — bms / bms — `supported`
-- `min_tl_xh` holding 3227 — bms / bms — `supported`
 - `min_tl_xh` holding 3228 — bms / bms — `supported`
 - `min_tl_xh` holding 3229 — bms / bms — `supported`
 - `min_tl_xh` holding 3230 — bms / bms — `supported`
@@ -2409,6 +2209,7 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `min_tl_xh` holding 3236 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3237 — control / inverter_control — `legacy_or_supported`
 - `min_tl_xh` holding 3238 — control / inverter_control — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:3220` — bms / bms — `supported` — unknown / unitless — I3220 word_1, I3221 word_2, I3222 word_3, I3223 word_4, I3224 word_5, I3225 word_6, I3226 word_7, I3227 word_8
 
 ## `control.uwsysworkmode`
 
@@ -2556,12 +2357,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 ## `diagnostic.bfanfaultbit`
 
 - `tl3_max_mid_mac` input 229 — unknown / unknown — `supported`
-
-## `diagnostic.binvallfaultcod_e`
-
-- `storage_mix` input 115 — unknown / unknown — `supported`
-- `storage_sph` input 115 — unknown / unknown — `supported`
-- `tl3_max_mid_mac` input 115 — unknown / unknown — `supported`
 
 ## `diagnostic.bms_average_temperature_a`
 
@@ -2727,6 +2522,12 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 - `tl3_max_mid_mac` holding 234 — unknown / unknown — `supported`
 
+## `diagnostic.inverter_all_fault_code`
+
+- `storage_mix` input 115 — unknown / unknown — `supported`
+- `storage_sph` input 115 — unknown / unknown — `supported`
+- `tl3_max_mid_mac` input 115 — unknown / unknown — `supported`
+
 ## `diagnostic.inverter_temperature`
 
 - `min_tl_xh` input 93 — inverter / inverter — `preferred`
@@ -2836,19 +2637,13 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `diagnostic.warning_code`
 
-- `min_tl_xh` input 110 — unknown / unknown — `preferred`
-- `min_tl_xh` input 111 — inverter / inverter — `preferred`
-- `min_tl_xh` input 3110 — inverter / inverter — `alternate`
-- `min_tl_xh` input 3111 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3110 — inverter / inverter — `supported`
-- `mod_tl3_xh` input 3111 — unknown / unknown — `supported`
-- `storage_mix` input 110 — unknown / unknown — `preferred`
-- `storage_mix` input 111 — inverter / inverter — `supported`
-- `storage_mix` input 3111 — unknown / unknown — `alternate`
-- `storage_sph` input 110 — unknown / unknown — `supported`
-- `storage_sph` input 111 — inverter / inverter — `supported`
-- `tl3_max_mid_mac` input 110 — unknown / unknown — `supported`
-- `tl3_max_mid_mac` input 111 — inverter / inverter — `supported`
+- `storage_mix` input 3111 — unknown / unknown — `preferred`
+- logical field `logical:min_tl_xh:input:110` — unknown / unknown — `supported` — unknown / unitless — I110 word_1, I111 word_2
+- logical field `logical:min_tl_xh:input:3110` — inverter / inverter — `supported` — unknown / unitless — I3110 word_1, I3111 word_2
+- logical field `logical:mod_tl3_xh:input:3110` — inverter / inverter — `supported` — unknown / unitless — I3110 word_1, I3111 word_2
+- logical field `logical:storage_mix:input:110` — unknown / unknown — `supported` — unknown / unitless — I110 word_1, I111 word_2
+- logical field `logical:storage_sph:input:110` — unknown / unknown — `supported` — unknown / unitless — I110 word_1, I111 word_2
+- logical field `logical:tl3_max_mid_mac:input:110` — unknown / unknown — `supported` — unknown / unitless — I110 word_1, I111 word_2
 
 ## `diagnostic.warning_main_code`
 
@@ -2910,21 +2705,14 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.alternate_serial_number`
 
-- `tl3_max_mid_mac` holding 209 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` holding 210 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 211 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 212 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 213 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 214 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 215 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 216 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 217 — unknown / unknown — `legacy_or_supported`
+- `tl3_max_mid_mac` holding 217 — unknown / unknown — `preferred`
 - `tl3_max_mid_mac` holding 218 — unknown / unknown — `legacy_or_supported`
 - `tl3_max_mid_mac` holding 219 — unknown / unknown — `legacy_or_supported`
 - `tl3_max_mid_mac` holding 220 — unknown / unknown — `legacy_or_supported`
 - `tl3_max_mid_mac` holding 221 — unknown / unknown — `legacy_or_supported`
 - `tl3_max_mid_mac` holding 222 — unknown / unknown — `legacy_or_supported`
 - `tl3_max_mid_mac` holding 223 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:tl3_max_mid_mac:holding:209` — unknown / unknown — `supported` — unknown / ASCII — I209 word_1, I210 word_2, I211 word_3, I212 word_4, I213 word_5, I214 word_6, I215 word_7, I216 word_8
 
 ## `field.autoproofreadc_md`
 
@@ -3071,12 +2859,9 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.bdc_monitoring_code`
 
-- `min_tl_xh` holding 3096 — unknown / unknown — `preferred`
-- `min_tl_xh` holding 3097 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 3096 — unknown / unknown — `preferred`
-- `mod_tl3_xh` holding 3097 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 3096 — unknown / unknown — `preferred`
-- `storage_mix` holding 3097 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:3096` — unknown / unknown — `supported` — unknown / ASCII — I3096 word_1, I3097 word_2
+- logical field `logical:mod_tl3_xh:holding:3096` — unknown / unknown — `supported` — unknown / ASCII — I3096 word_1, I3097 word_2
+- logical field `logical:storage_mix:holding:3096` — unknown / unknown — `supported` — unknown / ASCII — I3096 word_1, I3097 word_2
 
 ## `field.bdc_on_off_state`
 
@@ -3118,10 +2903,7 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.bootloader_identifier_string`
 
-- `tl3_max_mid_mac` holding 133 — load / load_meter_or_inverter — `preferred`
-- `tl3_max_mid_mac` holding 134 — load / load_meter_or_inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 135 — load / load_meter_or_inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 136 — load / load_meter_or_inverter — `legacy_or_supported`
+- logical field `logical:tl3_max_mid_mac:holding:133` — load / load_meter_or_inverter — `supported` — unknown / ASCII — I133 word_1, I134 word_2, I135 word_3, I136 word_4
 
 ## `field.brs232agingtest_okflag`
 
@@ -3153,27 +2935,15 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.comp_q_rh`
 
-- `tl3_max_mid_mac` input 219 — ac / ac_phase — `supported`
-
-## `field.comp_q_rl`
-
-- `tl3_max_mid_mac` input 220 — ac / ac_phase — `supported`
+- logical field `logical:tl3_max_mid_mac:input:219:field_comp_q_rh` — ac / ac_phase — `supported` — high_low / unitless — I219 high_word, I220 low_word
 
 ## `field.comp_q_sh`
 
-- `tl3_max_mid_mac` input 221 — ac / ac_phase — `supported`
-
-## `field.comp_q_sl`
-
-- `tl3_max_mid_mac` input 222 — ac / ac_phase — `supported`
+- logical field `logical:tl3_max_mid_mac:input:221:field_comp_q_sh` — ac / ac_phase — `supported` — high_low / unitless — I221 high_word, I222 low_word
 
 ## `field.comp_q_th`
 
-- `tl3_max_mid_mac` input 223 — ac / ac_phase — `supported`
-
-## `field.comp_q_tl`
-
-- `tl3_max_mid_mac` input 224 — ac / ac_phase — `supported`
+- logical field `logical:tl3_max_mid_mac:input:223:field_comp_q_th` — ac / ac_phase — `supported` — high_low / unitless — I223 high_word, I224 low_word
 
 ## `field.comphar_i_r`
 
@@ -3189,42 +2959,12 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.controller_firmware_build_string`
 
-- `min_tl_xh` holding 82 — unknown / unknown — `preferred`
-- `min_tl_xh` holding 83 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 84 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 85 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 86 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 87 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 82 — unknown / unknown — `preferred`
-- `mod_tl3_xh` holding 83 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 84 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 85 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 86 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 87 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 82 — unknown / unknown — `preferred`
-- `storage_mix` holding 83 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 84 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 85 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 86 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 87 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 82 — unknown / unknown — `preferred`
-- `storage_spa` holding 83 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 84 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 85 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 86 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 87 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 82 — unknown / unknown — `preferred`
-- `storage_sph` holding 83 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 84 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 85 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 86 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 87 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 82 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` holding 83 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 84 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 85 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 86 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 87 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:82` — unknown / unknown — `supported` — unknown / ASCII — I82 word_1, I83 word_2, I84 word_3, I85 word_4, I86 word_5, I87 word_6
+- logical field `logical:mod_tl3_xh:holding:82` — unknown / unknown — `supported` — unknown / ASCII — I82 word_1, I83 word_2, I84 word_3, I85 word_4, I86 word_5, I87 word_6
+- logical field `logical:storage_mix:holding:82` — unknown / unknown — `supported` — unknown / ASCII — I82 word_1, I83 word_2, I84 word_3, I85 word_4, I86 word_5, I87 word_6
+- logical field `logical:storage_spa:holding:82` — unknown / unknown — `supported` — unknown / ASCII — I82 word_1, I83 word_2, I84 word_3, I85 word_4, I86 word_5, I87 word_6
+- logical field `logical:storage_sph:holding:82` — unknown / unknown — `supported` — unknown / ASCII — I82 word_1, I83 word_2, I84 word_3, I85 word_4, I86 word_5, I87 word_6
+- logical field `logical:tl3_max_mid_mac:holding:82` — unknown / unknown — `supported` — unknown / ASCII — I82 word_1, I83 word_2, I84 word_3, I85 word_4, I86 word_5, I87 word_6
 
 ## `field.ct_i_r`
 
@@ -3240,27 +2980,15 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.ct_q_rh`
 
-- `tl3_max_mid_mac` input 210 — load / load_meter_or_inverter — `supported`
-
-## `field.ct_q_rl`
-
-- `tl3_max_mid_mac` input 211 — load / load_meter_or_inverter — `supported`
+- logical field `logical:tl3_max_mid_mac:input:210:field_ct_q_rh` — load / load_meter_or_inverter — `supported` — high_low / unitless — I210 high_word, I211 low_word
 
 ## `field.ct_q_sh`
 
-- `tl3_max_mid_mac` input 212 — load / load_meter_or_inverter — `supported`
-
-## `field.ct_q_sl`
-
-- `tl3_max_mid_mac` input 213 — load / load_meter_or_inverter — `supported`
+- logical field `logical:tl3_max_mid_mac:input:212:field_ct_q_sh` — load / load_meter_or_inverter — `supported` — high_low / unitless — I212 high_word, I213 low_word
 
 ## `field.ct_q_th`
 
-- `tl3_max_mid_mac` input 214 — load / load_meter_or_inverter — `supported`
-
-## `field.ct_q_tl`
-
-- `tl3_max_mid_mac` input 215 — load / load_meter_or_inverter — `supported`
+- logical field `logical:tl3_max_mid_mac:input:214:field_ct_q_th` — load / load_meter_or_inverter — `supported` — high_low / unitless — I214 high_word, I215 low_word
 
 ## `field.cthar_i_r`
 
@@ -3585,12 +3313,9 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.dsp_firmware_code`
 
-- `min_tl_xh` holding 3099 — unknown / unknown — `supported`
-- `min_tl_xh` holding 3100 — inverter / inverter — `supported`
-- `mod_tl3_xh` holding 3099 — unknown / unknown — `supported`
-- `mod_tl3_xh` holding 3100 — inverter / inverter — `supported`
-- `storage_mix` holding 3099 — unknown / unknown — `supported`
-- `storage_mix` holding 3100 — inverter / inverter — `supported`
+- logical field `logical:min_tl_xh:holding:3099` — unknown / unknown — `supported` — unknown / ASCII — I3099 word_1, I3100 word_2
+- logical field `logical:mod_tl3_xh:holding:3099` — unknown / unknown — `supported` — unknown / ASCII — I3099 word_1, I3100 word_2
+- logical field `logical:storage_mix:holding:3099` — unknown / unknown — `supported` — unknown / ASCII — I3099 word_1, I3100 word_2
 
 ## `field.dsp_firmware_version`
 
@@ -3600,19 +3325,11 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.eacharge_today_h`
 
-- `storage_spa` input 2112 — unknown / unknown — `supported`
-
-## `field.eacharge_today_l`
-
-- `storage_spa` input 2113 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:2112:field_eacharge_today_h` — unknown / unknown — `supported` — high_low / unitless — I2112 high_word, I2113 low_word
 
 ## `field.eacharge_total_h`
 
-- `storage_spa` input 2114 — unknown / unknown — `supported`
-
-## `field.eacharge_total_l`
-
-- `storage_spa` input 2115 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:2114:field_eacharge_total_h` — unknown / unknown — `supported` — high_low / unitless — I2114 high_word, I2115 low_word
 
 ## `field.eactodayh`
 
@@ -3624,109 +3341,67 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.eactotalh`
 
-- `storage_spa` input 2055 — unknown / unknown — `supported`
-
-## `field.eactotall`
-
-- `storage_spa` input 2056 — unknown / unknown — `supported`
-
-## `field.echarge1_today_l`
-
-- `storage_mix` input 1057 — unknown / unknown — `supported`
-- `storage_spa` input 1057 — unknown / unknown — `supported`
-- `storage_sph` input 1057 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:2055:field_eactotalh` — unknown / unknown — `supported` — high_low / SPA — I2055 high_word, I2056 low_word
 
 ## `field.echarge1_todayh`
 
-- `storage_mix` input 1056 — unknown / unknown — `supported`
-- `storage_spa` input 1056 — unknown / unknown — `supported`
-- `storage_sph` input 1056 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1056:field_echarge1_todayh` — unknown / unknown — `supported` — high_low / kWh — I1056 high_word, I1057 low_word
+- logical field `logical:storage_spa:input:1056:field_echarge1_todayh` — unknown / unknown — `supported` — high_low / kWh — I1056 high_word, I1057 low_word
+- logical field `logical:storage_sph:input:1056:field_echarge1_todayh` — unknown / unknown — `supported` — high_low / kWh — I1056 high_word, I1057 low_word
 
 ## `field.echarge1_totalh`
 
-- `storage_mix` input 1058 — unknown / unknown — `supported`
-- `storage_spa` input 1058 — unknown / unknown — `supported`
-- `storage_sph` input 1058 — unknown / unknown — `supported`
-
-## `field.echarge1_totall`
-
-- `storage_mix` input 1059 — unknown / unknown — `supported`
-- `storage_spa` input 1059 — unknown / unknown — `supported`
-- `storage_sph` input 1059 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1058:field_echarge1_totalh` — unknown / unknown — `supported` — high_low / kWh — I1058 high_word, I1059 low_word
+- logical field `logical:storage_spa:input:1058:field_echarge1_totalh` — unknown / unknown — `supported` — high_low / kWh — I1058 high_word, I1059 low_word
+- logical field `logical:storage_sph:input:1058:field_echarge1_totalh` — unknown / unknown — `supported` — high_low / kWh — I1058 high_word, I1059 low_word
 
 ## `field.edischarge1_toda_yh`
 
-- `storage_mix` input 1052 — unknown / unknown — `supported`
-- `storage_spa` input 1052 — unknown / unknown — `supported`
-- `storage_sph` input 1052 — unknown / unknown — `supported`
-
-## `field.edischarge1_toda_yl`
-
-- `storage_mix` input 1053 — unknown / unknown — `supported`
-- `storage_spa` input 1053 — unknown / unknown — `supported`
-- `storage_sph` input 1053 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1052:field_edischarge1_toda_yh` — unknown / unknown — `supported` — high_low / kWh — I1052 high_word, I1053 low_word
+- logical field `logical:storage_spa:input:1052:field_edischarge1_toda_yh` — unknown / unknown — `supported` — high_low / kWh — I1052 high_word, I1053 low_word
+- logical field `logical:storage_sph:input:1052:field_edischarge1_toda_yh` — unknown / unknown — `supported` — high_low / kWh — I1052 high_word, I1053 low_word
 
 ## `field.edischarge1_total_h`
 
-- `storage_mix` input 1054 — unknown / unknown — `supported`
-- `storage_spa` input 1054 — unknown / unknown — `supported`
-- `storage_sph` input 1054 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1054:field_edischarge1_total_h` — unknown / unknown — `supported` — high_low / kWh — I1054 high_word, I1055 low_word
+- logical field `logical:storage_spa:input:1054:field_edischarge1_total_h` — unknown / unknown — `supported` — high_low / kWh — I1054 high_word, I1055 low_word
+- logical field `logical:storage_sph:input:1054:field_edischarge1_total_h` — unknown / unknown — `supported` — high_low / kWh — I1054 high_word, I1055 low_word
 
 ## `field.eex1todayh`
 
-- `min_tl_xh` input 3254 — pv / pv_or_mppt — `supported`
-
-## `field.eex1todayl`
-
-- `min_tl_xh` input 3255 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3254:field_eex1todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I3254 high_word, I3255 low_word
 
 ## `field.eex1totalh`
 
-- `min_tl_xh` input 3258 — pv / pv_or_mppt — `supported`
-
-## `field.eex1totall`
-
-- `min_tl_xh` input 3259 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3258:field_eex1totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I3258 high_word, I3259 low_word
 
 ## `field.eex2todayh`
 
-- `min_tl_xh` input 3256 — pv / pv_or_mppt — `supported`
-
-## `field.eex2todayl`
-
-- `min_tl_xh` input 3257 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3256:field_eex2todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I3256 high_word, I3257 low_word
 
 ## `field.eex2totalh`
 
-- `min_tl_xh` input 3260 — pv / pv_or_mppt — `supported`
-
-## `field.eex2totall`
-
-- `min_tl_xh` input 3261 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3260:field_eex2totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I3260 high_word, I3261 low_word
 
 ## `field.eextra_todayh`
 
-- `storage_spa` input 1133 — inverter / inverter — `preferred`
-- `storage_spa` input 2104 — inverter / inverter — `legacy_or_supported`
-- `storage_sph` input 1133 — inverter / inverter — `supported`
+- `storage_spa` input 2104 — inverter / inverter — `preferred`
+- logical field `logical:storage_spa:input:1133:field_eextra_todayh` — inverter / inverter — `supported` — high_low / 0.1kWh — I1133 high_word, I1134 low_word
+- logical field `logical:storage_sph:input:1133:field_eextra_todayh` — inverter / inverter — `supported` — high_low / 0.1kWh — I1133 high_word, I1134 low_word
 
 ## `field.eextra_todayl`
 
-- `storage_spa` input 1134 — inverter / inverter — `preferred`
-- `storage_spa` input 2105 — inverter / inverter — `legacy_or_supported`
-- `storage_sph` input 1134 — inverter / inverter — `supported`
+- `storage_spa` input 2105 — inverter / inverter — `supported`
 
 ## `field.eextra_totalh`
 
-- `storage_spa` input 1135 — inverter / inverter — `preferred`
-- `storage_spa` input 2106 — inverter / inverter — `legacy_or_supported`
-- `storage_sph` input 1135 — inverter / inverter — `supported`
+- `storage_spa` input 2106 — inverter / inverter — `preferred`
+- logical field `logical:storage_spa:input:1135:field_eextra_totalh` — inverter / inverter — `supported` — high_low / 0.1kWh — I1135 high_word, I1136 low_word
+- logical field `logical:storage_sph:input:1135:field_eextra_totalh` — inverter / inverter — `supported` — high_low / 0.1kWh — I1135 high_word, I1136 low_word
 
 ## `field.eextra_totall`
 
-- `storage_spa` input 1136 — inverter / inverter — `preferred`
-- `storage_spa` input 2107 — inverter / inverter — `legacy_or_supported`
-- `storage_sph` input 1136 — inverter / inverter — `supported`
+- `storage_spa` input 2107 — inverter / inverter — `supported`
 
 ## `field.eps_load_percentage`
 
@@ -3816,221 +3491,126 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.epv10_todayh`
 
-- `tl3_max_mid_mac` input 911 — pv / pv_or_mppt — `supported`
-
-## `field.epv10_todayl`
-
-- `tl3_max_mid_mac` input 912 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:911:field_epv10_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I911 high_word, I912 low_word
 
 ## `field.epv10_totalh`
 
-- `tl3_max_mid_mac` input 913 — pv / pv_or_mppt — `supported`
-
-## `field.epv10_totall`
-
-- `tl3_max_mid_mac` input 914 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:913:field_epv10_totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I913 high_word, I914 low_word
 
 ## `field.epv11_todayh`
 
-- `tl3_max_mid_mac` input 915 — pv / pv_or_mppt — `supported`
-
-## `field.epv11_todayl`
-
-- `tl3_max_mid_mac` input 916 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:915:field_epv11_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I915 high_word, I916 low_word
 
 ## `field.epv11_totalh`
 
-- `tl3_max_mid_mac` input 917 — pv / pv_or_mppt — `supported`
-
-## `field.epv11_totall`
-
-- `tl3_max_mid_mac` input 918 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:917:field_epv11_totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I917 high_word, I918 low_word
 
 ## `field.epv12_todayh`
 
-- `tl3_max_mid_mac` input 919 — pv / pv_or_mppt — `supported`
-
-## `field.epv12_todayl`
-
-- `tl3_max_mid_mac` input 920 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:919:field_epv12_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I919 high_word, I920 low_word
 
 ## `field.epv12_totalh`
 
-- `tl3_max_mid_mac` input 921 — pv / pv_or_mppt — `supported`
-
-## `field.epv12_totall`
-
-- `tl3_max_mid_mac` input 922 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:921:field_epv12_totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I921 high_word, I922 low_word
 
 ## `field.epv13_todayh`
 
-- `tl3_max_mid_mac` input 923 — pv / pv_or_mppt — `supported`
-
-## `field.epv13_todayl`
-
-- `tl3_max_mid_mac` input 924 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:923:field_epv13_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I923 high_word, I924 low_word
 
 ## `field.epv13_totalh`
 
-- `tl3_max_mid_mac` input 925 — pv / pv_or_mppt — `supported`
-
-## `field.epv13_totall`
-
-- `tl3_max_mid_mac` input 926 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:925:field_epv13_totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I925 high_word, I926 low_word
 
 ## `field.epv14_todayh`
 
-- `tl3_max_mid_mac` input 927 — pv / pv_or_mppt — `supported`
-
-## `field.epv14_todayl`
-
-- `tl3_max_mid_mac` input 928 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:927:field_epv14_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I927 high_word, I928 low_word
 
 ## `field.epv14_totalh`
 
-- `tl3_max_mid_mac` input 929 — pv / pv_or_mppt — `supported`
-
-## `field.epv14_totall`
-
-- `tl3_max_mid_mac` input 930 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:929:field_epv14_totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I929 high_word, I930 low_word
 
 ## `field.epv15_todayh`
 
-- `tl3_max_mid_mac` input 931 — pv / pv_or_mppt — `supported`
-
-## `field.epv15_todayl`
-
-- `tl3_max_mid_mac` input 932 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:931:field_epv15_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I931 high_word, I932 low_word
 
 ## `field.epv15_totalh`
 
-- `tl3_max_mid_mac` input 933 — pv / pv_or_mppt — `supported`
-
-## `field.epv15_totall`
-
-- `tl3_max_mid_mac` input 934 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:933:field_epv15_totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I933 high_word, I934 low_word
 
 ## `field.epv16_todayh`
 
-- `tl3_max_mid_mac` input 935 — pv / pv_or_mppt — `supported`
-
-## `field.epv16_todayl`
-
-- `tl3_max_mid_mac` input 936 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:935:field_epv16_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I935 high_word, I936 low_word
 
 ## `field.epv16_totalh`
 
-- `tl3_max_mid_mac` input 937 — pv / pv_or_mppt — `supported`
-
-## `field.epv16_totall`
-
-- `tl3_max_mid_mac` input 938 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:937:field_epv16_totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I937 high_word, I938 low_word
 
 ## `field.epv9_todayh`
 
-- `tl3_max_mid_mac` input 907 — pv / pv_or_mppt — `supported`
-
-## `field.epv9_todayl`
-
-- `tl3_max_mid_mac` input 908 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:907:field_epv9_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I907 high_word, I908 low_word
 
 ## `field.epv9_totalh`
 
-- `tl3_max_mid_mac` input 909 — pv / pv_or_mppt — `supported`
-
-## `field.epv9_totall`
-
-- `tl3_max_mid_mac` input 910 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:909:field_epv9_totalh` — pv / pv_or_mppt — `supported` — high_low / unitless — I909 high_word, I910 low_word
 
 ## `field.epvall_todayh`
 
-- `storage_spa` input 1149 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 1149 — pv / pv_or_mppt — `supported`
-
-## `field.epvall_todayl`
-
-- `storage_spa` input 1150 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 1150 — pv / pv_or_mppt — `supported`
+- logical field `logical:storage_spa:input:1149:field_epvall_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I1149 high_word, I1150 low_word
+- logical field `logical:storage_sph:input:1149:field_epvall_todayh` — pv / pv_or_mppt — `supported` — high_low / unitless — I1149 high_word, I1150 low_word
 
 ## `field.eself_todayh`
 
-- `storage_spa` input 1141 — unknown / unknown — `supported`
-- `storage_sph` input 1141 — unknown / unknown — `supported`
-
-## `field.eself_todayl`
-
-- `storage_spa` input 1142 — unknown / unknown — `supported`
-- `storage_sph` input 1142 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:1141:field_eself_todayh` — unknown / unknown — `supported` — high_low / self electric energytodayH — I1141 high_word, I1142 low_word
+- logical field `logical:storage_sph:input:1141:field_eself_todayh` — unknown / unknown — `supported` — high_low / self electric energytodayH — I1141 high_word, I1142 low_word
 
 ## `field.eself_totalh`
 
-- `storage_spa` input 1143 — unknown / unknown — `supported`
-- `storage_sph` input 1143 — unknown / unknown — `supported`
-
-## `field.eself_totall`
-
-- `storage_spa` input 1144 — unknown / unknown — `supported`
-- `storage_sph` input 1144 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:1143:field_eself_totalh` — unknown / unknown — `supported` — high_low / self electric energytotalH — I1143 high_word, I1144 low_word
+- logical field `logical:storage_sph:input:1143:field_eself_totalh` — unknown / unknown — `supported` — high_low / self electric energytotalH — I1143 high_word, I1144 low_word
 
 ## `field.esystem_today_h`
 
-- `storage_spa` input 1137 — unknown / unknown — `preferred`
-- `storage_spa` input 2108 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` input 1137 — unknown / unknown — `supported`
+- `storage_spa` input 2108 — unknown / unknown — `preferred`
+- logical field `logical:storage_spa:input:1137:field_esystem_today_h` — unknown / unknown — `supported` — high_low / 0.1kWh — I1137 high_word, I1138 low_word
+- logical field `logical:storage_sph:input:1137:field_esystem_today_h` — unknown / unknown — `supported` — high_low / 0.1kWh — I1137 high_word, I1138 low_word
 
 ## `field.esystem_today_l`
 
-- `storage_spa` input 1138 — unknown / unknown — `preferred`
-- `storage_spa` input 2109 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` input 1138 — unknown / unknown — `supported`
+- `storage_spa` input 2109 — unknown / unknown — `supported`
 
 ## `field.esystem_totalh`
 
-- `storage_spa` input 1139 — unknown / unknown — `preferred`
-- `storage_spa` input 2110 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` input 1139 — unknown / unknown — `supported`
+- `storage_spa` input 2110 — unknown / unknown — `preferred`
+- logical field `logical:storage_spa:input:1139:field_esystem_totalh` — unknown / unknown — `supported` — high_low / SPA used System electric energytotalH — I1139 high_word, I1140 low_word
+- logical field `logical:storage_sph:input:1139:field_esystem_totalh` — unknown / unknown — `supported` — high_low / SPA used System electric energytotalH — I1139 high_word, I1140 low_word
 
 ## `field.esystem_totall`
 
-- `storage_spa` input 1140 — unknown / unknown — `preferred`
-- `storage_spa` input 2111 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` input 1140 — unknown / unknown — `supported`
+- `storage_spa` input 2111 — unknown / unknown — `supported`
 
 ## `field.etogrid_todayh`
 
-- `storage_mix` input 1048 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1048 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1048 — grid / grid_meter_or_inverter — `supported`
+- logical field `logical:storage_mix:input:1048:field_etogrid_todayh` — grid / grid_meter_or_inverter — `supported` — high_low / kWh — I1048 high_word, I1049 low_word
+- logical field `logical:storage_spa:input:1048:field_etogrid_todayh` — grid / grid_meter_or_inverter — `supported` — high_low / kWh — I1048 high_word, I1049 low_word
+- logical field `logical:storage_sph:input:1048:field_etogrid_todayh` — grid / grid_meter_or_inverter — `supported` — high_low / kWh — I1048 high_word, I1049 low_word
 
 ## `field.etogrid_totalh`
 
-- `storage_mix` input 1050 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1050 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1050 — grid / grid_meter_or_inverter — `supported`
-
-## `field.etogrid_totall`
-
-- `storage_mix` input 1051 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1051 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1051 — grid / grid_meter_or_inverter — `supported`
+- logical field `logical:storage_mix:input:1050:field_etogrid_totalh` — grid / grid_meter_or_inverter — `supported` — high_low / kWh — I1050 high_word, I1051 low_word
+- logical field `logical:storage_spa:input:1050:field_etogrid_totalh` — grid / grid_meter_or_inverter — `supported` — high_low / kWh — I1050 high_word, I1051 low_word
+- logical field `logical:storage_sph:input:1050:field_etogrid_totalh` — grid / grid_meter_or_inverter — `supported` — high_low / kWh — I1050 high_word, I1051 low_word
 
 ## `field.etouser_todayh`
 
-- `storage_mix` input 1044 — unknown / unknown — `supported`
-- `storage_spa` input 1044 — unknown / unknown — `supported`
-- `storage_sph` input 1044 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1044:field_etouser_todayh` — unknown / unknown — `supported` — high_low / kWh — I1044 high_word, I1045 low_word
+- logical field `logical:storage_spa:input:1044:field_etouser_todayh` — unknown / unknown — `supported` — high_low / kWh — I1044 high_word, I1045 low_word
+- logical field `logical:storage_sph:input:1044:field_etouser_todayh` — unknown / unknown — `supported` — high_low / kWh — I1044 high_word, I1045 low_word
 
 ## `field.etouser_totalh`
 
-- `storage_mix` input 1046 — unknown / unknown — `supported`
-- `storage_spa` input 1046 — unknown / unknown — `supported`
-- `storage_sph` input 1046 — unknown / unknown — `supported`
-
-## `field.etouser_totall`
-
-- `storage_mix` input 1047 — unknown / unknown — `supported`
-- `storage_spa` input 1047 — unknown / unknown — `supported`
-- `storage_sph` input 1047 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1046:field_etouser_totalh` — unknown / unknown — `supported` — high_low / kWh — I1046 high_word, I1047 low_word
+- logical field `logical:storage_spa:input:1046:field_etouser_totalh` — unknown / unknown — `supported` — high_low / kWh — I1046 high_word, I1047 low_word
+- logical field `logical:storage_sph:input:1046:field_etouser_totalh` — unknown / unknown — `supported` — high_low / kWh — I1046 high_word, I1047 low_word
 
 ## `field.fac`
 
@@ -4038,42 +3618,18 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.firmware`
 
-- `min_tl_xh` holding 9 — unknown / unknown — `preferred`
-- `min_tl_xh` holding 10 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 11 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 12 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 13 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 14 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 9 — unknown / unknown — `preferred`
-- `mod_tl3_xh` holding 10 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 11 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 12 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 13 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 14 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 9 — unknown / unknown — `preferred`
-- `storage_mix` holding 10 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 11 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 12 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 13 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 14 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 9 — unknown / unknown — `preferred`
-- `storage_spa` holding 10 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 11 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 12 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 13 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 14 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 9 — unknown / unknown — `preferred`
-- `storage_sph` holding 10 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 11 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 12 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 13 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 14 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 9 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` holding 10 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 11 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 12 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 13 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 14 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:9:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I9 high_word, I10 middle_word, I11 low_word
+- logical field `logical:min_tl_xh:holding:12:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I12 high_word, I13 middle_word, I14 low_word
+- logical field `logical:mod_tl3_xh:holding:9:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I9 high_word, I10 middle_word, I11 low_word
+- logical field `logical:mod_tl3_xh:holding:12:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I12 high_word, I13 middle_word, I14 low_word
+- logical field `logical:storage_mix:holding:9:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I9 high_word, I10 middle_word, I11 low_word
+- logical field `logical:storage_mix:holding:12:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I12 high_word, I13 middle_word, I14 low_word
+- logical field `logical:storage_spa:holding:9:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I9 high_word, I10 middle_word, I11 low_word
+- logical field `logical:storage_spa:holding:12:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I12 high_word, I13 middle_word, I14 low_word
+- logical field `logical:storage_sph:holding:9:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I9 high_word, I10 middle_word, I11 low_word
+- logical field `logical:storage_sph:holding:12:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I12 high_word, I13 middle_word, I14 low_word
+- logical field `logical:tl3_max_mid_mac:holding:9:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I9 high_word, I10 middle_word, I11 low_word
+- logical field `logical:tl3_max_mid_mac:holding:12:field_firmware` — unknown / unknown — `supported` — high_middle_low / ASCII — I12 high_word, I13 middle_word, I14 low_word
 
 ## `field.gfci`
 
@@ -4145,26 +3701,16 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.inverter_model`
 
-- `min_tl_xh` holding 28 — inverter / inverter — `preferred`
-- `min_tl_xh` holding 29 — inverter / inverter — `legacy_or_supported`
-- `mod_tl3_xh` holding 28 — inverter / inverter — `preferred`
-- `mod_tl3_xh` holding 29 — inverter / inverter — `legacy_or_supported`
-- `storage_mix` holding 28 — inverter / inverter — `preferred`
-- `storage_mix` holding 29 — inverter / inverter — `legacy_or_supported`
-- `storage_spa` holding 28 — inverter / inverter — `preferred`
-- `storage_spa` holding 29 — inverter / inverter — `legacy_or_supported`
-- `storage_sph` holding 28 — inverter / inverter — `preferred`
-- `storage_sph` holding 29 — inverter / inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 28 — inverter / inverter — `preferred`
-- `tl3_max_mid_mac` holding 29 — inverter / inverter — `legacy_or_supported`
-
-## `field.inverter_runtime`
-
-- `min_tl_xh` input 3048 — inverter / inverter — `supported`
+- logical field `logical:min_tl_xh:holding:28:field_inverter_model` — inverter / inverter — `supported` — high_low / unitless — I28 high_word, I29 low_word
+- logical field `logical:mod_tl3_xh:holding:28:field_inverter_model` — inverter / inverter — `supported` — high_low / unitless — I28 high_word, I29 low_word
+- logical field `logical:storage_mix:holding:28:field_inverter_model` — inverter / inverter — `supported` — high_low / unitless — I28 high_word, I29 low_word
+- logical field `logical:storage_spa:holding:28:field_inverter_model` — inverter / inverter — `supported` — high_low / unitless — I28 high_word, I29 low_word
+- logical field `logical:storage_sph:holding:28:field_inverter_model` — inverter / inverter — `supported` — high_low / unitless — I28 high_word, I29 low_word
+- logical field `logical:tl3_max_mid_mac:holding:28:field_inverter_model` — inverter / inverter — `supported` — high_low / unitless — I28 high_word, I29 low_word
 
 ## `field.inverter_serial_number`
 
-- `min_tl_xh` holding 23 — inverter / inverter — `supported`
+- logical field `logical:min_tl_xh:holding:23` — inverter / inverter — `supported` — unknown / ASCII — I23 word_1, I24 word_2, I25 word_3, I26 word_4, I27 word_5
 
 ## `field.inverter_start_delay`
 
@@ -4174,14 +3720,7 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.inverter_type_identifier`
 
-- `tl3_max_mid_mac` holding 125 — inverter / inverter — `preferred`
-- `tl3_max_mid_mac` holding 126 — inverter / inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 127 — inverter / inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 128 — inverter / inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 129 — inverter / inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 130 — inverter / inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 131 — inverter / inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 132 — inverter / inverter — `legacy_or_supported`
+- logical field `logical:tl3_max_mid_mac:holding:125` — inverter / inverter — `supported` — unknown / ASCII — I125 word_1, I126 word_2, I127 word_3, I128 word_4, I129 word_5, I130 word_6, I131 word_7, I132 word_8
 
 ## `field.invertertemp`
 
@@ -4199,54 +3738,12 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.manufacturer_information_string`
 
-- `min_tl_xh` holding 34 — unknown / unknown — `preferred`
-- `min_tl_xh` holding 35 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 36 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 37 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 38 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 39 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 40 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 41 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 34 — unknown / unknown — `preferred`
-- `mod_tl3_xh` holding 35 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 36 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 37 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 38 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 39 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 40 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 41 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 34 — unknown / unknown — `preferred`
-- `storage_mix` holding 35 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 36 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 37 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 38 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 39 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 40 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 41 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 34 — unknown / unknown — `preferred`
-- `storage_spa` holding 35 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 36 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 37 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 38 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 39 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 40 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 41 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 34 — unknown / unknown — `preferred`
-- `storage_sph` holding 35 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 36 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 37 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 38 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 39 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 40 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 41 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 34 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` holding 35 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 36 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 37 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 38 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 39 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 40 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 41 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:34` — unknown / unknown — `supported` — unknown / ASCII — I34 word_1, I35 word_2, I36 word_3, I37 word_4, I38 word_5, I39 word_6, I40 word_7, I41 word_8
+- logical field `logical:mod_tl3_xh:holding:34` — unknown / unknown — `supported` — unknown / ASCII — I34 word_1, I35 word_2, I36 word_3, I37 word_4, I38 word_5, I39 word_6, I40 word_7, I41 word_8
+- logical field `logical:storage_mix:holding:34` — unknown / unknown — `supported` — unknown / ASCII — I34 word_1, I35 word_2, I36 word_3, I37 word_4, I38 word_5, I39 word_6, I40 word_7, I41 word_8
+- logical field `logical:storage_spa:holding:34` — unknown / unknown — `supported` — unknown / ASCII — I34 word_1, I35 word_2, I36 word_3, I37 word_4, I38 word_5, I39 word_6, I40 word_7, I41 word_8
+- logical field `logical:storage_sph:holding:34` — unknown / unknown — `supported` — unknown / ASCII — I34 word_1, I35 word_2, I36 word_3, I37 word_4, I38 word_5, I39 word_6, I40 word_7, I41 word_8
+- logical field `logical:tl3_max_mid_mac:holding:34` — unknown / unknown — `supported` — unknown / ASCII — I34 word_1, I35 word_2, I36 word_3, I37 word_4, I38 word_5, I39 word_6, I40 word_7, I41 word_8
 
 ## `field.modbus_version`
 
@@ -4259,30 +3756,12 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.module_code_segments`
 
-- `min_tl_xh` holding 118 — unknown / unknown — `preferred`
-- `min_tl_xh` holding 119 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 120 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 121 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 118 — unknown / unknown — `preferred`
-- `mod_tl3_xh` holding 119 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 120 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 121 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 118 — unknown / unknown — `preferred`
-- `storage_mix` holding 119 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 120 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 121 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 118 — unknown / unknown — `preferred`
-- `storage_spa` holding 119 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 120 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 121 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 118 — unknown / unknown — `preferred`
-- `storage_sph` holding 119 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 120 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 121 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 118 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` holding 119 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 120 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 121 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:holding:118` — unknown / unknown — `supported` — unknown / unitless — I118 word_1, I119 word_2, I120 word_3, I121 word_4
+- logical field `logical:mod_tl3_xh:holding:118` — unknown / unknown — `supported` — unknown / unitless — I118 word_1, I119 word_2, I120 word_3, I121 word_4
+- logical field `logical:storage_mix:holding:118` — unknown / unknown — `supported` — unknown / unitless — I118 word_1, I119 word_2, I120 word_3, I121 word_4
+- logical field `logical:storage_spa:holding:118` — unknown / unknown — `supported` — unknown / unitless — I118 word_1, I119 word_2, I120 word_3, I121 word_4
+- logical field `logical:storage_sph:holding:118` — unknown / unknown — `supported` — unknown / unitless — I118 word_1, I119 word_2, I120 word_3, I121 word_4
+- logical field `logical:tl3_max_mid_mac:holding:118` — unknown / unknown — `supported` — unknown / unitless — I118 word_1, I119 word_2, I120 word_3, I121 word_4
 
 ## `field.modulenum`
 
@@ -4309,15 +3788,9 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.opfullwatth`
 
-- `storage_mix` input 102 — unknown / unknown — `supported`
-- `storage_sph` input 102 — unknown / unknown — `supported`
-- `tl3_max_mid_mac` input 102 — unknown / unknown — `supported`
-
-## `field.opfullwattl`
-
-- `storage_mix` input 103 — unknown / unknown — `supported`
-- `storage_sph` input 103 — unknown / unknown — `supported`
-- `tl3_max_mid_mac` input 103 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:102:field_opfullwatth` — unknown / unknown — `supported` — high_low / W — I102 high_word, I103 low_word
+- logical field `logical:storage_sph:input:102:field_opfullwatth` — unknown / unknown — `supported` — high_low / W — I102 high_word, I103 low_word
+- logical field `logical:tl3_max_mid_mac:input:102:field_opfullwatth` — unknown / unknown — `supported` — high_low / W — I102 high_word, I103 low_word
 
 ## `field.outactivepwr`
 
@@ -4337,9 +3810,9 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.pac_to_grid_total`
 
-- `storage_mix` input 1029 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1029 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1029 — grid / grid_meter_or_inverter — `supported`
+- logical field `logical:storage_mix:input:1029` — grid / grid_meter_or_inverter — `supported` — unknown / W — I1029 word_1, I1030 word_2
+- logical field `logical:storage_spa:input:1029` — grid / grid_meter_or_inverter — `supported` — unknown / W — I1029 word_1, I1030 word_2
+- logical field `logical:storage_sph:input:1029` — grid / grid_meter_or_inverter — `supported` — unknown / W — I1029 word_1, I1030 word_2
 
 ## `field.pach`
 
@@ -4351,27 +3824,15 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.pactogridr_h`
 
-- `storage_mix` input 1023 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1023 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1023 — grid / grid_meter_or_inverter — `supported`
-
-## `field.pactogridr_l`
-
-- `storage_mix` input 1024 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1024 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1024 — grid / grid_meter_or_inverter — `supported`
+- logical field `logical:storage_mix:input:1023:field_pactogridr_h` — grid / grid_meter_or_inverter — `supported` — high_low / Ac output — I1023 high_word, I1024 low_word
+- logical field `logical:storage_spa:input:1023:field_pactogridr_h` — grid / grid_meter_or_inverter — `supported` — high_low / Ac output — I1023 high_word, I1024 low_word
+- logical field `logical:storage_sph:input:1023:field_pactogridr_h` — grid / grid_meter_or_inverter — `supported` — high_low / Ac output — I1023 high_word, I1024 low_word
 
 ## `field.pactogrids_h`
 
-- `storage_mix` input 1025 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1025 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1025 — grid / grid_meter_or_inverter — `supported`
-
-## `field.pactogrids_l`
-
-- `storage_mix` input 1026 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1026 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1026 — grid / grid_meter_or_inverter — `supported`
+- logical field `logical:storage_mix:input:1025:field_pactogrids_h` — grid / grid_meter_or_inverter — `supported` — high_low / unitless — I1025 high_word, I1026 low_word
+- logical field `logical:storage_spa:input:1025:field_pactogrids_h` — grid / grid_meter_or_inverter — `supported` — high_low / unitless — I1025 high_word, I1026 low_word
+- logical field `logical:storage_sph:input:1025:field_pactogrids_h` — grid / grid_meter_or_inverter — `supported` — high_low / unitless — I1025 high_word, I1026 low_word
 
 ## `field.pactogridth`
 
@@ -4385,87 +3846,37 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_spa` input 1028 — grid / grid_meter_or_inverter — `supported`
 - `storage_sph` input 1028 — grid / grid_meter_or_inverter — `supported`
 
-## `field.pactogridtotall`
-
-- `storage_mix` input 1030 — grid / grid_meter_or_inverter — `supported`
-- `storage_spa` input 1030 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 1030 — grid / grid_meter_or_inverter — `supported`
-
 ## `field.pactouserr_h`
 
-- `storage_mix` input 1015 — unknown / unknown — `supported`
-- `storage_spa` input 1015 — unknown / unknown — `supported`
-- `storage_sph` input 1015 — unknown / unknown — `supported`
-
-## `field.pactouserr_l`
-
-- `storage_mix` input 1016 — unknown / unknown — `supported`
-- `storage_spa` input 1016 — unknown / unknown — `supported`
-- `storage_sph` input 1016 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1015:field_pactouserr_h` — unknown / unknown — `supported` — high_low / W — I1015 high_word, I1016 low_word
+- logical field `logical:storage_spa:input:1015:field_pactouserr_h` — unknown / unknown — `supported` — high_low / W — I1015 high_word, I1016 low_word
+- logical field `logical:storage_sph:input:1015:field_pactouserr_h` — unknown / unknown — `supported` — high_low / W — I1015 high_word, I1016 low_word
 
 ## `field.pactousers_h`
 
-- `storage_mix` input 1017 — unknown / unknown — `supported`
-- `storage_spa` input 1017 — unknown / unknown — `supported`
-- `storage_sph` input 1017 — unknown / unknown — `supported`
-
-## `field.pactousers_l`
-
-- `storage_mix` input 1018 — unknown / unknown — `supported`
-- `storage_spa` input 1018 — unknown / unknown — `supported`
-- `storage_sph` input 1018 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1017:field_pactousers_h` — unknown / unknown — `supported` — high_low / unitless — I1017 high_word, I1018 low_word
+- logical field `logical:storage_spa:input:1017:field_pactousers_h` — unknown / unknown — `supported` — high_low / unitless — I1017 high_word, I1018 low_word
+- logical field `logical:storage_sph:input:1017:field_pactousers_h` — unknown / unknown — `supported` — high_low / unitless — I1017 high_word, I1018 low_word
 
 ## `field.pactousert_h`
 
-- `storage_mix` input 1019 — unknown / unknown — `supported`
-- `storage_spa` input 1019 — unknown / unknown — `supported`
-- `storage_sph` input 1019 — unknown / unknown — `supported`
-
-## `field.pactousert_l`
-
-- `storage_mix` input 1020 — unknown / unknown — `supported`
-- `storage_spa` input 1020 — unknown / unknown — `supported`
-- `storage_sph` input 1020 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1019:field_pactousert_h` — unknown / unknown — `supported` — high_low / unitless — I1019 high_word, I1020 low_word
+- logical field `logical:storage_spa:input:1019:field_pactousert_h` — unknown / unknown — `supported` — high_low / unitless — I1019 high_word, I1020 low_word
+- logical field `logical:storage_sph:input:1019:field_pactousert_h` — unknown / unknown — `supported` — high_low / unitless — I1019 high_word, I1020 low_word
 
 ## `field.pactousertotalh`
 
-- `storage_mix` input 1021 — unknown / unknown — `supported`
-- `storage_spa` input 1021 — unknown / unknown — `supported`
-- `storage_sph` input 1021 — unknown / unknown — `supported`
-
-## `field.pactousertotall`
-
-- `storage_mix` input 1022 — unknown / unknown — `supported`
-- `storage_spa` input 1022 — unknown / unknown — `supported`
-- `storage_sph` input 1022 — unknown / unknown — `supported`
-
-## `field.pcharge1l`
-
-- `storage_mix` input 1012 — unknown / unknown — `supported`
-- `storage_spa` input 1012 — unknown / unknown — `supported`
-- `storage_sph` input 1012 — unknown / unknown — `supported`
-
-## `field.pdischarge1l`
-
-- `storage_mix` input 1010 — unknown / unknown — `supported`
-- `storage_spa` input 1010 — unknown / unknown — `supported`
-- `storage_sph` input 1010 — unknown / unknown — `supported`
+- logical field `logical:storage_mix:input:1021:field_pactousertotalh` — unknown / unknown — `supported` — high_low / W — I1021 high_word, I1022 low_word
+- logical field `logical:storage_spa:input:1021:field_pactousertotalh` — unknown / unknown — `supported` — high_low / W — I1021 high_word, I1022 low_word
+- logical field `logical:storage_sph:input:1021:field_pactousertotalh` — unknown / unknown — `supported` — high_low / W — I1021 high_word, I1022 low_word
 
 ## `field.pex1h`
 
-- `min_tl_xh` input 3250 — pv / pv_or_mppt — `supported`
-
-## `field.pex1l`
-
-- `min_tl_xh` input 3251 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3250:field_pex1h` — pv / pv_or_mppt — `supported` — high_low / unitless — I3250 high_word, I3251 low_word
 
 ## `field.pex2h`
 
-- `min_tl_xh` input 3252 — pv / pv_or_mppt — `supported`
-
-## `field.pex2l`
-
-- `min_tl_xh` input 3253 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3252:field_pex2h` — pv / pv_or_mppt — `supported` — high_low / unitless — I3252 high_word, I3253 low_word
 
 ## `field.pid_bus`
 
@@ -4477,15 +3888,9 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.plocalloadr_h`
 
-- `storage_mix` input 1031 — load / load_meter_or_inverter — `supported`
-- `storage_spa` input 1031 — load / load_meter_or_inverter — `supported`
-- `storage_sph` input 1031 — load / load_meter_or_inverter — `supported`
-
-## `field.plocalloadr_l`
-
-- `storage_mix` input 1032 — load / load_meter_or_inverter — `supported`
-- `storage_spa` input 1032 — load / load_meter_or_inverter — `supported`
-- `storage_sph` input 1032 — load / load_meter_or_inverter — `supported`
+- logical field `logical:storage_mix:input:1031` — load / load_meter_or_inverter — `supported` — unknown / W — I1031 word_1, I1032 word_2
+- logical field `logical:storage_spa:input:1031` — load / load_meter_or_inverter — `supported` — unknown / W — I1031 word_1, I1032 word_2
+- logical field `logical:storage_sph:input:1031` — load / load_meter_or_inverter — `supported` — unknown / W — I1031 word_1, I1032 word_2
 
 ## `field.plocalloads_h`
 
@@ -4513,79 +3918,41 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.plocalloadtotalh`
 
-- `storage_mix` input 1037 — load / load_meter_or_inverter — `supported`
-- `storage_spa` input 1037 — load / load_meter_or_inverter — `supported`
-- `storage_sph` input 1037 — load / load_meter_or_inverter — `supported`
-
-## `field.plocalloadtotall`
-
-- `storage_mix` input 1038 — load / load_meter_or_inverter — `supported`
-- `storage_spa` input 1038 — load / load_meter_or_inverter — `supported`
-- `storage_sph` input 1038 — load / load_meter_or_inverter — `supported`
+- logical field `logical:storage_mix:input:1037` — load / load_meter_or_inverter — `supported` — unknown / W — I1037 word_1, I1038 word_2
+- logical field `logical:storage_spa:input:1037` — load / load_meter_or_inverter — `supported` — unknown / W — I1037 word_1, I1038 word_2
+- logical field `logical:storage_sph:input:1037` — load / load_meter_or_inverter — `supported` — unknown / W — I1037 word_1, I1038 word_2
 
 ## `field.ppv10h`
 
-- `tl3_max_mid_mac` input 881 — pv / pv_or_mppt — `supported`
-
-## `field.ppv10l`
-
-- `tl3_max_mid_mac` input 882 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:881:field_ppv10h` — pv / pv_or_mppt — `supported` — high_low / unitless — I881 high_word, I882 low_word
 
 ## `field.ppv11h`
 
-- `tl3_max_mid_mac` input 885 — pv / pv_or_mppt — `supported`
-
-## `field.ppv11l`
-
-- `tl3_max_mid_mac` input 886 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:885:field_ppv11h` — pv / pv_or_mppt — `supported` — high_low / unitless — I885 high_word, I886 low_word
 
 ## `field.ppv12h`
 
-- `tl3_max_mid_mac` input 889 — pv / pv_or_mppt — `supported`
-
-## `field.ppv12l`
-
-- `tl3_max_mid_mac` input 890 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:889:field_ppv12h` — pv / pv_or_mppt — `supported` — high_low / unitless — I889 high_word, I890 low_word
 
 ## `field.ppv13h`
 
-- `tl3_max_mid_mac` input 893 — pv / pv_or_mppt — `supported`
-
-## `field.ppv13l`
-
-- `tl3_max_mid_mac` input 894 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:893:field_ppv13h` — pv / pv_or_mppt — `supported` — high_low / unitless — I893 high_word, I894 low_word
 
 ## `field.ppv14h`
 
-- `tl3_max_mid_mac` input 897 — pv / pv_or_mppt — `supported`
-
-## `field.ppv14l`
-
-- `tl3_max_mid_mac` input 898 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:897:field_ppv14h` — pv / pv_or_mppt — `supported` — high_low / unitless — I897 high_word, I898 low_word
 
 ## `field.ppv15h`
 
-- `tl3_max_mid_mac` input 901 — pv / pv_or_mppt — `supported`
-
-## `field.ppv15l`
-
-- `tl3_max_mid_mac` input 902 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:901:field_ppv15h` — pv / pv_or_mppt — `supported` — high_low / unitless — I901 high_word, I902 low_word
 
 ## `field.ppv16h`
 
-- `tl3_max_mid_mac` input 905 — pv / pv_or_mppt — `supported`
-
-## `field.ppv16l`
-
-- `tl3_max_mid_mac` input 906 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:905:field_ppv16h` — pv / pv_or_mppt — `supported` — high_low / unitless — I905 high_word, I906 low_word
 
 ## `field.ppv9h`
 
-- `tl3_max_mid_mac` input 877 — pv / pv_or_mppt — `supported`
-
-## `field.ppv9l`
-
-- `tl3_max_mid_mac` input 878 — pv / pv_or_mppt — `supported`
+- logical field `logical:tl3_max_mid_mac:input:877:field_ppv9h` — pv / pv_or_mppt — `supported` — high_low / unitless — I877 high_word, I878 low_word
 
 ## `field.priority`
 
@@ -4612,23 +3979,13 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.pselfh`
 
-- `storage_spa` input 1147 — unknown / unknown — `supported`
-- `storage_sph` input 1147 — unknown / unknown — `supported`
-
-## `field.pselfl`
-
-- `storage_spa` input 1148 — unknown / unknown — `supported`
-- `storage_sph` input 1148 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:1147:field_pselfh` — unknown / unknown — `supported` — high_low / selfpowerH — I1147 high_word, I1148 low_word
+- logical field `logical:storage_sph:input:1147:field_pselfh` — unknown / unknown — `supported` — high_low / selfpowerH — I1147 high_word, I1148 low_word
 
 ## `field.psystemh`
 
-- `storage_spa` input 1145 — unknown / unknown — `supported`
-- `storage_sph` input 1145 — unknown / unknown — `supported`
-
-## `field.psysteml`
-
-- `storage_spa` input 1146 — unknown / unknown — `supported`
-- `storage_sph` input 1146 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:1145:field_psystemh` — unknown / unknown — `supported` — high_low / SystempowerH — I1145 high_word, I1146 low_word
+- logical field `logical:storage_sph:input:1145:field_psystemh` — unknown / unknown — `supported` — high_low / SystempowerH — I1145 high_word, I1146 low_word
 
 ## `field.pv10curr`
 
@@ -4709,57 +4066,21 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `min_tl_xh` input 3278 — unknown / unknown — `legacy_or_supported`
 - `min_tl_xh` input 3279 — unknown / unknown — `legacy_or_supported`
 
-## `field.run_time`
-
-- `min_tl_xh` input 58 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3048 — unknown / unknown — `supported`
-- `storage_mix` input 58 — unknown / unknown — `supported`
-- `storage_sph` input 58 — unknown / unknown — `supported`
-- `tl3_max_mid_mac` input 58 — unknown / unknown — `supported`
-
 ## `field.s_dci`
 
 - `tl3_max_mid_mac` input 202 — unknown / unknown — `supported`
 
 ## `field.sach`
 
-- `tl3_max_mid_mac` input 230 — unknown / unknown — `supported`
-
-## `field.sacl`
-
-- `tl3_max_mid_mac` input 231 — unknown / unknown — `supported`
+- logical field `logical:tl3_max_mid_mac:input:230:field_sach` — unknown / unknown — `supported` — high_low / unitless — I230 high_word, I231 low_word
 
 ## `field.serial_number`
 
-- `min_tl_xh` holding 24 — unknown / unknown — `preferred`
-- `min_tl_xh` holding 25 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 26 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` holding 27 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 23 — unknown / unknown — `preferred`
-- `mod_tl3_xh` holding 24 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 25 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 26 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` holding 27 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 23 — unknown / unknown — `preferred`
-- `storage_mix` holding 24 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 25 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 26 — unknown / unknown — `legacy_or_supported`
-- `storage_mix` holding 27 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 23 — unknown / unknown — `preferred`
-- `storage_spa` holding 24 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 25 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 26 — unknown / unknown — `legacy_or_supported`
-- `storage_spa` holding 27 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 23 — unknown / unknown — `preferred`
-- `storage_sph` holding 24 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 25 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 26 — unknown / unknown — `legacy_or_supported`
-- `storage_sph` holding 27 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 23 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` holding 24 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 25 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 26 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` holding 27 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:mod_tl3_xh:holding:23` — unknown / unknown — `supported` — unknown / ASCII — I23 word_1, I24 word_2, I25 word_3, I26 word_4, I27 word_5
+- logical field `logical:storage_mix:holding:23` — unknown / unknown — `supported` — unknown / ASCII — I23 word_1, I24 word_2, I25 word_3, I26 word_4, I27 word_5
+- logical field `logical:storage_spa:holding:23` — unknown / unknown — `supported` — unknown / ASCII — I23 word_1, I24 word_2, I25 word_3, I26 word_4, I27 word_5
+- logical field `logical:storage_sph:holding:23` — unknown / unknown — `supported` — unknown / ASCII — I23 word_1, I24 word_2, I25 word_3, I26 word_4, I27 word_5
+- logical field `logical:tl3_max_mid_mac:holding:23` — unknown / unknown — `supported` — unknown / ASCII — I23 word_1, I24 word_2, I25 word_3, I26 word_4, I27 word_5
 
 ## `field.spbusvolt`
 
@@ -4831,11 +4152,7 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `field.timetotalh`
 
-- `storage_spa` input 2057 — unknown / unknown — `supported`
-
-## `field.timetotall`
-
-- `storage_spa` input 2058 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:2057:field_timetotalh` — unknown / unknown — `supported` — high_low / SPA — I2057 high_word, I2058 low_word
 
 ## `field.trackers_and_phases`
 
@@ -5135,12 +4452,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_spa` holding 1003 — unknown / unknown — `supported`
 - `storage_sph` holding 1003 — unknown / unknown — `supported`
 
-## `field.vbatstartf_ordischarg_e`
-
-- `storage_mix` holding 1002 — unknown / unknown — `supported`
-- `storage_spa` holding 1002 — unknown / unknown — `supported`
-- `storage_sph` holding 1002 — unknown / unknown — `supported`
-
 ## `field.vpv10`
 
 - `tl3_max_mid_mac` input 879 — pv / pv_or_mppt — `supported`
@@ -5175,24 +4486,15 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `grid.export_power`
 
-- `min_tl_xh` input 3043 — grid / grid_meter_or_inverter — `preferred`
-- `min_tl_xh` input 3044 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3071 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3072 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3073 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3074 — grid / grid_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3043 — grid / grid_meter_or_inverter — `preferred`
-- `mod_tl3_xh` input 3044 — grid / grid_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3071 — grid / grid_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3072 — grid / grid_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3073 — grid / grid_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3074 — grid / grid_meter_or_inverter — `alternate`
-- `storage_mix` input 3043 — grid / grid_meter_or_inverter — `preferred`
-- `storage_mix` input 3044 — grid / grid_meter_or_inverter — `alternate`
-- `storage_mix` input 3071 — grid / grid_meter_or_inverter — `alternate`
-- `storage_mix` input 3072 — grid / grid_meter_or_inverter — `alternate`
-- `storage_mix` input 3073 — grid / grid_meter_or_inverter — `alternate`
-- `storage_mix` input 3074 — grid / grid_meter_or_inverter — `alternate`
+- logical field `logical:min_tl_xh:input:3043:grid_export_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I3043 high_word, I3044 low_word
+- logical field `logical:min_tl_xh:input:3071:grid_export_power` — grid / grid_meter_or_inverter — `supported` — high_low / kWh — I3071 high_word, I3072 low_word
+- logical field `logical:min_tl_xh:input:3073:grid_export_power` — grid / grid_meter_or_inverter — `supported` — high_low / kWh — I3073 high_word, I3074 low_word
+- logical field `logical:mod_tl3_xh:input:3043:grid_export_power` — grid / grid_meter_or_inverter — `supported` — high_low / Totalreverse power — I3043 high_word, I3044 low_word
+- logical field `logical:mod_tl3_xh:input:3071:grid_export_power` — grid / grid_meter_or_inverter — `supported` — high_low / Todayenergy togrid — I3071 high_word, I3072 low_word
+- logical field `logical:mod_tl3_xh:input:3073:grid_export_power` — grid / grid_meter_or_inverter — `supported` — high_low / Totalenergy togrid — I3073 high_word, I3074 low_word
+- logical field `logical:storage_mix:input:3043:grid_export_power` — grid / grid_meter_or_inverter — `supported` — high_low / Totalreverse power — I3043 high_word, I3044 low_word
+- logical field `logical:storage_mix:input:3071` — grid / grid_meter_or_inverter — `supported` — unknown / Todayenergy togrid — I3071 word_1, I3072 word_2
+- logical field `logical:storage_mix:input:3073` — grid / grid_meter_or_inverter — `supported` — unknown / Totalenergy togrid — I3073 word_1, I3074 word_2
 
 ## `grid.first.discharge.rate`
 
@@ -5220,7 +4522,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `min_tl_xh` holding 75 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `min_tl_xh` holding 78 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `min_tl_xh` holding 79 — grid / grid_meter_or_inverter — `legacy_or_supported`
-- `min_tl_xh` input 37 — grid / grid_meter_or_inverter — `alternate`
 - `min_tl_xh` input 3025 — grid / grid_meter_or_inverter — `alternate`
 - `mod_tl3_xh` holding 62 — grid / grid_meter_or_inverter — `preferred`
 - `mod_tl3_xh` holding 63 — grid / grid_meter_or_inverter — `legacy_or_supported`
@@ -5239,7 +4540,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_mix` holding 75 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `storage_mix` holding 78 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `storage_mix` holding 79 — grid / grid_meter_or_inverter — `legacy_or_supported`
-- `storage_mix` input 37 — grid / grid_meter_or_inverter — `alternate`
 - `storage_spa` holding 62 — grid / grid_meter_or_inverter — `preferred`
 - `storage_spa` holding 63 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `storage_spa` holding 72 — grid / grid_meter_or_inverter — `legacy_or_supported`
@@ -5256,7 +4556,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `storage_sph` holding 75 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `storage_sph` holding 78 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `storage_sph` holding 79 — grid / grid_meter_or_inverter — `legacy_or_supported`
-- `storage_sph` input 37 — grid / grid_meter_or_inverter — `alternate`
 - `tl3_max_mid_mac` holding 62 — grid / grid_meter_or_inverter — `preferred`
 - `tl3_max_mid_mac` holding 63 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `tl3_max_mid_mac` holding 72 — grid / grid_meter_or_inverter — `legacy_or_supported`
@@ -5265,22 +4564,25 @@ This index preserves subsystem and instance distinctions; entries are not automa
 - `tl3_max_mid_mac` holding 75 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `tl3_max_mid_mac` holding 78 — grid / grid_meter_or_inverter — `legacy_or_supported`
 - `tl3_max_mid_mac` holding 79 — grid / grid_meter_or_inverter — `legacy_or_supported`
-- `tl3_max_mid_mac` input 37 — grid / grid_meter_or_inverter — `alternate`
+- logical field `logical:min_tl_xh:input:37` — grid / grid_meter_or_inverter — `supported` — unknown / Hz — I37 word_1, I38 word_2
+- logical field `logical:storage_mix:input:37` — grid / grid_meter_or_inverter — `supported` — unknown / Hz — I37 word_1, I38 word_2
+- logical field `logical:storage_sph:input:37` — grid / grid_meter_or_inverter — `supported` — unknown / Hz — I37 word_1, I38 word_2
+- logical field `logical:tl3_max_mid_mac:input:37` — grid / grid_meter_or_inverter — `supported` — unknown / Hz — I37 word_1, I38 word_2
 
 ## `grid.import_power`
 
-- `min_tl_xh` input 3041 — grid / grid_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3041 — load / load_meter_or_inverter — `supported`
-- `storage_mix` input 3041 — load / load_meter_or_inverter — `supported`
+- logical field `logical:min_tl_xh:input:3041:grid_import_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I3041 high_word, I3042 low_word
+- logical field `logical:mod_tl3_xh:input:3041:grid_import_power` — load / load_meter_or_inverter — `supported` — high_low / Total forward power — I3041 high_word, I3042 low_word
+- logical field `logical:storage_mix:input:3041:grid_import_power` — load / load_meter_or_inverter — `supported` — high_low / Total forward power — I3041 high_word, I3042 low_word
 
 ## `inverter.runtime`
 
-- `min_tl_xh` input 57 — unknown / unknown — `supported`
-- `min_tl_xh` input 3047 — inverter / inverter — `supported`
-- `mod_tl3_xh` input 3047 — unknown / unknown — `supported`
-- `storage_mix` input 57 — unknown / unknown — `supported`
-- `storage_sph` input 57 — unknown / unknown — `supported`
-- `tl3_max_mid_mac` input 57 — unknown / unknown — `supported`
+- logical field `logical:min_tl_xh:input:57:inverter_runtime` — unknown / unknown — `supported` — high_low / h — I57 high_word, I58 low_word
+- logical field `logical:mod_tl3_xh:input:3047:inverter_runtime` — unknown / unknown — `supported` — high_low / h — I3047 high_word, I3048 low_word
+- logical field `logical:storage_mix:input:57:inverter_runtime` — unknown / unknown — `supported` — high_low / h — I57 high_word, I58 low_word
+- logical field `logical:storage_sph:input:57:inverter_runtime` — unknown / unknown — `supported` — high_low / h — I57 high_word, I58 low_word
+- logical field `logical:tl3_max_mid_mac:input:57:inverter_runtime` — unknown / unknown — `supported` — high_low / s — I57 high_word, I58 low_word
+- logical field `logical:min_tl_xh:input:3047` — inverter / inverter — `supported` — unknown / h — I3047 word_1, I3048 word_2
 
 ## `inverter.status`
 
@@ -5297,153 +4599,88 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `load.house_power`
 
-- `min_tl_xh` input 3045 — load / load_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3045 — load / load_meter_or_inverter — `supported`
-- `storage_mix` input 3045 — load / load_meter_or_inverter — `supported`
+- logical field `logical:min_tl_xh:input:3045:load_house_power` — load / load_meter_or_inverter — `supported` — high_low / W — I3045 high_word, I3046 low_word
+- logical field `logical:mod_tl3_xh:input:3045:load_house_power` — load / load_meter_or_inverter — `supported` — high_low / Total load power — I3045 high_word, I3046 low_word
+- logical field `logical:storage_mix:input:3045:load_house_power` — load / load_meter_or_inverter — `supported` — high_low / Total load power — I3045 high_word, I3046 low_word
 
 ## `pv.mppt4.energy_total`
 
-- `min_tl_xh` input 73 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 74 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3081 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3082 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3081 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3082 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 73 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 74 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 73 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 74 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 73 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 74 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:73:pv_mppt4_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I73 high_word, I74 low_word
+- logical field `logical:mod_tl3_xh:input:3081:pv_mppt4_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I3081 high_word, I3082 low_word
+- logical field `logical:storage_mix:input:73:pv_mppt4_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I73 high_word, I74 low_word
+- logical field `logical:storage_sph:input:73:pv_mppt4_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I73 high_word, I74 low_word
+- logical field `logical:tl3_max_mid_mac:input:73:pv_mppt4_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I73 high_word, I74 low_word
+- logical field `logical:min_tl_xh:input:3081` — pv / pv_or_mppt — `supported` — unknown / kWh — I3081 word_1, I3082 word_2
 
 ## `pv.total_power`
 
-- `min_tl_xh` input 1 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 2 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 5 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 6 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 9 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 10 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 13 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 14 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 17 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 18 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 21 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 22 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 25 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 26 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 29 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 30 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 33 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 34 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3001 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3001 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 1 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 2 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 5 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 6 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 9 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 10 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 13 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 14 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 17 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 18 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 21 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 22 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 25 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 26 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 29 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 30 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 33 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 34 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 1 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 2 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 5 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 6 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 9 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 10 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 13 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 14 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 17 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 18 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 21 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 22 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 25 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 26 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 29 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 30 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 33 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 34 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 1 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 2 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 5 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 6 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 9 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 10 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 13 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 14 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 17 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 18 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 21 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 22 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 25 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 26 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 29 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 30 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 33 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 34 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:25:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I25 high_word, I26 low_word
+- logical field `logical:min_tl_xh:input:29:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I29 high_word, I30 low_word
+- logical field `logical:min_tl_xh:input:33:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I33 high_word, I34 low_word
+- logical field `logical:min_tl_xh:input:3001:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I3001 high_word, I3002 low_word
+- logical field `logical:mod_tl3_xh:input:3001:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I3001 high_word, I3002 low_word
+- logical field `logical:storage_mix:input:25:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I25 high_word, I26 low_word
+- logical field `logical:storage_mix:input:29:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I29 high_word, I30 low_word
+- logical field `logical:storage_mix:input:33:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I33 high_word, I34 low_word
+- logical field `logical:storage_sph:input:25:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I25 high_word, I26 low_word
+- logical field `logical:storage_sph:input:29:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I29 high_word, I30 low_word
+- logical field `logical:storage_sph:input:33:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I33 high_word, I34 low_word
+- logical field `logical:tl3_max_mid_mac:input:25:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I25 high_word, I26 low_word
+- logical field `logical:tl3_max_mid_mac:input:29:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I29 high_word, I30 low_word
+- logical field `logical:tl3_max_mid_mac:input:33:pv_total_power` — pv / pv_or_mppt — `supported` — high_low / W — I33 high_word, I34 low_word
+- logical field `logical:min_tl_xh:input:1` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I1 word_1, I2 word_2
+- logical field `logical:min_tl_xh:input:5` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I5 word_1, I6 word_2
+- logical field `logical:min_tl_xh:input:9` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I9 word_1, I10 word_2
+- logical field `logical:min_tl_xh:input:13` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I13 word_1, I14 word_2
+- logical field `logical:min_tl_xh:input:17` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I17 word_1, I18 word_2
+- logical field `logical:min_tl_xh:input:21` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I21 word_1, I22 word_2
+- logical field `logical:storage_mix:input:1` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I1 word_1, I2 word_2
+- logical field `logical:storage_mix:input:5` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I5 word_1, I6 word_2
+- logical field `logical:storage_mix:input:9` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I9 word_1, I10 word_2
+- logical field `logical:storage_mix:input:13` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I13 word_1, I14 word_2
+- logical field `logical:storage_mix:input:17` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I17 word_1, I18 word_2
+- logical field `logical:storage_mix:input:21` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I21 word_1, I22 word_2
+- logical field `logical:storage_sph:input:1` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I1 word_1, I2 word_2
+- logical field `logical:storage_sph:input:5` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I5 word_1, I6 word_2
+- logical field `logical:storage_sph:input:9` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I9 word_1, I10 word_2
+- logical field `logical:storage_sph:input:13` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I13 word_1, I14 word_2
+- logical field `logical:storage_sph:input:17` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I17 word_1, I18 word_2
+- logical field `logical:storage_sph:input:21` — pv / pv_or_mppt — `supported` — unknown / 0.1W — I21 word_1, I22 word_2
+- logical field `logical:tl3_max_mid_mac:input:1` — pv / pv_or_mppt — `supported` — unknown / W — I1 word_1, I2 word_2
+- logical field `logical:tl3_max_mid_mac:input:5` — pv / pv_or_mppt — `supported` — unknown / W — I5 word_1, I6 word_2
+- logical field `logical:tl3_max_mid_mac:input:9` — pv / pv_or_mppt — `supported` — unknown / W — I9 word_1, I10 word_2
+- logical field `logical:tl3_max_mid_mac:input:13` — pv / pv_or_mppt — `supported` — unknown / W — I13 word_1, I14 word_2
+- logical field `logical:tl3_max_mid_mac:input:17` — pv / pv_or_mppt — `supported` — unknown / W — I17 word_1, I18 word_2
+- logical field `logical:tl3_max_mid_mac:input:21` — pv / pv_or_mppt — `supported` — unknown / W — I21 word_1, I22 word_2
 
 ## `telemetry.a1ccharge_energytotalh`
 
-- `storage_spa` input 1126 — unknown / unknown — `supported`
-- `storage_sph` input 1126 — unknown / unknown — `supported`
-
-## `telemetry.ac_charge_energy_today`
-
-- `min_tl_xh` input 3133 — unknown / unknown — `supported`
-- `min_tl_xh` input 3134 — storage_device / bdc_or_storage_device — `supported`
-- `mod_tl3_xh` input 3133 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3134 — storage_device / bdc_or_storage_device — `supported`
-
-## `telemetry.ac_charge_energy_total`
-
-- `min_tl_xh` input 3135 — unknown / unknown — `supported`
-- `min_tl_xh` input 3136 — storage_device / bdc_or_storage_device — `supported`
-- `mod_tl3_xh` input 3135 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3136 — storage_device / bdc_or_storage_device — `supported`
+- logical field `logical:storage_spa:input:1126` — unknown / unknown — `supported` — unknown / kWh — I1126 word_1, I1127 word_2
+- logical field `logical:storage_sph:input:1126` — unknown / unknown — `supported` — unknown / kWh — I1126 word_1, I1127 word_2
 
 ## `telemetry.ac_charge_power_h`
 
-- `storage_mix` input 116 — grid / grid_meter_or_inverter — `supported`
 - `storage_spa` input 2116 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 116 — grid / grid_meter_or_inverter — `supported`
-- `tl3_max_mid_mac` input 116 — grid / grid_meter_or_inverter — `supported`
+- logical field `logical:storage_mix:input:116:telemetry_ac_charge_power_h` — grid / grid_meter_or_inverter — `supported` — high_low / Storage Power — I116 high_word, I117 low_word
+- logical field `logical:storage_sph:input:116:telemetry_ac_charge_power_h` — grid / grid_meter_or_inverter — `supported` — high_low / Storage Power — I116 high_word, I117 low_word
+- logical field `logical:tl3_max_mid_mac:input:116:telemetry_ac_charge_power_h` — grid / grid_meter_or_inverter — `supported` — high_low / Storage Power — I116 high_word, I117 low_word
 
 ## `telemetry.ac_charge_power_l`
 
-- `storage_mix` input 117 — grid / grid_meter_or_inverter — `supported`
 - `storage_spa` input 2117 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 117 — grid / grid_meter_or_inverter — `supported`
-- `tl3_max_mid_mac` input 117 — grid / grid_meter_or_inverter — `supported`
 
 ## `telemetry.ac_energy_today`
 
-- `min_tl_xh` input 3049 — unknown / unknown — `supported`
+- logical field `logical:min_tl_xh:input:3049` — unknown / unknown — `supported` — unknown / kWh — I3049 word_1, I3050 word_2
 
 ## `telemetry.ac_output_power`
 
-- `min_tl_xh` input 35 — unknown / unknown — `preferred`
-- `min_tl_xh` input 36 — unknown / unknown — `alternate`
-- `min_tl_xh` input 3023 — unknown / unknown — `alternate`
-- `min_tl_xh` input 3024 — inverter / inverter — `supported`
-- `mod_tl3_xh` input 3023 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3024 — inverter / inverter — `supported`
-- `storage_mix` input 35 — unknown / unknown — `preferred`
-- `storage_mix` input 36 — unknown / unknown — `alternate`
-- `storage_sph` input 35 — unknown / unknown — `preferred`
-- `storage_sph` input 36 — unknown / unknown — `alternate`
-- `tl3_max_mid_mac` input 35 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` input 36 — unknown / unknown — `alternate`
+- logical field `logical:min_tl_xh:input:35:telemetry_ac_output_power` — unknown / unknown — `supported` — high_low / W — I35 high_word, I36 low_word
+- logical field `logical:mod_tl3_xh:input:3023:telemetry_ac_output_power` — unknown / unknown — `supported` — high_low / Output power — I3023 high_word, I3024 low_word
+- logical field `logical:storage_mix:input:35:telemetry_ac_output_power` — unknown / unknown — `supported` — high_low / W — I35 high_word, I36 low_word
+- logical field `logical:storage_sph:input:35:telemetry_ac_output_power` — unknown / unknown — `supported` — high_low / W — I35 high_word, I36 low_word
+- logical field `logical:tl3_max_mid_mac:input:35:telemetry_ac_output_power` — unknown / unknown — `supported` — high_low / W — I35 high_word, I36 low_word
+- logical field `logical:min_tl_xh:input:3023` — unknown / unknown — `supported` — unknown / W — I3023 word_1, I3024 word_2
 
 ## `telemetry.ac_phase_l1_current`
 
@@ -5456,27 +4693,17 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.ac_phase_l1_power`
 
-- `min_tl_xh` input 40 — grid / grid_meter_or_inverter — `preferred`
-- `min_tl_xh` input 41 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3028 — ac / ac_phase — `preferred`
-- `min_tl_xh` input 3029 — ac / ac_phase — `alternate`
-- `mod_tl3_xh` input 3028 — grid / grid_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3029 — ac / ac_phase — `supported`
-- `storage_mix` input 40 — grid / grid_meter_or_inverter — `preferred`
-- `storage_mix` input 41 — grid / grid_meter_or_inverter — `alternate`
-- `storage_sph` input 40 — grid / grid_meter_or_inverter — `preferred`
-- `storage_sph` input 41 — grid / grid_meter_or_inverter — `alternate`
-- `tl3_max_mid_mac` input 40 — grid / grid_meter_or_inverter — `preferred`
-- `tl3_max_mid_mac` input 41 — grid / grid_meter_or_inverter — `alternate`
+- logical field `logical:min_tl_xh:input:40:telemetry_ac_phase_l1_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I40 high_word, I41 low_word
+- logical field `logical:mod_tl3_xh:input:3028:telemetry_ac_phase_l1_power` — grid / grid_meter_or_inverter — `supported` — high_low / Three/single phasegrid outputwatt VA — I3028 high_word, I3029 low_word
+- logical field `logical:storage_mix:input:40:telemetry_ac_phase_l1_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I40 high_word, I41 low_word
+- logical field `logical:storage_sph:input:40:telemetry_ac_phase_l1_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I40 high_word, I41 low_word
+- logical field `logical:tl3_max_mid_mac:input:40:telemetry_ac_phase_l1_power` — grid / grid_meter_or_inverter — `supported` — high_low / VA — I40 high_word, I41 low_word
+- logical field `logical:min_tl_xh:input:3028` — ac / ac_phase — `supported` — unknown / W — I3028 word_1, I3029 word_2
 
 ## `telemetry.ac_phase_l1_voltage`
 
-- `min_tl_xh` input 38 — grid / grid_meter_or_inverter — `supported`
 - `min_tl_xh` input 3026 — ac / ac_phase — `supported`
 - `mod_tl3_xh` input 3026 — grid / grid_meter_or_inverter — `supported`
-- `storage_mix` input 38 — grid / grid_meter_or_inverter — `supported`
-- `storage_sph` input 38 — grid / grid_meter_or_inverter — `supported`
-- `tl3_max_mid_mac` input 38 — grid / grid_meter_or_inverter — `supported`
 
 ## `telemetry.ac_phase_l2_current`
 
@@ -5489,18 +4716,12 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.ac_phase_l2_power`
 
-- `min_tl_xh` input 44 — grid / grid_meter_or_inverter — `preferred`
-- `min_tl_xh` input 45 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3032 — grid / grid_meter_or_inverter — `alternate`
-- `min_tl_xh` input 3033 — ac / ac_phase — `supported`
-- `mod_tl3_xh` input 3032 — grid / grid_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3033 — ac / ac_phase — `supported`
-- `storage_mix` input 44 — grid / grid_meter_or_inverter — `preferred`
-- `storage_mix` input 45 — grid / grid_meter_or_inverter — `alternate`
-- `storage_sph` input 44 — grid / grid_meter_or_inverter — `preferred`
-- `storage_sph` input 45 — grid / grid_meter_or_inverter — `alternate`
-- `tl3_max_mid_mac` input 44 — grid / grid_meter_or_inverter — `preferred`
-- `tl3_max_mid_mac` input 45 — grid / grid_meter_or_inverter — `alternate`
+- logical field `logical:min_tl_xh:input:44:telemetry_ac_phase_l2_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I44 high_word, I45 low_word
+- logical field `logical:mod_tl3_xh:input:3032:telemetry_ac_phase_l2_power` — grid / grid_meter_or_inverter — `supported` — high_low / Threephase gridoutput power — I3032 high_word, I3033 low_word
+- logical field `logical:storage_mix:input:44:telemetry_ac_phase_l2_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I44 high_word, I45 low_word
+- logical field `logical:storage_sph:input:44:telemetry_ac_phase_l2_power` — grid / grid_meter_or_inverter — `supported` — high_low / W — I44 high_word, I45 low_word
+- logical field `logical:tl3_max_mid_mac:input:44:telemetry_ac_phase_l2_power` — grid / grid_meter_or_inverter — `supported` — high_low / VA — I44 high_word, I45 low_word
+- logical field `logical:min_tl_xh:input:3032` — grid / grid_meter_or_inverter — `supported` — unknown / VA — I3032 word_1, I3033 word_2
 
 ## `telemetry.ac_phase_l2_voltage`
 
@@ -5531,36 +4752,13 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.acccharge_power_h`
 
-- `storage_spa` input 1155 — unknown / unknown — `supported`
-- `storage_sph` input 1155 — unknown / unknown — `supported`
-
-## `telemetry.acccharge_power_l`
-
-- `storage_spa` input 1156 — unknown / unknown — `supported`
-- `storage_sph` input 1156 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:1155:telemetry_acccharge_power_h` — unknown / unknown — `supported` — high_low / unitless — I1155 high_word, I1156 low_word
+- logical field `logical:storage_sph:input:1155:telemetry_acccharge_power_h` — unknown / unknown — `supported` — high_low / unitless — I1155 high_word, I1156 low_word
 
 ## `telemetry.accdischarge_power_h`
 
-- `storage_spa` input 1152 — unknown / unknown — `supported`
-- `storage_sph` input 1152 — unknown / unknown — `supported`
-
-## `telemetry.accdischarge_power_l`
-
-- `storage_spa` input 1153 — unknown / unknown — `supported`
-- `storage_sph` input 1153 — unknown / unknown — `supported`
-
-## `telemetry.accharge_energytotall`
-
-- `storage_spa` input 1127 — unknown / unknown — `supported`
-- `storage_sph` input 1127 — unknown / unknown — `supported`
-
-## `telemetry.acchargeenergytoday`
-
-- `tl3_max_mid_mac` input 1124 — unknown / unknown — `supported`
-
-## `telemetry.acchargeenergytotal`
-
-- `tl3_max_mid_mac` input 1126 — unknown / unknown — `supported`
+- logical field `logical:storage_spa:input:1152:telemetry_accdischarge_power_h` — unknown / unknown — `supported` — high_low / unitless — I1152 high_word, I1153 low_word
+- logical field `logical:storage_sph:input:1152:telemetry_accdischarge_power_h` — unknown / unknown — `supported` — high_low / unitless — I1152 high_word, I1153 low_word
 
 ## `telemetry.acfrequency`
 
@@ -5600,10 +4798,8 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.bdc_charge_energy_total`
 
-- `min_tl_xh` input 3184 — unknown / unknown — `supported`
-- `min_tl_xh` input 3185 — storage_device / bdc_or_storage_device — `supported`
-- `mod_tl3_xh` input 3184 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3185 — storage_device / bdc_or_storage_device — `supported`
+- logical field `logical:min_tl_xh:input:3184` — unknown / unknown — `supported` — unknown / kWh — I3184 word_1, I3185 word_2
+- logical field `logical:mod_tl3_xh:input:3184` — unknown / unknown — `supported` — unknown / kWh — I3184 word_1, I3185 word_2
 
 ## `telemetry.bdc_dc_voltage`
 
@@ -5612,10 +4808,8 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.bdc_discharge_energy_total`
 
-- `min_tl_xh` input 3182 — unknown / unknown — `supported`
-- `min_tl_xh` input 3183 — storage_device / bdc_or_storage_device — `supported`
-- `mod_tl3_xh` input 3182 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3183 — storage_device / bdc_or_storage_device — `supported`
+- logical field `logical:min_tl_xh:input:3182` — unknown / unknown — `supported` — unknown / kWh — I3182 word_1, I3183 word_2
+- logical field `logical:mod_tl3_xh:input:3182` — unknown / unknown — `supported` — unknown / kWh — I3182 word_1, I3183 word_2
 
 ## `telemetry.bdc_power_factor`
 
@@ -5717,10 +4911,8 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.eps_phase_r_apparent_power`
 
-- `min_tl_xh` input 3148 — ac / ac_phase — `preferred`
-- `min_tl_xh` input 3149 — ac / ac_phase — `legacy_or_supported`
-- `mod_tl3_xh` input 3148 — ac / ac_phase — `preferred`
-- `mod_tl3_xh` input 3149 — ac / ac_phase — `legacy_or_supported`
+- logical field `logical:min_tl_xh:input:3148:telemetry_eps_phase_r_apparent_power` — ac / ac_phase — `supported` — high_low / VA — I3148 high_word, I3149 low_word
+- logical field `logical:mod_tl3_xh:input:3148:telemetry_eps_phase_r_apparent_power` — ac / ac_phase — `supported` — high_low / VA — I3148 high_word, I3149 low_word
 
 ## `telemetry.eps_phase_r_current`
 
@@ -5734,10 +4926,8 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.eps_phase_s_apparent_power`
 
-- `min_tl_xh` input 3152 — ac / ac_phase — `preferred`
-- `min_tl_xh` input 3153 — ac / ac_phase — `alternate`
-- `mod_tl3_xh` input 3152 — ac / ac_phase — `preferred`
-- `mod_tl3_xh` input 3153 — ac / ac_phase — `alternate`
+- logical field `logical:min_tl_xh:input:3152:telemetry_eps_phase_s_apparent_power` — ac / ac_phase — `supported` — high_low / VA — I3152 high_word, I3153 low_word
+- logical field `logical:mod_tl3_xh:input:3152:telemetry_eps_phase_s_apparent_power` — ac / ac_phase — `supported` — high_low / VA — I3152 high_word, I3153 low_word
 
 ## `telemetry.eps_phase_s_current`
 
@@ -5761,22 +4951,18 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.eps_total_apparent_power`
 
-- `min_tl_xh` input 3158 — unknown / unknown — `preferred`
-- `min_tl_xh` input 3159 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3158 — unknown / unknown — `preferred`
-- `mod_tl3_xh` input 3159 — unknown / unknown — `alternate`
+- logical field `logical:min_tl_xh:input:3158:telemetry_eps_total_apparent_power` — unknown / unknown — `supported` — high_low / VA — I3158 high_word, I3159 low_word
+- logical field `logical:mod_tl3_xh:input:3158:telemetry_eps_total_apparent_power` — unknown / unknown — `supported` — high_low / VA — I3158 high_word, I3159 low_word
 
 ## `telemetry.extra_ac_power_to_grid_h`
 
-- `storage_spa` input 1131 — grid / grid_meter_or_inverter — `preferred`
-- `storage_spa` input 2102 — grid / grid_meter_or_inverter — `legacy_or_supported`
-- `storage_sph` input 1131 — grid / grid_meter_or_inverter — `supported`
+- `storage_spa` input 2102 — grid / grid_meter_or_inverter — `preferred`
+- logical field `logical:storage_spa:input:1131:telemetry_extra_ac_power_to_grid_h` — grid / grid_meter_or_inverter — `supported` — high_low / unitless — I1131 high_word, I1132 low_word
+- logical field `logical:storage_sph:input:1131:telemetry_extra_ac_power_to_grid_h` — grid / grid_meter_or_inverter — `supported` — high_low / unitless — I1131 high_word, I1132 low_word
 
 ## `telemetry.extra_ac_power_to_grid_l`
 
-- `storage_spa` input 1132 — grid / grid_meter_or_inverter — `preferred`
-- `storage_spa` input 2103 — grid / grid_meter_or_inverter — `legacy_or_supported`
-- `storage_sph` input 1132 — grid / grid_meter_or_inverter — `supported`
+- `storage_spa` input 2103 — grid / grid_meter_or_inverter — `supported`
 
 ## `telemetry.gfci_current`
 
@@ -5786,12 +4972,6 @@ This index preserves subsystem and instance distinctions; entries are not automa
 ## `telemetry.gridinvoltage`
 
 - `spf_offgrid` input 20 — grid / grid_meter_or_inverter — `supported`
-
-## `telemetry.home_load_power`
-
-- `min_tl_xh` input 3046 — load / load_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3046 — load / load_meter_or_inverter — `supported`
-- `storage_mix` input 3046 — load / load_meter_or_inverter — `supported`
 
 ## `telemetry.inverter_output_power_factor`
 
@@ -5818,27 +4998,15 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.load_energy_today`
 
-- `min_tl_xh` input 3067 — load / load_meter_or_inverter — `preferred`
-- `min_tl_xh` input 3068 — load / load_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3067 — load / load_meter_or_inverter — `preferred`
-- `mod_tl3_xh` input 3068 — load / load_meter_or_inverter — `alternate`
-- `storage_mix` input 3067 — load / load_meter_or_inverter — `preferred`
-- `storage_mix` input 3068 — load / load_meter_or_inverter — `alternate`
+- logical field `logical:min_tl_xh:input:3067:telemetry_load_energy_today` — load / load_meter_or_inverter — `supported` — high_low / kWh — I3067 high_word, I3068 low_word
+- logical field `logical:mod_tl3_xh:input:3067:telemetry_load_energy_today` — load / load_meter_or_inverter — `supported` — high_low / Todayenergy touser — I3067 high_word, I3068 low_word
+- logical field `logical:storage_mix:input:3067` — load / load_meter_or_inverter — `supported` — unknown / Todayenergy touser — I3067 word_1, I3068 word_2
 
 ## `telemetry.load_energy_total`
 
-- `min_tl_xh` input 3069 — load / load_meter_or_inverter — `preferred`
-- `min_tl_xh` input 3070 — load / load_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3069 — load / load_meter_or_inverter — `preferred`
-- `mod_tl3_xh` input 3070 — load / load_meter_or_inverter — `alternate`
-- `storage_mix` input 3069 — load / load_meter_or_inverter — `preferred`
-- `storage_mix` input 3070 — load / load_meter_or_inverter — `alternate`
-
-## `telemetry.load_supply_power`
-
-- `min_tl_xh` input 3042 — load / load_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3042 — load / load_meter_or_inverter — `supported`
-- `storage_mix` input 3042 — load / load_meter_or_inverter — `supported`
+- logical field `logical:min_tl_xh:input:3069:telemetry_load_energy_total` — load / load_meter_or_inverter — `supported` — high_low / kWh — I3069 high_word, I3070 low_word
+- logical field `logical:mod_tl3_xh:input:3069:telemetry_load_energy_total` — load / load_meter_or_inverter — `supported` — high_low / Totalenergy touser — I3069 high_word, I3070 low_word
+- logical field `logical:storage_mix:input:3069` — load / load_meter_or_inverter — `supported` — unknown / Totalenergy touser — I3069 word_1, I3070 word_2
 
 ## `telemetry.localloadenergytoday`
 
@@ -5885,39 +5053,25 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.output_energy_today`
 
-- `min_tl_xh` input 53 — unknown / unknown — `preferred`
-- `min_tl_xh` input 54 — unknown / unknown — `alternate`
-- `min_tl_xh` input 3050 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3049 — unknown / unknown — `preferred`
-- `mod_tl3_xh` input 3050 — unknown / unknown — `alternate`
-- `storage_mix` input 53 — unknown / unknown — `preferred`
-- `storage_mix` input 54 — unknown / unknown — `alternate`
-- `storage_sph` input 53 — unknown / unknown — `preferred`
-- `storage_sph` input 54 — unknown / unknown — `alternate`
-- `tl3_max_mid_mac` input 53 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` input 54 — unknown / unknown — `alternate`
+- logical field `logical:min_tl_xh:input:53:telemetry_output_energy_today` — unknown / unknown — `supported` — high_low / kWh — I53 high_word, I54 low_word
+- logical field `logical:mod_tl3_xh:input:3049:telemetry_output_energy_today` — unknown / unknown — `supported` — high_low / Today generate energy — I3049 high_word, I3050 low_word
+- logical field `logical:storage_mix:input:53:telemetry_output_energy_today` — unknown / unknown — `supported` — high_low / kWh — I53 high_word, I54 low_word
+- logical field `logical:storage_sph:input:53:telemetry_output_energy_today` — unknown / unknown — `supported` — high_low / kWh — I53 high_word, I54 low_word
+- logical field `logical:tl3_max_mid_mac:input:53:telemetry_output_energy_today` — unknown / unknown — `supported` — high_low / kWh — I53 high_word, I54 low_word
 
 ## `telemetry.output_energy_total`
 
-- `min_tl_xh` input 55 — unknown / unknown — `preferred`
-- `min_tl_xh` input 56 — unknown / unknown — `alternate`
-- `min_tl_xh` input 3051 — unknown / unknown — `alternate`
-- `min_tl_xh` input 3052 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3051 — unknown / unknown — `preferred`
-- `mod_tl3_xh` input 3052 — unknown / unknown — `alternate`
-- `storage_mix` input 55 — unknown / unknown — `preferred`
-- `storage_mix` input 56 — unknown / unknown — `alternate`
-- `storage_sph` input 55 — unknown / unknown — `preferred`
-- `storage_sph` input 56 — unknown / unknown — `alternate`
-- `tl3_max_mid_mac` input 55 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` input 56 — unknown / unknown — `alternate`
+- logical field `logical:min_tl_xh:input:55:telemetry_output_energy_total` — unknown / unknown — `supported` — high_low / kWh — I55 high_word, I56 low_word
+- logical field `logical:mod_tl3_xh:input:3051:telemetry_output_energy_total` — unknown / unknown — `supported` — high_low / Total generate — I3051 high_word, I3052 low_word
+- logical field `logical:storage_mix:input:55:telemetry_output_energy_total` — unknown / unknown — `supported` — high_low / kWh — I55 high_word, I56 low_word
+- logical field `logical:storage_sph:input:55:telemetry_output_energy_total` — unknown / unknown — `supported` — high_low / kWh — I55 high_word, I56 low_word
+- logical field `logical:tl3_max_mid_mac:input:55:telemetry_output_energy_total` — unknown / unknown — `supported` — high_low / kWh — I55 high_word, I56 low_word
+- logical field `logical:min_tl_xh:input:3051` — unknown / unknown — `supported` — unknown / kWh — I3051 word_1, I3052 word_2
 
 ## `telemetry.output_max_power_limit`
 
-- `min_tl_xh` input 3102 — unknown / unknown — `supported`
-- `min_tl_xh` input 3103 — inverter / inverter — `supported`
-- `mod_tl3_xh` input 3102 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3103 — inverter / inverter — `supported`
+- logical field `logical:min_tl_xh:input:3102:telemetry_output_max_power_limit` — unknown / unknown — `supported` — high_low / W — I3102 high_word, I3103 low_word
+- logical field `logical:mod_tl3_xh:input:3102:telemetry_output_max_power_limit` — unknown / unknown — `supported` — high_low / Output Maxpower Limited — I3102 high_word, I3103 low_word
 
 ## `telemetry.output_power_percentage`
 
@@ -5930,14 +5084,10 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.output_reactive_power`
 
-- `min_tl_xh` input 234 — unknown / unknown — `preferred`
-- `min_tl_xh` input 235 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` input 3021 — unknown / unknown — `alternate`
-- `min_tl_xh` input 3022 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3021 — unknown / unknown — `preferred`
-- `mod_tl3_xh` input 3022 — unknown / unknown — `alternate`
-- `tl3_max_mid_mac` input 234 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` input 235 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:input:234:telemetry_output_reactive_power` — unknown / unknown — `supported` — high_low / var — I234 high_word, I235 low_word
+- logical field `logical:min_tl_xh:input:3021:telemetry_output_reactive_power` — unknown / unknown — `supported` — high_low / POWER_REACTIVE — I3021 high_word, I3022 low_word
+- logical field `logical:mod_tl3_xh:input:3021:telemetry_output_reactive_power` — unknown / unknown — `supported` — high_low / var — I3021 high_word, I3022 low_word
+- logical field `logical:tl3_max_mid_mac:input:234:telemetry_output_reactive_power` — unknown / unknown — `supported` — high_low / var — I234 high_word, I235 low_word
 
 ## `telemetry.outvoltage`
 
@@ -6090,59 +5240,41 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.pv1_dc_current`
 
-- `min_tl_xh` input 4 — pv / pv_or_mppt — `supported`
 - `mod_tl3_xh` input 3004 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 4 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 4 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 4 — pv / pv_or_mppt — `supported`
 
 ## `telemetry.pv1_dc_power`
 
-- `min_tl_xh` input 3006 — pv / pv_or_mppt — `supported`
-- `mod_tl3_xh` input 3005 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3006 — pv / pv_or_mppt — `alternate`
+- logical field `logical:mod_tl3_xh:input:3005:telemetry_pv1_dc_power` — pv / pv_or_mppt — `supported` — high_low / W — I3005 high_word, I3006 low_word
 
 ## `telemetry.pv1_dc_voltage`
 
-- `min_tl_xh` input 3 — pv / pv_or_mppt — `supported`
 - `mod_tl3_xh` input 3003 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 3 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 3 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 3 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I3 word_1, I4 word_2
+- logical field `logical:storage_mix:input:3` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I3 word_1, I4 word_2
+- logical field `logical:storage_sph:input:3` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I3 word_1, I4 word_2
+- logical field `logical:tl3_max_mid_mac:input:3` — pv / pv_or_mppt — `supported` — unknown / V — I3 word_1, I4 word_2
 
 ## `telemetry.pv1_energy_today`
 
-- `min_tl_xh` input 59 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 60 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3055 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3056 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3055 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3056 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 59 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 60 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 59 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 60 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 59 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 60 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:59:telemetry_pv1_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I59 high_word, I60 low_word
+- logical field `logical:mod_tl3_xh:input:3055:telemetry_pv1_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I3055 high_word, I3056 low_word
+- logical field `logical:storage_mix:input:59:telemetry_pv1_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I59 high_word, I60 low_word
+- logical field `logical:storage_sph:input:59:telemetry_pv1_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I59 high_word, I60 low_word
+- logical field `logical:tl3_max_mid_mac:input:59:telemetry_pv1_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I59 high_word, I60 low_word
+- logical field `logical:min_tl_xh:input:3055` — pv / pv_or_mppt — `supported` — unknown / kWh — I3055 word_1, I3056 word_2
 
 ## `telemetry.pv1_energy_total`
 
-- `min_tl_xh` input 61 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 62 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3057 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3058 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3057 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3058 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 61 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 62 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 61 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 62 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 61 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 62 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:61:telemetry_pv1_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I61 high_word, I62 low_word
+- logical field `logical:mod_tl3_xh:input:3057:telemetry_pv1_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I3057 high_word, I3058 low_word
+- logical field `logical:storage_mix:input:61:telemetry_pv1_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I61 high_word, I62 low_word
+- logical field `logical:storage_sph:input:61:telemetry_pv1_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I61 high_word, I62 low_word
+- logical field `logical:tl3_max_mid_mac:input:61:telemetry_pv1_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I61 high_word, I62 low_word
+- logical field `logical:min_tl_xh:input:3057` — pv / pv_or_mppt — `supported` — unknown / kWh — I3057 word_1, I3058 word_2
 
 ## `telemetry.pv1_power`
 
-- `min_tl_xh` input 3005 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3005:telemetry_pv1_power` — pv / pv_or_mppt — `supported` — high_low / W — I3005 high_word, I3006 low_word
 
 ## `telemetry.pv1_voltage`
 
@@ -6166,9 +5298,7 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.pv2_dc_power`
 
-- `min_tl_xh` input 3010 — pv / pv_or_mppt — `supported`
-- `mod_tl3_xh` input 3009 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3010 — pv / pv_or_mppt — `alternate`
+- logical field `logical:mod_tl3_xh:input:3009:telemetry_pv2_dc_power` — pv / pv_or_mppt — `supported` — high_low / W — I3009 high_word, I3010 low_word
 
 ## `telemetry.pv2_dc_voltage`
 
@@ -6180,37 +5310,25 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.pv2_energy_today`
 
-- `min_tl_xh` input 63 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 64 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3059 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3060 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3059 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3060 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 63 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 64 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 63 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 64 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 63 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 64 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:63:telemetry_pv2_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I63 high_word, I64 low_word
+- logical field `logical:mod_tl3_xh:input:3059:telemetry_pv2_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I3059 high_word, I3060 low_word
+- logical field `logical:storage_mix:input:63:telemetry_pv2_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I63 high_word, I64 low_word
+- logical field `logical:storage_sph:input:63:telemetry_pv2_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I63 high_word, I64 low_word
+- logical field `logical:tl3_max_mid_mac:input:63:telemetry_pv2_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I63 high_word, I64 low_word
+- logical field `logical:min_tl_xh:input:3059` — pv / pv_or_mppt — `supported` — unknown / kWh — I3059 word_1, I3060 word_2
 
 ## `telemetry.pv2_energy_total`
 
-- `min_tl_xh` input 65 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 66 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3061 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3062 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3061 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3062 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 65 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 66 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 65 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 66 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 65 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 66 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:65:telemetry_pv2_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I65 high_word, I66 low_word
+- logical field `logical:mod_tl3_xh:input:3061:telemetry_pv2_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I3061 high_word, I3062 low_word
+- logical field `logical:storage_mix:input:65:telemetry_pv2_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I65 high_word, I66 low_word
+- logical field `logical:storage_sph:input:65:telemetry_pv2_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I65 high_word, I66 low_word
+- logical field `logical:tl3_max_mid_mac:input:65:telemetry_pv2_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I65 high_word, I66 low_word
+- logical field `logical:min_tl_xh:input:3061` — pv / pv_or_mppt — `supported` — unknown / kWh — I3061 word_1, I3062 word_2
 
 ## `telemetry.pv2_power`
 
-- `min_tl_xh` input 3009 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:3009:telemetry_pv2_power` — pv / pv_or_mppt — `supported` — high_low / W — I3009 high_word, I3010 low_word
 
 ## `telemetry.pv2_voltage`
 
@@ -6222,98 +5340,68 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.pv3_dc_current`
 
-- `min_tl_xh` input 12 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3012 — pv / pv_or_mppt — `alternate`
+- `min_tl_xh` input 3012 — pv / pv_or_mppt — `supported`
 - `mod_tl3_xh` input 3012 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 12 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 12 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 12 — pv / pv_or_mppt — `supported`
 
 ## `telemetry.pv3_dc_power`
 
-- `min_tl_xh` input 3013 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3014 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3013 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3014 — pv / pv_or_mppt — `alternate`
+- logical field `logical:min_tl_xh:input:3013:telemetry_pv3_dc_power` — pv / pv_or_mppt — `supported` — high_low / W — I3013 high_word, I3014 low_word
+- logical field `logical:mod_tl3_xh:input:3013:telemetry_pv3_dc_power` — pv / pv_or_mppt — `supported` — high_low / W — I3013 high_word, I3014 low_word
 
 ## `telemetry.pv3_dc_voltage`
 
-- `min_tl_xh` input 11 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3011 — pv / pv_or_mppt — `alternate`
+- `min_tl_xh` input 3011 — pv / pv_or_mppt — `preferred`
 - `mod_tl3_xh` input 3011 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 11 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 11 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 11 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:11` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I11 word_1, I12 word_2
+- logical field `logical:storage_mix:input:11` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I11 word_1, I12 word_2
+- logical field `logical:storage_sph:input:11` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I11 word_1, I12 word_2
+- logical field `logical:tl3_max_mid_mac:input:11` — pv / pv_or_mppt — `supported` — unknown / V — I11 word_1, I12 word_2
 
 ## `telemetry.pv3_energy_today`
 
-- `min_tl_xh` input 67 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 68 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3063 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3064 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3063 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3064 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 67 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 68 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 67 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 68 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 67 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 68 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:67:telemetry_pv3_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I67 high_word, I68 low_word
+- logical field `logical:mod_tl3_xh:input:3063:telemetry_pv3_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I3063 high_word, I3064 low_word
+- logical field `logical:storage_mix:input:67:telemetry_pv3_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I67 high_word, I68 low_word
+- logical field `logical:storage_sph:input:67:telemetry_pv3_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I67 high_word, I68 low_word
+- logical field `logical:tl3_max_mid_mac:input:67:telemetry_pv3_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I67 high_word, I68 low_word
+- logical field `logical:min_tl_xh:input:3063` — pv / pv_or_mppt — `supported` — unknown / kWh — I3063 word_1, I3064 word_2
 
 ## `telemetry.pv3_energy_total`
 
-- `min_tl_xh` input 69 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 70 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3065 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3066 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3065 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3066 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 69 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 70 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 69 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 70 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 69 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 70 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:69:telemetry_pv3_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I69 high_word, I70 low_word
+- logical field `logical:mod_tl3_xh:input:3065:telemetry_pv3_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I3065 high_word, I3066 low_word
+- logical field `logical:storage_mix:input:69:telemetry_pv3_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I69 high_word, I70 low_word
+- logical field `logical:storage_sph:input:69:telemetry_pv3_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I69 high_word, I70 low_word
+- logical field `logical:tl3_max_mid_mac:input:69:telemetry_pv3_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I69 high_word, I70 low_word
+- logical field `logical:min_tl_xh:input:3065` — pv / pv_or_mppt — `supported` — unknown / kWh — I3065 word_1, I3066 word_2
 
 ## `telemetry.pv4_dc_current`
 
-- `min_tl_xh` input 16 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3016 — pv / pv_or_mppt — `alternate`
+- `min_tl_xh` input 3016 — pv / pv_or_mppt — `supported`
 - `mod_tl3_xh` input 3016 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 16 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 16 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 16 — pv / pv_or_mppt — `supported`
 
 ## `telemetry.pv4_dc_power`
 
-- `min_tl_xh` input 3017 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3018 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3017 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3018 — pv / pv_or_mppt — `alternate`
+- logical field `logical:min_tl_xh:input:3017:telemetry_pv4_dc_power` — pv / pv_or_mppt — `supported` — high_low / W — I3017 high_word, I3018 low_word
+- logical field `logical:mod_tl3_xh:input:3017:telemetry_pv4_dc_power` — pv / pv_or_mppt — `supported` — high_low / W — I3017 high_word, I3018 low_word
 
 ## `telemetry.pv4_dc_voltage`
 
-- `min_tl_xh` input 15 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3015 — pv / pv_or_mppt — `alternate`
+- `min_tl_xh` input 3015 — pv / pv_or_mppt — `preferred`
 - `mod_tl3_xh` input 3015 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 15 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 15 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 15 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:15` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I15 word_1, I16 word_2
+- logical field `logical:storage_mix:input:15` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I15 word_1, I16 word_2
+- logical field `logical:storage_sph:input:15` — pv / pv_or_mppt — `supported` — unknown / 0.1V — I15 word_1, I16 word_2
+- logical field `logical:tl3_max_mid_mac:input:15` — pv / pv_or_mppt — `supported` — unknown / V — I15 word_1, I16 word_2
 
 ## `telemetry.pv4_energy_today`
 
-- `min_tl_xh` input 71 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 72 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3079 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3080 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3079 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3080 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 71 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 72 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 71 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 72 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 71 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 72 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:71:telemetry_pv4_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I71 high_word, I72 low_word
+- logical field `logical:mod_tl3_xh:input:3079:telemetry_pv4_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I3079 high_word, I3080 low_word
+- logical field `logical:storage_mix:input:71:telemetry_pv4_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I71 high_word, I72 low_word
+- logical field `logical:storage_sph:input:71:telemetry_pv4_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I71 high_word, I72 low_word
+- logical field `logical:tl3_max_mid_mac:input:71:telemetry_pv4_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I71 high_word, I72 low_word
+- logical field `logical:min_tl_xh:input:3079` — pv / pv_or_mppt — `supported` — unknown / kWh — I3079 word_1, I3080 word_2
 
 ## `telemetry.pv5_dc_current`
 
@@ -6331,25 +5419,17 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.pv5_energy_today`
 
-- `min_tl_xh` input 75 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 76 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 75 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 76 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 75 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 76 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 75 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 76 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:75:telemetry_pv5_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I75 high_word, I76 low_word
+- logical field `logical:storage_mix:input:75:telemetry_pv5_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I75 high_word, I76 low_word
+- logical field `logical:storage_sph:input:75:telemetry_pv5_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I75 high_word, I76 low_word
+- logical field `logical:tl3_max_mid_mac:input:75:telemetry_pv5_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I75 high_word, I76 low_word
 
 ## `telemetry.pv5_energy_total`
 
-- `min_tl_xh` input 77 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 78 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 77 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 78 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 77 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 78 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 77 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 78 — pv / pv_or_mppt — `alternate`
+- logical field `logical:min_tl_xh:input:77:telemetry_pv5_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I77 high_word, I78 low_word
+- logical field `logical:storage_mix:input:77:telemetry_pv5_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I77 high_word, I78 low_word
+- logical field `logical:storage_sph:input:77:telemetry_pv5_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I77 high_word, I78 low_word
+- logical field `logical:tl3_max_mid_mac:input:77:telemetry_pv5_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I77 high_word, I78 low_word
 
 ## `telemetry.pv6_dc_current`
 
@@ -6367,139 +5447,82 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.pv6_energy_today`
 
-- `min_tl_xh` input 79 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 80 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 79 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 80 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 79 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 80 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 79 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 80 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:79:telemetry_pv6_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I79 high_word, I80 low_word
+- logical field `logical:storage_mix:input:79:telemetry_pv6_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I79 high_word, I80 low_word
+- logical field `logical:storage_sph:input:79:telemetry_pv6_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I79 high_word, I80 low_word
+- logical field `logical:tl3_max_mid_mac:input:79:telemetry_pv6_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I79 high_word, I80 low_word
 
 ## `telemetry.pv6_energy_total`
 
-- `min_tl_xh` input 81 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 82 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 81 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 82 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 81 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 82 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 81 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 82 — pv / pv_or_mppt — `preferred`
-
-## `telemetry.pv7_dc_current`
-
-- `min_tl_xh` input 28 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 28 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 28 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 28 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:81:telemetry_pv6_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I81 high_word, I82 low_word
+- logical field `logical:storage_mix:input:81:telemetry_pv6_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I81 high_word, I82 low_word
+- logical field `logical:storage_sph:input:81:telemetry_pv6_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I81 high_word, I82 low_word
+- logical field `logical:tl3_max_mid_mac:input:81:telemetry_pv6_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I81 high_word, I82 low_word
 
 ## `telemetry.pv7_dc_voltage`
 
-- `min_tl_xh` input 27 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 27 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 27 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 27 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:27` — pv / pv_or_mppt — `supported` — unknown / V — I27 word_1, I28 word_2
+- logical field `logical:storage_mix:input:27` — pv / pv_or_mppt — `supported` — unknown / V — I27 word_1, I28 word_2
+- logical field `logical:storage_sph:input:27` — pv / pv_or_mppt — `supported` — unknown / V — I27 word_1, I28 word_2
+- logical field `logical:tl3_max_mid_mac:input:27` — pv / pv_or_mppt — `supported` — unknown / V — I27 word_1, I28 word_2
 
 ## `telemetry.pv7_energy_today`
 
-- `min_tl_xh` input 83 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 84 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 83 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 84 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 83 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 84 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 83 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 84 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:83:telemetry_pv7_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I83 high_word, I84 low_word
+- logical field `logical:storage_mix:input:83:telemetry_pv7_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I83 high_word, I84 low_word
+- logical field `logical:storage_sph:input:83:telemetry_pv7_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I83 high_word, I84 low_word
+- logical field `logical:tl3_max_mid_mac:input:83:telemetry_pv7_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I83 high_word, I84 low_word
 
 ## `telemetry.pv7_energy_total`
 
-- `min_tl_xh` input 85 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 86 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 85 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 86 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 85 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 86 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 85 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 86 — pv / pv_or_mppt — `preferred`
-
-## `telemetry.pv8_dc_current`
-
-- `min_tl_xh` input 32 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 32 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 32 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 32 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:85:telemetry_pv7_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I85 high_word, I86 low_word
+- logical field `logical:storage_mix:input:85:telemetry_pv7_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I85 high_word, I86 low_word
+- logical field `logical:storage_sph:input:85:telemetry_pv7_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I85 high_word, I86 low_word
+- logical field `logical:tl3_max_mid_mac:input:85:telemetry_pv7_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I85 high_word, I86 low_word
 
 ## `telemetry.pv8_dc_voltage`
 
-- `min_tl_xh` input 31 — pv / pv_or_mppt — `supported`
-- `storage_mix` input 31 — pv / pv_or_mppt — `supported`
-- `storage_sph` input 31 — pv / pv_or_mppt — `supported`
-- `tl3_max_mid_mac` input 31 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:31` — pv / pv_or_mppt — `supported` — unknown / V — I31 word_1, I32 word_2
+- logical field `logical:storage_mix:input:31` — pv / pv_or_mppt — `supported` — unknown / V — I31 word_1, I32 word_2
+- logical field `logical:storage_sph:input:31` — pv / pv_or_mppt — `supported` — unknown / V — I31 word_1, I32 word_2
+- logical field `logical:tl3_max_mid_mac:input:31` — pv / pv_or_mppt — `supported` — unknown / V — I31 word_1, I32 word_2
 
 ## `telemetry.pv8_energy_today`
 
-- `min_tl_xh` input 87 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 88 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 87 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 88 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 87 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 88 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 87 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 88 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:87:telemetry_pv8_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I87 high_word, I88 low_word
+- logical field `logical:storage_mix:input:87:telemetry_pv8_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I87 high_word, I88 low_word
+- logical field `logical:storage_sph:input:87:telemetry_pv8_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I87 high_word, I88 low_word
+- logical field `logical:tl3_max_mid_mac:input:87:telemetry_pv8_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I87 high_word, I88 low_word
 
 ## `telemetry.pv8_energy_total`
 
-- `min_tl_xh` input 89 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 90 — pv / pv_or_mppt — `preferred`
-- `storage_mix` input 89 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 90 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 89 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 90 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 89 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 90 — pv / pv_or_mppt — `preferred`
+- logical field `logical:min_tl_xh:input:89:telemetry_pv8_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I89 high_word, I90 low_word
+- logical field `logical:storage_mix:input:89:telemetry_pv8_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I89 high_word, I90 low_word
+- logical field `logical:storage_sph:input:89:telemetry_pv8_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I89 high_word, I90 low_word
+- logical field `logical:tl3_max_mid_mac:input:89:telemetry_pv8_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I89 high_word, I90 low_word
 
 ## `telemetry.pv_energy_today`
 
-- `min_tl_xh` input 3083 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3084 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3083 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3084 — pv / pv_or_mppt — `alternate`
+- logical field `logical:min_tl_xh:input:3083:telemetry_pv_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I3083 high_word, I3084 low_word
+- logical field `logical:mod_tl3_xh:input:3083:telemetry_pv_energy_today` — pv / pv_or_mppt — `supported` — high_low / kWh — I3083 high_word, I3084 low_word
 
 ## `telemetry.pv_energy_total`
 
-- `min_tl_xh` input 91 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 92 — pv / pv_or_mppt — `preferred`
-- `min_tl_xh` input 3053 — pv / pv_or_mppt — `alternate`
-- `min_tl_xh` input 3054 — pv / pv_or_mppt — `alternate`
-- `mod_tl3_xh` input 3053 — pv / pv_or_mppt — `preferred`
-- `mod_tl3_xh` input 3054 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 91 — pv / pv_or_mppt — `alternate`
-- `storage_mix` input 92 — pv / pv_or_mppt — `preferred`
-- `storage_sph` input 91 — pv / pv_or_mppt — `alternate`
-- `storage_sph` input 92 — pv / pv_or_mppt — `preferred`
-- `tl3_max_mid_mac` input 91 — pv / pv_or_mppt — `alternate`
-- `tl3_max_mid_mac` input 92 — pv / pv_or_mppt — `preferred`
-
-## `telemetry.pv_input_power`
-
-- `min_tl_xh` input 3002 — pv / pv_or_mppt — `supported`
-- `mod_tl3_xh` input 3002 — pv / pv_or_mppt — `supported`
+- logical field `logical:min_tl_xh:input:91:telemetry_pv_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I91 high_word, I92 low_word
+- logical field `logical:mod_tl3_xh:input:3053:telemetry_pv_energy_total` — pv / pv_or_mppt — `supported` — high_low / PVenergy total — I3053 high_word, I3054 low_word
+- logical field `logical:storage_mix:input:91:telemetry_pv_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I91 high_word, I92 low_word
+- logical field `logical:storage_sph:input:91:telemetry_pv_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I91 high_word, I92 low_word
+- logical field `logical:tl3_max_mid_mac:input:91:telemetry_pv_energy_total` — pv / pv_or_mppt — `supported` — high_low / kWh — I91 high_word, I92 low_word
+- logical field `logical:min_tl_xh:input:3053` — pv / pv_or_mppt — `supported` — unknown / kWh — I3053 word_1, I3054 word_2
 
 ## `telemetry.reactive_energy_total`
 
-- `min_tl_xh` input 236 — unknown / unknown — `preferred`
-- `min_tl_xh` input 237 — unknown / unknown — `legacy_or_supported`
-- `tl3_max_mid_mac` input 236 — unknown / unknown — `preferred`
-- `tl3_max_mid_mac` input 237 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:input:236:telemetry_reactive_energy_total` — unknown / unknown — `supported` — high_low / kvarh — I236 high_word, I237 low_word
+- logical field `logical:tl3_max_mid_mac:input:236:telemetry_reactive_energy_total` — unknown / unknown — `supported` — high_low / kvarh — I236 high_word, I237 low_word
 
 ## `telemetry.reactpowerh`
 
-- `tl3_max_mid_mac` input 232 — unknown / unknown — `supported`
-
-## `telemetry.reactpowerl`
-
-- `tl3_max_mid_mac` input 233 — unknown / unknown — `supported`
+- logical field `logical:tl3_max_mid_mac:input:232:telemetry_reactpowerh` — unknown / unknown — `supported` — high_low / unitless — I232 high_word, I233 low_word
 
 ## `telemetry.real_power_percent`
 
@@ -6529,30 +5552,21 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.self_use_energy_today`
 
-- `min_tl_xh` input 3139 — unknown / unknown — `supported`
-- `min_tl_xh` input 3140 — load / load_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3139 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3140 — load / load_meter_or_inverter — `supported`
+- logical field `logical:min_tl_xh:input:3139:telemetry_self_use_energy_today` — unknown / unknown — `supported` — high_low / kWh — I3139 high_word, I3140 low_word
+- logical field `logical:mod_tl3_xh:input:3139:telemetry_self_use_energy_today` — unknown / unknown — `supported` — high_low / kWh — I3139 high_word, I3140 low_word
 
 ## `telemetry.self_use_energy_total`
 
-- `min_tl_xh` input 3141 — unknown / unknown — `supported`
-- `min_tl_xh` input 3142 — load / load_meter_or_inverter — `supported`
-- `mod_tl3_xh` input 3141 — unknown / unknown — `supported`
-- `mod_tl3_xh` input 3142 — load / load_meter_or_inverter — `supported`
+- logical field `logical:min_tl_xh:input:3141:telemetry_self_use_energy_total` — unknown / unknown — `supported` — high_low / kWh — I3141 high_word, I3142 low_word
+- logical field `logical:mod_tl3_xh:input:3141:telemetry_self_use_energy_total` — unknown / unknown — `supported` — high_low / kWh — I3141 high_word, I3142 low_word
 
 ## `telemetry.self_use_power`
 
-- `min_tl_xh` holding 3121 — unknown / unknown — `preferred`
-- `min_tl_xh` holding 3122 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` input 3121 — unknown / unknown — `alternate`
-- `min_tl_xh` input 3122 — load / load_meter_or_inverter — `supported`
-- `mod_tl3_xh` holding 3121 — unknown / unknown — `preferred`
-- `mod_tl3_xh` holding 3122 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` input 3121 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3122 — load / load_meter_or_inverter — `supported`
-- `storage_mix` holding 3121 — unknown / unknown — `preferred`
-- `storage_mix` holding 3122 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:input:3121:telemetry_self_use_power` — unknown / unknown — `supported` — high_low / W — I3121 high_word, I3122 low_word
+- logical field `logical:mod_tl3_xh:input:3121:telemetry_self_use_power` — unknown / unknown — `supported` — high_low / W — I3121 high_word, I3122 low_word
+- logical field `logical:min_tl_xh:holding:3121` — unknown / unknown — `supported` — unknown / W — I3121 word_1, I3122 word_2
+- logical field `logical:mod_tl3_xh:holding:3121` — unknown / unknown — `supported` — unknown / W — I3121 word_1, I3122 word_2
+- logical field `logical:storage_mix:holding:3121` — unknown / unknown — `supported` — unknown / W — I3121 word_1, I3122 word_2
 
 ## `telemetry.st_line_voltage`
 
@@ -6569,30 +5583,21 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.system_energy_today`
 
-- `min_tl_xh` holding 3123 — unknown / unknown — `preferred`
-- `min_tl_xh` holding 3124 — unknown / unknown — `legacy_or_supported`
-- `min_tl_xh` input 3123 — unknown / unknown — `alternate`
-- `min_tl_xh` input 3124 — unknown / unknown — `alternate`
-- `mod_tl3_xh` holding 3123 — unknown / unknown — `preferred`
-- `mod_tl3_xh` holding 3124 — unknown / unknown — `legacy_or_supported`
-- `mod_tl3_xh` input 3123 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3124 — unknown / unknown — `alternate`
-- `storage_mix` holding 3123 — unknown / unknown — `preferred`
-- `storage_mix` holding 3124 — unknown / unknown — `legacy_or_supported`
+- logical field `logical:min_tl_xh:input:3123:telemetry_system_energy_today` — unknown / unknown — `supported` — high_low / kWh — I3123 high_word, I3124 low_word
+- logical field `logical:mod_tl3_xh:input:3123:telemetry_system_energy_today` — unknown / unknown — `supported` — high_low / kWh — I3123 high_word, I3124 low_word
+- logical field `logical:min_tl_xh:holding:3123` — unknown / unknown — `supported` — unknown / kWh — I3123 word_1, I3124 word_2
+- logical field `logical:mod_tl3_xh:holding:3123` — unknown / unknown — `supported` — unknown / kWh — I3123 word_1, I3124 word_2
+- logical field `logical:storage_mix:holding:3123` — unknown / unknown — `supported` — unknown / kWh — I3123 word_1, I3124 word_2
 
 ## `telemetry.system_energy_total`
 
-- `min_tl_xh` input 3137 — unknown / unknown — `preferred`
-- `min_tl_xh` input 3138 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3137 — unknown / unknown — `preferred`
-- `mod_tl3_xh` input 3138 — unknown / unknown — `alternate`
+- logical field `logical:min_tl_xh:input:3137:telemetry_system_energy_total` — unknown / unknown — `supported` — high_low / kWh — I3137 high_word, I3138 low_word
+- logical field `logical:mod_tl3_xh:input:3137:telemetry_system_energy_total` — unknown / unknown — `supported` — high_low / kWh — I3137 high_word, I3138 low_word
 
 ## `telemetry.system_output_power`
 
-- `min_tl_xh` input 3019 — unknown / unknown — `preferred`
-- `min_tl_xh` input 3020 — unknown / unknown — `alternate`
-- `mod_tl3_xh` input 3019 — unknown / unknown — `preferred`
-- `mod_tl3_xh` input 3020 — unknown / unknown — `alternate`
+- logical field `logical:min_tl_xh:input:3019:telemetry_system_output_power` — unknown / unknown — `supported` — high_low / W — I3019 high_word, I3020 low_word
+- logical field `logical:mod_tl3_xh:input:3019:telemetry_system_output_power` — unknown / unknown — `supported` — high_low / W — I3019 high_word, I3020 low_word
 
 ## `telemetry.total_bus_voltage`
 
@@ -6606,17 +5611,13 @@ This index preserves subsystem and instance distinctions; entries are not automa
 
 ## `telemetry.user_load_energy_today`
 
-- `min_tl_xh` input 3075 — load / load_meter_or_inverter — `preferred`
-- `min_tl_xh` input 3076 — load / load_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3075 — load / load_meter_or_inverter — `preferred`
-- `mod_tl3_xh` input 3076 — load / load_meter_or_inverter — `alternate`
+- logical field `logical:min_tl_xh:input:3075:telemetry_user_load_energy_today` — load / load_meter_or_inverter — `supported` — high_low / kWh — I3075 high_word, I3076 low_word
+- logical field `logical:mod_tl3_xh:input:3075:telemetry_user_load_energy_today` — load / load_meter_or_inverter — `supported` — high_low / Todayenergy ofuserload — I3075 high_word, I3076 low_word
 
 ## `telemetry.user_load_energy_total`
 
-- `min_tl_xh` input 3077 — load / load_meter_or_inverter — `preferred`
-- `min_tl_xh` input 3078 — load / load_meter_or_inverter — `alternate`
-- `mod_tl3_xh` input 3077 — load / load_meter_or_inverter — `preferred`
-- `mod_tl3_xh` input 3078 — load / load_meter_or_inverter — `alternate`
+- logical field `logical:min_tl_xh:input:3077:telemetry_user_load_energy_total` — load / load_meter_or_inverter — `supported` — high_low / kWh — I3077 high_word, I3078 low_word
+- logical field `logical:mod_tl3_xh:input:3077:telemetry_user_load_energy_total` — load / load_meter_or_inverter — `supported` — high_low / Totalenergy ofuserload — I3077 high_word, I3078 low_word
 
 ## `telemetry.vbus1_voltage`
 

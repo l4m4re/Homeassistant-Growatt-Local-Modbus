@@ -62,6 +62,11 @@ def validate_contract(reference: dict) -> None:  # noqa: C901
     missing = required - set(reference)
     if missing:
         fail(f"missing top-level fields: {sorted(missing)}")
+    metadata = reference["meta"]
+    if metadata.get("canonical") is not False or metadata.get("generated_compatibility_view") is not True:
+        fail("compatibility reference has ambiguous canonical identity")
+    if metadata.get("canonical_reference") != "doc/register-spec/growatt-register-spec.json":
+        fail("compatibility reference points to the wrong canonical artifact")
     records = record_map(reference)
     record_ids = {record["id"] for record in records.values()}
     if not records:

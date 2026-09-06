@@ -21,7 +21,6 @@ DOC_DIR = SPEC_DIR.parent
 SOURCE_PATH = DOC_DIR / "growatt_register_reference.json"
 BLOCK_PATH = DOC_DIR / "min_6000tl_xh_block_validation.json"
 OUTPUT_PATH = SPEC_DIR / "growatt-register-spec.json"
-
 FAMILY_SLUGS = {
     "min_tl_xh": "MIN_TL_XH",
     "tl3_max_mid_mac": "TL3_MAX_MID_MAC",
@@ -32,6 +31,16 @@ FAMILY_SLUGS = {
     "legacy_inverter_315": "LEGACY_315",
     "spf_offgrid": "SPF",
 }
+
+EXPECTED_HUMAN_FILES = {
+    "README.md",
+    "PROTOCOLS.md",
+    "SEMANTIC_INDEX.md",
+    *(f"families/{slug}.md" for slug in FAMILY_SLUGS.values()),
+}
+
+# Audit result from the checked-in HA-6C artifact before this correction.
+HA6C_COMPONENT_ALTERNATE_EDGES = 2096
 
 SEMANTIC_RENAMES = {
     "battery_current": "battery.current",
@@ -48,6 +57,96 @@ SEMANTIC_RENAMES = {
     "ac_phase_l3_power": "ac.phase.l3_power",
     "inverter_runtime": "inverter.runtime",
     "pv4_energy_total": "pv.mppt4.energy_total",
+    "battery_charge_today": "battery.charge_energy_today",
+    "battery_charge_total": "battery.charge_energy_total",
+    "battery_discharge_today": "battery.discharge_energy_today",
+    "battery_discharge_total": "battery.discharge_energy_total",
+    "battery_charge_energy_today": "battery.charge_energy_today",
+    "battery_charge_energy_total": "battery.charge_energy_total",
+    "battery_discharge_energy_today": "battery.discharge_energy_today",
+    "battery_discharge_energy_total": "battery.discharge_energy_total",
+    "ac_charge_energy_today": "battery.ac_charge_energy_today",
+    "ac_charge_energy_total": "battery.ac_charge_energy_total",
+    "battery_load_voltage": "battery.load_voltage",
+    "battery_pack_count": "battery.pack_count",
+    "battery_request_flags": "battery.request_flags",
+    "batterystate": "battery.state",
+    "batterytype": "battery.type",
+    "batteryvoltage": "battery.voltage",
+}
+
+CANONICAL_NAME_ALIASES = {
+    "batterytyp e": "Battery type",
+    "batterytype": "Battery type",
+    "batterystate": "Battery state",
+    "batteryvoltage": "Battery voltage",
+    "batterycurrent": "Battery current",
+    "battery charge today": "Battery charge energy today",
+    "battery charge total": "Battery charge energy total",
+    "battery discharge today": "Battery discharge energy today",
+    "battery discharge total": "Battery discharge energy total",
+    "battery load voltage": "Battery load voltage",
+    "battery pack count": "Battery pack count",
+    "battery request flags": "Battery request flags",
+    "binvallfaultcod e": "Inverter aggregate fault code",
+    "vbatstartf ordischarg e": "Battery discharge start voltage",
+}
+
+BITFIELD_OVERRIDES = {
+    ("min_tl_xh", "holding", 1): [
+        (0, 0, "spi_enable", "SPI enable", "System protection interface enable."),
+        (1, 1, "auto_test_start", "AutoTestStart", "Automatic test start."),
+        (2, 2, "lvfrt_enable", "LVFRT enable", "Low-voltage ride-through enable."),
+        (3, 3, "frequency_derating_enable", "FreqDerating Enable", "Frequency derating enable."),
+        (4, 4, "softstart_enable", "Softstart enable", "Soft-start enable."),
+        (5, 5, "drms_enable", "DRMS enable", "Demand-response management enable."),
+        (6, 6, "power_voltage_function_enable", "PowerVoltFunc Enable", "Power/voltage function enable."),
+        (7, 7, "hvfrt_enable", "HVFRT enable", "High-voltage ride-through enable."),
+        (8, 8, "rocof_enable", "ROCOF enable", "Rate-of-change-of-frequency protection enable."),
+        (9, 9, "recover_frequency_derating_mode_enable", "Recover FreqDeratingMode Enable", "Recovery frequency-derating mode enable."),
+        (10, 10, "split_phase_enable", "Split phase enable", "Split-phase enable."),
+        (11, 15, "reserved", "Reserved", "Reserved by the vendor."),
+    ],
+    ("min_tl_xh", "input", 3187): [
+        (0, 0, "charge_enabled", "ChargeEn", "BDC allows charging."),
+        (1, 1, "discharge_enabled", "DischargeEn", "BDC allows discharge."),
+        (2, 7, "reserved", "Resvd", "Reserved."),
+        (8, 11, "warning_subcode", "WarnSubCode", "BDC sub-warning code."),
+        (12, 15, "fault_subcode", "FaultSubCode", "BDC sub-error code."),
+    ],
+    ("min_tl_xh", "input", 3211): [
+        (0, 0, "charging_prohibited", "Prohibit charging", "1 prohibits charging; 0 allows charging."),
+        (1, 1, "strong_charge_enabled", "Enable strong charge", "1 enables strong charge; 0 disables strong charge."),
+        (2, 2, "strong_charge_2_enabled", "Enable strong charge2", "1 enables strong charge2; 0 disables strong charge2."),
+        (8, 8, "discharge_prohibited", "Discharge is prohibited", "1 prohibits discharge; 0 allows discharge."),
+        (9, 9, "power_reduction_enabled", "Turn on power reduction", "1 turns on power reduction; 0 turns it off."),
+    ],
+}
+
+PACKED_FIELD_OVERRIDES = {
+    ("min_tl_xh", "holding", 3125): [
+        {"bits": [0, 3], "name": "month_low", "vendor_label": "month_L"},
+        {"bits": [4, 7], "name": "month_high", "vendor_label": "month_H"},
+        {"bits": [8, 8], "name": "enabled", "vendor_label": "enable"},
+        {"bits": [9, 15], "name": "reserved", "vendor_label": "reserve"},
+    ],
+    ("min_tl_xh", "holding", 3202): [
+        {"bits": [0, 6], "name": "minute", "vendor_label": "min", "range": "0-59"},
+        {"bits": [7, 11], "name": "hour", "vendor_label": "hour", "range": "0-23"},
+        {"bits": [12, 14], "name": "priority", "vendor_label": "loadfirst/batfirst/gridfirst/anti-reflux", "enum": {"0": "load_first", "1": "battery_first", "2": "grid_first", "3": "anti_reflux"}},
+        {"bits": [15, 15], "name": "enabled", "vendor_label": "enable", "enum": {"0": "disabled", "1": "enabled"}},
+    ],
+    ("min_tl_xh", "holding", 3220): [
+        {"bits": [0, 7], "name": "day", "vendor_label": "day", "range": "0-31"},
+        {"bits": [8, 14], "name": "month", "vendor_label": "month", "range": "1-12"},
+        {"bits": [15, 15], "name": "enabled", "vendor_label": "enable", "enum": {"0": "disabled", "1": "enabled"}},
+    ],
+    ("min_tl_xh", "holding", 3221): [
+        {"bits": [0, 6], "name": "minute", "vendor_label": "min", "range": "0-59"},
+        {"bits": [7, 11], "name": "hour", "vendor_label": "hour", "range": "0-23"},
+        {"bits": [12, 14], "name": "priority", "vendor_label": "loadfirst/batfirst/gridfirst/anti-reflux", "enum": {"0": "load_first", "1": "battery_first", "2": "grid_first", "3": "anti_reflux"}},
+        {"bits": [15, 15], "name": "enabled", "vendor_label": "enable", "enum": {"0": "disabled", "1": "enabled"}},
+    ],
 }
 
 EXTERNAL_IMPLEMENTATIONS = {
@@ -96,13 +195,45 @@ def numeric_or_none(value: Any) -> int | float | None:
     )
 
 
-def quantity(record: dict[str, Any]) -> str | None:
+def canonical_name(record: dict[str, Any]) -> str | None:
+    value = str(record.get("semantic_name") or record.get("canonical_name") or "").strip()
+    value = re.sub(r"\s+", " ", value)
+    value = re.sub(r"\s+([,.;:)])", r"\1", value)
+    value = re.sub(r"\((?:high|low|middle)\)", "", value, flags=re.IGNORECASE).strip()
+    compact = re.sub(r"[^a-z0-9]+", " ", value.lower()).strip()
+    return CANONICAL_NAME_ALIASES.get(compact, value) or None
+
+
+def semantic_quantity(record: dict[str, Any], name: str | None) -> tuple[str | None, str]:
     key = record.get("semantic_key")
     if key in SEMANTIC_RENAMES:
-        return SEMANTIC_RENAMES[key]
+        return SEMANTIC_RENAMES[key], "reconciled"
     if key:
-        return key.replace("_", ".")
-    name = str(record.get("canonical_name", "")).strip()
+        return key.replace("_", "."), "syntactic_only"
+    compact = re.sub(r"[^a-z0-9]+", "", (name or "").lower())
+    direct_names = {
+        "batterytype": "battery.type",
+        "batterystate": "battery.state",
+        "batteryvoltage": "battery.voltage",
+        "batterycurrent": "battery.current",
+        "batterychargetoday": "battery.charge_energy_today",
+        "batterychargetotal": "battery.charge_energy_total",
+        "batterydischargetoday": "battery.discharge_energy_today",
+        "batterydischargetotal": "battery.discharge_energy_total",
+        "batterychargeenergytoday": "battery.charge_energy_today",
+        "batterychargeenergytotal": "battery.charge_energy_total",
+        "batterydischargeenergytoday": "battery.discharge_energy_today",
+        "batterydischargeenergytotal": "battery.discharge_energy_total",
+        "acchargeenergytoday": "battery.ac_charge_energy_today",
+        "acchargeenergytotal": "battery.ac_charge_energy_total",
+        "batteryloadvoltage": "battery.load_voltage",
+        "batterypackcount": "battery.pack_count",
+        "batteryrequestflags": "battery.request_flags",
+        "inverteraggregatefaultcode": "diagnostic.inverter_all_fault_code",
+        "batterydischargestartvoltage": "battery.discharge_start_voltage",
+    }
+    if compact in direct_names:
+        return direct_names[compact], "reconciled"
     if name and not name.lower().startswith(("register ", "reserved", "unknown")):
         category = {
             "battery": "battery",
@@ -111,8 +242,30 @@ def quantity(record: dict[str, Any]) -> str | None:
             "energy": "energy",
             "telemetry": "telemetry",
         }.get(record.get("semantic_category"), "field")
-        return f"{category}.{slug(name)}"
+        return f"{category}.{slug(name)}", "syntactic_only"
+    return None, "unresolved"
+
+
+def component_marker(record: dict[str, Any]) -> str | None:
+    aliases = record.get("source_aliases", {}).get("vendor", [])
+    text = " ".join([*aliases, str(record.get("description", "")), str(record.get("canonical_name", ""))])
+    if any(re.search(r"(?:high|H)$", alias.strip()) for alias in aliases) or re.search(r"(?:high\s+word|\(high\)|\bhigh\b)", text, re.IGNORECASE):
+        return "high_word"
+    if any(re.search(r"(?:low|L)$", alias.strip()) for alias in aliases) or re.search(r"(?:low\s+word|\(low\)|\blow\b)", text, re.IGNORECASE):
+        return "low_word"
+    if any(re.search(r"(?:middle|M)$", alias.strip()) for alias in aliases) or re.search(r"(?:middle\s+word|\bmiddle\b)", text, re.IGNORECASE):
+        return "middle_word"
     return None
+
+
+def logical_key(record: dict[str, Any]) -> str:
+    aliases = record.get("source_aliases", {}).get("vendor", [])
+    for value in aliases:
+        value = re.sub(r"(?:high|low|middle|[HLM])$", "", value, flags=re.IGNORECASE)
+        value = re.sub(r"[^A-Za-z0-9]+", "", value).lower()
+        if value:
+            return value
+    return re.sub(r"[^A-Za-z0-9]+", "", str(record.get("canonical_name", ""))).lower()
 
 
 def subsystem(record: dict[str, Any]) -> tuple[str, str]:
@@ -246,7 +399,7 @@ def write_policy(record: dict[str, Any]) -> str:
         for token in ("schedule", "mode", "enable", "frequency", "voltage")
     ):
         return "conditional"
-    return "reversible_candidate"
+    return "unknown_write_risk"
 
 
 def resolution_from_evidence(
@@ -276,10 +429,28 @@ def resolution_from_evidence(
 
 
 def normalized_enums(record: dict[str, Any]) -> list[dict[str, Any]]:
+    key = (record["family"], record["table"], record["address"])
+    if key in BITFIELD_OVERRIDES or key in PACKED_FIELD_OVERRIDES:
+        return []
     grouped: dict[int, set[str]] = defaultdict(set)
-    for item in record.get("enum_definitions", []):
+    definitions = list(record.get("enum_definitions", []))
+    text = " ".join(
+        str(record.get(key, "")) for key in ("canonical_name", "description", "encoding", "unit")
+    )
+    definitions.extend(
+        {"value": int(match.group(1)), "label": match.group(2).strip()}
+        for match in re.finditer(
+            r"(?<![A-Za-z])(\d{1,3})\s*[:=]\s*(.*?)(?=\s+\d{1,3}\s*[:=]|[,;]|$)",
+            text,
+        )
+    )
+    for item in definitions:
         label = str(item.get("label", "")).strip()
-        grouped[item["value"]].add(label)
+        unit = str(record.get("unit") or "").strip()
+        if unit and label.lower().endswith(f" {unit.lower()} {unit.lower()}"):
+            label = label[: -len(unit) - 1].rstrip()
+        if label:
+            grouped[int(item["value"])].add(label)
     return [
         {
             "value": value,
@@ -292,56 +463,184 @@ def normalized_enums(record: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def bitfields(record: dict[str, Any]) -> list[dict[str, Any]]:
-    address = record["address"]
-    if (
-        record["family"] == "min_tl_xh"
-        and record["table"] == "input"
-        and address == 3187
-    ):
-        return [
-            {"bits": [0], "name": "charge_enabled", "vendor_label": "ChargeEn"},
-            {"bits": [1], "name": "discharge_enabled", "vendor_label": "DischargeEn"},
-            {"bits": [2, 7], "name": "reserved", "vendor_label": "Resvd"},
-            {"bits": [8, 11], "name": "warning_subcode", "vendor_label": "WarnSubCode"},
-            {"bits": [12, 15], "name": "fault_subcode", "vendor_label": "FaultSubCode"},
-        ]
-    text = f"{record.get('canonical_name', '')} {record.get('encoding', '')}".lower()
-    if "bitfield" in text or "flags" in text or " flag" in text:
-        return [
+    key = (record["family"], record["table"], record["address"])
+    definitions = BITFIELD_OVERRIDES.get(key)
+    if definitions is None:
+        text = " ".join(
+            str(record.get(item, ""))
+            for item in ("canonical_name", "description", "encoding")
+        )
+        definitions = []
+        for match in re.finditer(
+            r"bit\s*(\d+)(?:\s*[~\-–]\s*(\d+))?\s*[:：]\s*([^;]+)",
+            text,
+            re.IGNORECASE,
+        ):
+            start = int(match.group(1))
+            end = int(match.group(2) or start)
+            label = match.group(3).strip()
+            definitions.append((start, end, slug(label), label, None))
+        if not definitions and re.search(r"flags?|flag word|bitfield", text, re.IGNORECASE):
+            return [
+                {
+                    "bits": [0, 15],
+                    "name": "undocumented_flags",
+                    "vendor_label": "undocumented flag word",
+                    "status": "placeholder",
+                    "description": "The source identifies a packed flag word but does not define safe individual meanings.",
+                    "provenance": ["vendor_v124"],
+                }
+            ]
+    result = []
+    for start, end, name, vendor_label, description in definitions:
+        result.append(
             {
-                "bits": [0, 15],
-                "name": "undocumented_flags",
-                "status": "undocumented",
-                "description": "The source identifies a packed flag word but does not define safe individual meanings.",
+                "bits": [start] if start == end else [start, end],
+                "name": name,
+                "vendor_label": vendor_label,
+                "status": "structured",
+                "description": description or vendor_label,
+                "provenance": ["vendor_v124"],
             }
+        )
+    return result
+
+
+def packed_fields(record: dict[str, Any]) -> list[dict[str, Any]] | None:
+    override = PACKED_FIELD_OVERRIDES.get(
+        (record["family"], record["table"], record["address"])
+    )
+    if override:
+        return [
+            {**field, "status": "source_explicit", "provenance": ["vendor_v124"]}
+            for field in override
         ]
-    return []
+    text = " ".join(
+        str(record.get(item, "")) for item in ("canonical_name", "description", "encoding")
+    )
+    if not re.search(r"bit\s*\d|packed|flags?", text, re.IGNORECASE):
+        return None
+    return None
 
 
 def logical_fields(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    fields = []
+    lookup = {(r["family"], r["table"], r["address"]): r for r in records}
+    explicit: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for record in records:
-        length = record["length_words"]
-        if length < 2:
+        marker = component_marker(record)
+        if marker:
+            explicit[(record["family"], record["table"], logical_key(record))].append(record)
+
+    groups: list[tuple[list[dict[str, Any]], str, str]] = []
+    assigned: set[str] = set()
+    for candidates in explicit.values():
+        candidates.sort(key=lambda item: item["address"])
+        if len(candidates) < 2:
             continue
+        for start in range(len(candidates) - 1):
+            pair = candidates[start : start + 2]
+            if pair[1]["address"] != pair[0]["address"] + 1:
+                continue
+            roles = [component_marker(item) for item in pair]
+            if roles == ["high_word", "low_word"]:
+                groups.append((pair, "high_low", "source_explicit"))
+                assigned.update(item["physical_id"] for item in pair)
+                break
+        if len(candidates) >= 3 and all(component_marker(item) for item in candidates):
+            addresses = [item["address"] for item in candidates]
+            if addresses == list(range(addresses[0], addresses[-1] + 1)):
+                groups.append((candidates, "high_middle_low", "source_explicit"))
+                assigned.update(item["physical_id"] for item in candidates)
+
+    fields: list[dict[str, Any]] = []
+    for components, order, evidence_status in groups:
+        first = components[0]
+        identity = first["semantic_identity"]
+        field_id = f"logical:{first['family']}:{first['table']}:{first['address']}:{slug(identity['quantity'] or first['normalized']['name'] or 'field')}"
+        for item in components:
+            item["logical_field_id"] = field_id
+            item["component_role"] = component_marker(item) or "word"
+            role_name = item["component_role"].replace("_", " ")
+            item["normalized"]["name"] = f"{identity['canonical_name']} ({role_name})"
         fields.append(
             {
-                "id": f"logical:{record['physical_id']}",
-                "semantic_key": record["semantic_identity"]["quantity"],
+                "id": field_id,
+                "semantic_key": identity["quantity"],
+                "canonical_name": identity["canonical_name"],
+                "canonical_description": first["vendor"]["description"],
+                "subsystem": identity["subsystem"],
+                "measurement_point": identity["measurement_point"],
+                "instance": first["instance"],
+                "resolution": first["resolution"],
                 "physical_registers": [
                     {
-                        "family": record["family"],
-                        "table": record["table"],
-                        "address": record["address"] + offset,
-                        "role": f"word_{offset + 1}",
+                        "physical_id": item["physical_id"],
+                        "family": item["family"],
+                        "table": item["table"],
+                        "address": item["address"],
+                        "role": component_marker(item) or "word",
                     }
-                    for offset in range(length)
+                    for item in components
                 ],
-                "encoding": record["normalized"]["raw_type"],
-                "word_order": "not_specified_by_canonical_source",
-                "scale": record["normalized"]["scale"],
-                "unit": record["normalized"]["unit"],
-                "status": "structured; word order requires source evidence",
+                "encoding": first["normalized"]["raw_type"],
+                "word_order": order,
+                "word_order_status": evidence_status,
+                "divisor": first["normalized"]["divisor"],
+                "scale": first["normalized"]["scale"],
+                "unit": first["normalized"]["unit"],
+                "relationship_role": "supported",
+                "relationships": [],
+                "status": "source_explicit",
+            }
+        )
+
+    for record in records:
+        if record["physical_id"] in assigned or record["length_words"] < 2:
+            continue
+        length = min(record["length_words"], 8)
+        component_records = [
+            lookup.get((record["family"], record["table"], record["address"] + offset))
+            for offset in range(length)
+        ]
+        if any(item is None for item in component_records):
+            continue
+        if any(item.get("logical_field_id") for item in component_records if item is not None):
+            continue
+        field_id = f"logical:{record['physical_id']}"
+        for offset, item in enumerate(component_records):
+            assert item is not None
+            item["logical_field_id"] = field_id
+            item["component_role"] = f"word_{offset + 1}"
+        identity = record["semantic_identity"]
+        fields.append(
+            {
+                    "id": field_id,
+                    "semantic_key": identity["quantity"],
+                    "canonical_name": identity["canonical_name"],
+                    "canonical_description": record["vendor"]["description"],
+                    "subsystem": identity["subsystem"],
+                    "measurement_point": identity["measurement_point"],
+                    "instance": record["instance"],
+                    "resolution": record["resolution"],
+                    "physical_registers": [
+                        {
+                            "physical_id": item["physical_id"],
+                            "family": item["family"],
+                            "table": item["table"],
+                            "address": item["address"],
+                            "role": f"word_{offset + 1}",
+                        }
+                        for offset, item in enumerate(component_records)
+                    ],
+                    "encoding": record["normalized"]["raw_type"],
+                    "word_order": "unknown",
+                    "word_order_status": "unknown",
+                    "divisor": record["normalized"]["divisor"],
+                    "scale": record["normalized"]["scale"],
+                    "unit": record["normalized"]["unit"],
+                    "relationship_role": "supported",
+                    "relationships": [],
+                    "status": "unknown_word_order",
             }
         )
     return fields
@@ -378,8 +677,17 @@ def runtime_audit_projection(source: dict[str, Any]) -> dict[str, Any]:
     runtime = source["runtime_audit"]
     ha_mapping = load(DOC_DIR / "HA_local_registers.json")
     occurrences = 0
-    identities: set[tuple[str, int]] = set()
-    for payload in ha_mapping.get("devices", {}).values():
+    identities: set[tuple[str, str, int]] = set()
+    family_by_group = {
+        ("tlx", "holding_common"): "min_tl_xh",
+        ("tlx", "input_common"): "min_tl_xh",
+        ("tlx", "input_tl_xh"): "min_tl_xh",
+        ("storage", "holding_common"): "storage_mix",
+        ("storage", "holding_tl_xh"): "min_tl_xh",
+        ("storage", "input_common"): "storage_mix",
+        ("storage", "input_tl_xh"): "min_tl_xh",
+    }
+    for payload_name, payload in ha_mapping.get("devices", {}).items():
         for group, rows in payload.items():
             if not isinstance(rows, list):
                 continue
@@ -387,7 +695,9 @@ def runtime_audit_projection(source: dict[str, Any]) -> dict[str, Any]:
             for row in rows:
                 if isinstance(row, dict) and "register" in row:
                     occurrences += 1
-                    identities.add((table, int(row["register"])))
+                    identities.add(
+                        (family_by_group[(payload_name, group)], table, int(row["register"]))
+                    )
     finding_occurrences = sum(
         len(item.get("issues", [])) for item in runtime["findings"]
     )
@@ -398,8 +708,10 @@ def runtime_audit_projection(source: dict[str, Any]) -> dict[str, Any]:
     }
     return {
         "mapping_occurrences_checked": occurrences,
+        "unique_family_table_address_mappings": len(identities),
         "unique_physical_mappings_checked": len(identities),
         "finding_occurrences": finding_occurrences,
+        "unique_family_table_address_issue_findings": len(unique_findings),
         "unique_findings": len(unique_findings),
         "finding_kinds": sorted({kind for *_, kind in unique_findings}),
         "classification_policy": "Derived consumer audit; aliases, legitimate legacy maps, repeated instances and missing HA entity exposure are not register-map errors.",
@@ -415,9 +727,12 @@ def build() -> dict[str, Any]:
     for old in source_records:
         sub, point = subsystem(old)
         identity = instance_metadata(old, sub)
+        normalized_name = canonical_name(old)
+        semantic_quantity_value, semantic_status = semantic_quantity(old, normalized_name)
         semantic = {
-            "quantity": quantity(old),
-            "canonical_name": old.get("semantic_name") or old.get("canonical_name"),
+            "quantity": semantic_quantity_value,
+            "canonical_name": normalized_name,
+            "reconciliation_status": semantic_status,
             "subsystem": sub,
             "measurement_point": point,
             **identity,
@@ -426,7 +741,7 @@ def build() -> dict[str, Any]:
         physical_id = f"{old['family']}:{old['table']}:{old['address']}"
         evidence_items = evidence(old)
         normalized = {
-            "name": old.get("canonical_name"),
+            "name": normalized_name,
             "description": old.get("description"),
             "raw_type": old.get("encoding"),
             "signed": old.get("signed"),
@@ -478,23 +793,13 @@ def build() -> dict[str, Any]:
                 "instance": identity,
                 "enums": normalized_enums(old),
                 "bitfields": bitfields(old),
-                "packed_fields": (
-                    {
-                        "status": "incomplete",
-                        "source_description": old.get("encoding"),
-                        "components": [
-                            item
-                            for item in ("hour", "minute", "priority", "enable")
-                            if item in str(old.get("encoding", "")).lower()
-                        ],
-                    }
-                    if "packed" in str(old.get("encoding", "")).lower()
-                    else None
-                ),
+                "packed_fields": packed_fields(old),
                 "relationships": [],
                 "resolution": resolution_from_evidence(old, evidence_items),
                 "normalization": {
-                    "status": "normalized" if semantic["quantity"] else "unresolved",
+                    "status": "assigned" if semantic["quantity"] else "unresolved",
+                    "semantic_key_status": "assigned" if semantic["quantity"] else "unassigned",
+                    "semantic_reconciliation_status": semantic_status,
                     "reason": None
                     if semantic["quantity"]
                     else "No stable non-placeholder semantic identity was supportable from the retained corpus.",
@@ -508,38 +813,62 @@ def build() -> dict[str, Any]:
             }
         )
 
+    fields = logical_fields(records)
+    field_by_component = {
+        component["physical_id"]: field
+        for field in fields
+        for component in field["physical_registers"]
+    }
+    representatives: list[dict[str, Any]] = [
+        record for record in records if record["physical_id"] not in field_by_component
+    ]
+    representatives.extend(fields)
     by_relation: defaultdict[tuple[Any, ...], list[dict[str, Any]]] = defaultdict(list)
-    for record in records:
-        identity = record["semantic_identity"]
+    for representative in representatives:
+        identity = representative.get("semantic_identity") or {
+            "quantity": representative["semantic_key"],
+            "subsystem": representative["subsystem"],
+            "instance_kind": representative["instance"]["instance_kind"],
+            "instance": representative["instance"]["instance"],
+        }
         if identity["quantity"] and identity["instance_kind"] != "bms":
             by_relation[
                 (
-                    record["family"],
+                    representative["family"] if "family" in representative else representative["physical_registers"][0]["family"],
                     identity["quantity"],
                     identity["subsystem"],
                     identity["instance_kind"],
-                    identity["instance"],
+                    identity.get("instance"),
                 )
-            ].append(record)
+            ].append(representative)
     for group in by_relation.values():
         preferred = next(
             (r for r in group if r["resolution"]["status"] == "resolved"), group[0]
         )
-        for record in group:
+        for representative in group:
             if len(group) == 1:
                 continue
-            if record is preferred:
+            if representative is preferred:
                 role = "preferred"
-            elif record["resolution"]["status"] == "source_only":
+            elif representative["resolution"]["status"] == "source_only":
                 role = "legacy_or_supported"
             else:
                 role = "alternate"
-            record["semantic_identity"]["relationship_role"] = role
-            record["relationships"] = [
-                {"type": "alternate", "target": other["physical_id"]}
+            representative["relationships"] = [
+                {
+                    "type": "alternate",
+                    "target": other["id"] if "id" in other else other["physical_id"],
+                }
                 for other in group
-                if other is not record
+                if other is not representative
             ]
+            if "semantic_identity" in representative:
+                representative["semantic_identity"]["relationship_role"] = role
+    for record in records:
+        if record.get("logical_field_id"):
+            record["component_of"] = record["logical_field_id"]
+            record["relationships"] = []
+            record["semantic_identity"]["relationship_role"] = "component"
     for record in records:
         record["native_read_blocks"] = [
             page["id"]
@@ -589,17 +918,49 @@ def build() -> dict[str, Any]:
         )
     semantic_index: dict[str, list[str]] = defaultdict(list)
     for record in records:
-        if record["semantic_identity"]["quantity"]:
+        if record["semantic_identity"]["quantity"] and not record.get("component_of"):
             semantic_index[record["semantic_identity"]["quantity"]].append(
                 record["physical_id"]
             )
+    for field in fields:
+        if field["semantic_key"]:
+            semantic_index[field["semantic_key"]].append(field["id"])
+    semantic_assigned = sum(bool(r["semantic_identity"]["quantity"]) for r in records)
+    semantic_reconciled = sum(
+        r["semantic_identity"]["reconciliation_status"] == "reconciled"
+        for r in records
+    )
+    component_count = sum(bool(r.get("component_of")) for r in records)
+    bitfield_source_indicated = sum(bool(r["bitfields"]) for r in records)
+    bitfield_structured = sum(
+        any(item.get("status") == "structured" for item in r["bitfields"])
+        for r in records
+    )
+    bitfield_placeholder = sum(
+        any(item.get("status") == "placeholder" for item in r["bitfields"])
+        for r in records
+    )
+    logical_classes = {
+        "source_explicit": sum(f["word_order_status"] == "source_explicit" for f in fields),
+        "implementation_correlated": sum(f["word_order_status"] == "implementation_correlated" for f in fields),
+        "inferred": sum(f["word_order_status"] == "inferred_with_notes" for f in fields),
+        "unknown_word_order": sum(f["word_order_status"] == "unknown" for f in fields),
+    }
     return {
         "specification": {
             "name": "Growatt Register Specification",
             "version": "1.0",
             "identity": "family + table + address",
             "canonical_truth": True,
-            "compatibility_input": "doc/growatt_register_reference.json",
+            "canonical_source_model": {
+                "kind": "neutral_register_graph",
+                "maintained_in": "doc/register-spec/build_register_spec.py",
+                "upstream_corpus": "retained vendor, implementation and live-evidence corpus",
+                "migration_inputs": ["doc/growatt_register_reference.json"],
+                "status": "bounded_migration",
+            },
+            "migration_input": "doc/growatt_register_reference.json",
+            "artifact_role": "canonical_machine_and_human_product",
             "scope": "Project-independent Growatt register and protocol knowledge product.",
         },
         "evidence_vocabulary": {
@@ -635,7 +996,15 @@ def build() -> dict[str, Any]:
             },
         },
         "registers": records,
-        "logical_fields": logical_fields(records),
+        "logical_fields": fields,
+        "correction_audit": {
+            "component_as_alternate_relationships": {
+                "source": "checked-in HA-6C canonical artifact",
+                "found": HA6C_COMPONENT_ALTERNATE_EDGES,
+                "removed": HA6C_COMPONENT_ALTERNATE_EDGES,
+                "remaining": 0,
+            }
+        },
         "semantic_index": dict(sorted(semantic_index.items())),
         "native_read_evidence": {
             "source": "min_block_validation",
@@ -671,22 +1040,53 @@ def build() -> dict[str, Any]:
                 r["resolution"]["status"] == "unknown_reserved" for r in records
             ),
             "semantic_concepts": len(semantic_index),
-            "normalized_records": sum(
-                bool(r["semantic_identity"]["quantity"]) for r in records
-            ),
+            "semantic_key_assigned_records": semantic_assigned,
+            "semantic_reconciled_records": semantic_reconciled,
+            "semantic_unreconciled_records": semantic_assigned - semantic_reconciled,
+            "semantic_unresolved_records": len(records) - semantic_assigned,
+            "semantic_reconciled_percentage": round(100 * semantic_reconciled / len(records), 2),
+            "normalized_records": semantic_assigned,
             "normalized_percentage": round(
-                100
-                * sum(bool(r["semantic_identity"]["quantity"]) for r in records)
-                / len(records),
+                100 * semantic_assigned / len(records),
                 2,
             ),
-            "logical_multi_register_fields": len(logical_fields(records)),
+            "logical_multi_register_fields": len(fields),
+            "source_explicit_logical_fields": logical_classes["source_explicit"],
+            "implementation_correlated_logical_fields": logical_classes["implementation_correlated"],
+            "inferred_logical_fields": logical_classes["inferred"],
+            "unknown_word_order_logical_fields": logical_classes["unknown_word_order"],
+            "component_physical_registers": component_count,
+            "component_as_alternate_errors_found": HA6C_COMPONENT_ALTERNATE_EDGES,
+            "component_as_alternate_relationships_removed": HA6C_COMPONENT_ALTERNATE_EDGES,
             "indexed_structures": sum(
                 bool(r["semantic_identity"].get("index_kind")) for r in records
             ),
             "enum_bearing_records": sum(bool(r["enums"]) for r in records),
-            "bitfield_bearing_records": sum(bool(r["bitfields"]) for r in records),
-            "defined_bitfield_ranges": sum(len(r["bitfields"]) for r in records),
+            "bitfield_bearing_records": bitfield_source_indicated,
+            "bitfield_source_indicated_records": bitfield_source_indicated,
+            "bitfield_structured_records": bitfield_structured,
+            "bitfield_partially_structured_records": sum(
+                any(item.get("status") == "partially_structured" for item in r["bitfields"])
+                for r in records
+            ),
+            "bitfield_placeholder_records": bitfield_placeholder,
+            "defined_bitfield_ranges": sum(
+                len(r["bitfields"]) for r in records if any(item.get("status") != "placeholder" for item in r["bitfields"])
+            ),
+            "defined_bit_or_range_count": sum(
+                len(r["bitfields"]) for r in records if any(item.get("status") != "placeholder" for item in r["bitfields"])
+            ),
+            "known_indexed_instances": sum(
+                r["semantic_identity"].get("instance_status") == "vendor_indexed" for r in records
+            ),
+            "unknown_instance_structures": sum(
+                r["semantic_identity"].get("instance_status") == "unknown" for r in records
+            ),
+            "read_only_records": sum(r["write_policy"] == "read_only" for r in records),
+            "never_test_records": sum(r["write_policy"] == "never_test" for r in records),
+            "conditional_records": sum(r["write_policy"] == "conditional" for r in records),
+            "reversible_candidate_records": sum(r["write_policy"] == "reversible_candidate" for r in records),
+            "unknown_write_risk_records": sum(r["write_policy"] == "unknown_write_risk" for r in records),
         },
     }
 
@@ -696,7 +1096,7 @@ def markdown_record(record: dict[str, Any]) -> str:
     status = record["resolution"]["status"]
     return (
         f"| {record['table'][0].upper()} | {record['address']} | "
-        f"{record['vendor']['description'] or normalized['name']} | {normalized['raw_type']} | "
+        f"{normalized['name'] or 'Unknown'} | {normalized['raw_type']} | "
         f"{normalized['unit'] or '—'} | {normalized['access']} | {status} |"
     )
 
@@ -708,7 +1108,7 @@ def render_family(spec: dict[str, Any], family: dict[str, Any]) -> str:
         "",
         family["notes"],
         "",
-        "| T | Addr | Name | Type | Unit | Access | Status |",
+        "| T | Addr | Canonical name | Type | Unit | Access | Status |",
         "|---|---:|---|---|---|---|---|",
     ]
     lines.extend(markdown_record(record) for record in records)
@@ -719,6 +1119,7 @@ def render_family(spec: dict[str, Any], family: dict[str, Any]) -> str:
         or r["bitfields"]
         or r["relationships"]
         or r["write_policy"] != "read_only"
+        or r.get("component_of")
         or r["length_words"] > 1
     ]
     if interesting:
@@ -729,9 +1130,14 @@ def render_family(spec: dict[str, Any], family: dict[str, Any]) -> str:
                 [
                     f"### {record['table']} {record['address']} — {record['normalized']['name']}",
                     "",
-                    f"Semantic: `{identity['quantity'] or 'unknown'}`; subsystem: `{identity['subsystem']}`; measurement point: `{identity['measurement_point']}`.",
-                    f"Vendor names: {', '.join(record['vendor']['variable_names']) or '—'}; evidence: {', '.join(item['level'] for item in record['evidence']) or 'none'}.",
-                    f"Write policy: `{record['write_policy']}`; native blocks: {', '.join(record['native_read_blocks']) or 'none'}.",
+                    f"Canonical description: {record['normalized']['description'] or '—'}",
+                    f"Physical identity: `{record['physical_id']}`.",
+                    f"Semantic: `{identity['quantity'] or 'unknown'}`; subsystem: `{identity['subsystem']}`; measurement point: `{identity['measurement_point']}`; instance/index: `{identity.get('instance_status', '—')}/{identity.get('index', '—')}`.",
+                    f"Logical field: `{record.get('component_of', 'none')}`; component role: `{record.get('component_role', 'complete_value')}`.",
+                    f"Vendor names: {', '.join(record['vendor']['variable_names']) or '—'}; vendor description: {record['vendor']['description'] or '—'}; vendor unit/type: {record['vendor']['unit_notation'] or '—'} / {record['vendor']['datatype_notation'] or '—'}.",
+                    f"Normalized type/signedness/scale: `{record['normalized']['raw_type']}` / `{record['normalized'].get('signed')}` / `{record['normalized'].get('divisor') or record['normalized'].get('scale') or '—'}`.",
+                    f"Applicability: {', '.join(record['vendor']['applicability']) or 'family-level'}; relationships: {', '.join(item['type'] + ':' + item['target'] for item in record['relationships']) or 'none'}.",
+                    f"Evidence: {', '.join(item['level'] for item in record['evidence']) or 'none'}; resolution: `{record['resolution']['status']}`; write policy: `{record['write_policy']}`; native blocks: {', '.join(record['native_read_blocks']) or 'none'}.",
                     "",
                 ]
             )
@@ -747,7 +1153,14 @@ def render_family(spec: dict[str, Any], family: dict[str, Any]) -> str:
                 lines.append(
                     "Bitfields: "
                     + "; ".join(
-                        f"{item['bits']}={item['name']}" for item in record["bitfields"]
+                        f"{item['bits']}={item['name']} ({item.get('status', 'unknown')})" for item in record["bitfields"]
+                    )
+                )
+            if record["packed_fields"]:
+                lines.append(
+                    "Packed fields: "
+                    + "; ".join(
+                        f"{item['bits']}={item['name']}" for item in record["packed_fields"]
                     )
                 )
             lines.append("")
@@ -763,15 +1176,22 @@ def render_semantic_index(spec: dict[str, Any]) -> str:
     ]
     for key, ids in spec["semantic_index"].items():
         lines.extend([f"## `{key}`", ""])
-        for physical_id in ids:
-            record = next(
-                item for item in spec["registers"] if item["physical_id"] == physical_id
-            )
-            identity = record["semantic_identity"]
-            role = identity.get("relationship_role", "supported")
-            lines.append(
-                f"- `{record['family']}` {record['table']} {record['address']} — {identity['subsystem']} / {identity['measurement_point']} — `{role}`"
-            )
+        for item_id in ids:
+            if item_id.startswith("logical:"):
+                field = next(item for item in spec["logical_fields"] if item["id"] == item_id)
+                components = ", ".join(
+                    f"I{item['address']} {item['role']}" for item in field["physical_registers"]
+                )
+                lines.append(
+                    f"- logical field `{field['id']}` — {field['subsystem']} / {field['measurement_point']} — `{field['relationship_role']}` — {field['word_order']} / {field['unit'] or 'unitless'} — {components}"
+                )
+            else:
+                record = next(item for item in spec["registers"] if item["physical_id"] == item_id)
+                identity = record["semantic_identity"]
+                role = identity.get("relationship_role", "supported")
+                lines.append(
+                    f"- `{record['family']}` {record['table']} {record['address']} — {identity['subsystem']} / {identity['measurement_point']} — `{role}`"
+                )
         lines.append("")
     return "\n".join(lines)
 
@@ -785,7 +1205,7 @@ product. It is intended for Home Assistant, Grott-like tools, gateways,
 ESP/MQTT projects and diagnostic software. Home Assistant is one consumer and
 one corroborating implementation, not the source of truth.
 
-The machine-readable canonical artifact is [`growatt-register-spec.json`](growatt-register-spec.json), validated by [`growatt-register-spec.schema.json`](growatt-register-spec.schema.json). It is generated by `build_register_spec.py` from the retained resolved/source corpus. The former `doc/growatt_register_reference.json` is a compatibility input/view during migration, not a second maintained semantic truth.
+The machine-readable canonical artifact is [`growatt-register-spec.json`](growatt-register-spec.json), validated by [`growatt-register-spec.schema.json`](growatt-register-spec.schema.json). It is generated by the neutral register-graph projection in `build_register_spec.py` from the retained source/evidence corpus. The former `doc/growatt_register_reference.json` is an explicit bounded-migration input and compatibility view, not a second maintained semantic truth.
 
 ## Model
 
@@ -799,10 +1219,15 @@ instance unless evidence proves an index. Diagnostic suffixes do not create
 false BMS instances. Native page reads establish `read_observed`, not
 `semantic_verified`.
 
-Coverage: **{coverage["physical_registers"]}** physical records, **{coverage["holding_registers"]}** holding, **{coverage["input_registers"]}** input, **{coverage["normalized_percentage"]}%** normalized semantic coverage, **{coverage["logical_multi_register_fields"]}** logical multi-word fields, **{coverage["enum_bearing_records"]}** enum-bearing records and **{coverage["bitfield_bearing_records"]}** structured bitfield records.
+Coverage: **{coverage["physical_registers"]}** physical records, **{coverage["holding_registers"]}** holding, **{coverage["input_registers"]}** input. Stable semantic keys are assigned to **{coverage["semantic_key_assigned_records"]}** records; **{coverage["semantic_reconciled_records"]}** are semantically reconciled (**{coverage["semantic_reconciled_percentage"]}%**), while **{coverage["semantic_unreconciled_records"]}** remain syntactic-only and **{coverage["semantic_unresolved_records"]}** unresolved. There are **{coverage["logical_multi_register_fields"]}** logical fields (**{coverage["source_explicit_logical_fields"]}** source-explicit, **{coverage["unknown_word_order_logical_fields"]}** unknown word order), **{coverage["enum_bearing_records"]}** enum-bearing records, and **{coverage["bitfield_structured_records"]}** structured versus **{coverage["bitfield_placeholder_records"]}** placeholder bitfield records.
 
 See [`SEMANTIC_INDEX.md`](SEMANTIC_INDEX.md), [`PROTOCOLS.md`](PROTOCOLS.md),
-the generated family pages, and [`CLEANUP_MANIFEST.md`](CLEANUP_MANIFEST.md).
+the family pages [`MIN_TL_XH.md`](families/MIN_TL_XH.md),
+[`TL3_MAX_MID_MAC.md`](families/TL3_MAX_MID_MAC.md),
+[`MOD_TL3_XH.md`](families/MOD_TL3_XH.md), [`MIX.md`](families/MIX.md),
+[`SPA.md`](families/SPA.md), [`SPH.md`](families/SPH.md),
+[`LEGACY_315.md`](families/LEGACY_315.md), [`SPF.md`](families/SPF.md),
+and [`CLEANUP_MANIFEST.md`](CLEANUP_MANIFEST.md).
 """
 
 
@@ -843,6 +1268,9 @@ def main() -> None:
         (SPEC_DIR / "families" / f"{family['slug']}.md").write_text(
             render_family(spec, family), encoding="utf-8"
         )
+    missing = [name for name in sorted(EXPECTED_HUMAN_FILES) if not (SPEC_DIR / name).is_file()]
+    if missing:
+        raise SystemExit(f"generated human documentation is incomplete: {missing}")
     print(f"wrote {OUTPUT_PATH}")
 
 

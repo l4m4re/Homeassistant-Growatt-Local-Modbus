@@ -40,7 +40,10 @@
         "reference_version": {"type": "string"},
         "generated_at": {"type": "string", "format": "date-time"},
         "generator": {"type": "string"},
-        "primary_public_reference": {"const": true},
+        "canonical": {"const": false},
+        "generated_compatibility_view": {"const": true},
+        "canonical_reference": {"const": "doc/register-spec/growatt-register-spec.json"},
+        "primary_public_reference": {"const": false},
         "identity": {"const": "(family, table, address)"},
         "source_files": {"type": "object", "minProperties": 1},
         "lineage_policy": {"type": "string"}

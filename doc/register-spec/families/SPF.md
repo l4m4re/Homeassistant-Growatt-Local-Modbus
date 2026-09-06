@@ -2,7 +2,7 @@
 
 Source-only external layout coverage; no live hardware resolution is claimed.
 
-| T | Addr | Name | Type | Unit | Access | Status |
+| T | Addr | Canonical name | Type | Unit | Access | Status |
 |---|---:|---|---|---|---|---|
 | I | 0 | InverterStatus | register value | — | UNKNOWN | source_only |
 | I | 1 | PV1Voltage | register value | V | UNKNOWN | source_only |

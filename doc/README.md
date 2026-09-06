@@ -4,6 +4,29 @@ This directory collects the source specification and machine-readable material
 for Growatt's “Inverter Modbus RTU Protocol v1.24”, along with generated
 reference docs for the Home Assistant `growatt_local` integration.
 
+## Public resolved register reference
+
+The primary public lookup is now:
+
+- [`growatt_register_reference.json`](growatt_register_reference.json) — resolved machine-readable reference;
+- [`GROWATT_REGISTER_REFERENCE.md`](GROWATT_REGISTER_REFERENCE.md) — generated human-readable view;
+- [`growatt_register_reference.schema.json`](growatt_register_reference.schema.json) — output contract.
+
+Build and validate them with:
+
+```sh
+python3 doc/build_resolved_register_reference.py
+python3 doc/validate_resolved_register_reference.py
+```
+
+The resolved reference uses `(family, table, address)` as its identity. It
+keeps holding and input namespaces separate, records family applicability,
+source aliases, conflicts and evidence levels, and distinguishes live read
+validation from write verification. The graph and consolidated export below
+remain useful audit/intermediate artefacts; they are not a substitute for the
+resolved public view. Original vendor, runtime, external, model-specific and
+live-evidence files remain retained as provenance.
+
 ## Authoritative register pipeline
 
 The authoritative machine-readable route is:

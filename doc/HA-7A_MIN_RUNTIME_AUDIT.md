@@ -4,9 +4,11 @@ This report records the evidence-gated review of the `MIN 6000TL-XH` runtime
 against research commit `a3a75e2068a14026f1fd558035c47f2c6deb75da`. It is a
 runtime handoff document, not a copy of the canonical register specification.
 
-The audit contains 22 runtime occurrences and 15 unique findings keyed by
-`(family, table, address, issue kind)`. Duplicate `tlx` and `storage` consumer
-occurrences are counted once in the decision table below.
+The MIN projection checked 253 runtime mapping occurrences and 185 unique
+family/table/address mappings. It contains 22 finding occurrences and 15
+unique findings keyed by `(family, table, address, issue kind)`. Duplicate
+`tlx` and `storage` consumer occurrences are counted once in the decision
+table below.
 
 ## Decision summary
 

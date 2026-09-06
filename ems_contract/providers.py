@@ -30,6 +30,7 @@ class PriceInterval:
     commodity_price: Decimal | None = None
     taxes_and_fees: Decimal | None = None
     error_reason: str | None = None
+    tax_excluded_price: Decimal | None = None
 
 
 @dataclass(frozen=True)

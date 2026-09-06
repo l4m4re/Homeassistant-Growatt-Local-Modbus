@@ -1,8 +1,8 @@
 """The Growatt server PV inverter sensor integration."""
 import asyncio
-import logging
 from collections.abc import Callable, Sequence
 from datetime import timedelta
+import logging
 from typing import Any, Optional
 
 from pymodbus.exceptions import ConnectionException, ModbusIOException
@@ -10,10 +10,10 @@ from pymodbus.exceptions import ConnectionException, ModbusIOException
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
-    CONF_NAME,
     CONF_ADDRESS,
     CONF_IP_ADDRESS,
     CONF_MODEL,
+    CONF_NAME,
     CONF_PORT,
     CONF_SCAN_INTERVAL,
     CONF_TYPE,
@@ -21,36 +21,35 @@ from homeassistant.const import (
     SUN_EVENT_SUNSET,
 )
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
-from homeassistant.helpers import entity_registry, issue_registry 
+from homeassistant.helpers import entity_registry, issue_registry
 from homeassistant.helpers.event import (
     async_track_sunrise,
     async_track_sunset,
     async_track_time_change,
 )
 from homeassistant.helpers.sun import get_astral_event_next
-from homeassistant.helpers.update_coordinator import (
-    DataUpdateCoordinator,
-)
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import dt as dt_util
-from .API.device_type.base import GrowattDeviceRegisters
-from .API.utils import RegisterKeys
+
 from .API.const import DeviceTypes
-from .API.growatt import GrowattDevice, GrowattSerial, GrowattNetwork
+from .API.device_type.base import GrowattDeviceRegisters
+from .API.growatt import GrowattDevice, GrowattNetwork, GrowattSerial
+from .API.utils import RegisterKeys
 from .const import (
-    CONF_LAYER,
-    CONF_SERIAL,
-    CONF_SERIAL_NUMBER,
-    CONF_TCP,
-    CONF_UDP,
-    CONF_FRAME,
-    CONF_SERIAL_PORT,
     CONF_BAUDRATE,
     CONF_BYTESIZE,
+    CONF_FRAME,
+    CONF_INVERTER_POWER_CONTROL,
+    CONF_LAYER,
     CONF_PARITY,
-    CONF_STOPBITS,
     CONF_POWER_SCAN_ENABLED,
     CONF_POWER_SCAN_INTERVAL,
-    CONF_INVERTER_POWER_CONTROL,
+    CONF_SERIAL,
+    CONF_SERIAL_NUMBER,
+    CONF_SERIAL_PORT,
+    CONF_STOPBITS,
+    CONF_TCP,
+    CONF_UDP,
     DOMAIN,
     PLATFORMS,
 )
@@ -215,6 +214,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
             update_interval=self.interval,
         )
         self.data = {}
+        self.data_timestamp = None
         self.growatt_api = growatt_api
         self._failed_update_count = 0
         self.keys = RegisterKeys()
@@ -282,6 +282,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
 
         if status is None:
             status = self.growatt_api.status(data)
+            self.data_timestamp = dt_util.utcnow()
 
         if status:
             data["status"] = status

@@ -39,6 +39,7 @@ DEFAULT_PLANT_ID = "0"
 DEFAULT_NAME = "Growatt Modbus"
 
 DOMAIN = "growatt_local"
+SENSOR_CONTRACT_VERSION = "ha-8b-20260906"
 
 
 def inverter_power_control_enabled(config_entry) -> bool:

@@ -52,6 +52,12 @@
       "ac_charge_enabled": {
         "name": "AC Charge Enabled"
       },
+      "current_priority": {
+        "name": "Current priority"
+      },
+      "xh_schedule": {
+        "name": "XH schedule"
+      },
       "discharge_energy_today": {
         "name": "Battery Discharged (Today)"
       },

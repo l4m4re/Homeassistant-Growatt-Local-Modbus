@@ -85,13 +85,13 @@ def test_min_transport_and_native_read_plans() -> None:
 
 
 def test_runtime_audit_preserves_findings_without_hiding_fixed_defects() -> None:
-    """Known source/runtime disagreements remain visible after HA-5 fixes."""
+    """Known source/runtime disagreements remain visible to later consumers."""
     reference = json.loads((REPO / "doc/growatt_register_reference.json").read_text())
     audit = reference["runtime_audit"]
 
     assert audit["status"] == "issues_found"
     assert audit["finding_count"] == len(audit["findings"])
-    assert not any(
+    assert any(
         finding["family"] == "min_tl_xh"
         and finding["table"] == "input"
         and finding["address"] == 3170

@@ -6,6 +6,11 @@ reference docs for the Home Assistant `growatt_local` integration.
 
 ## Public resolved register reference
 
+The project-independent canonical product is [`register-spec/`](register-spec/README.md).
+Its machine-readable artifact is [`register-spec/growatt-register-spec.json`](register-spec/growatt-register-spec.json).
+The resolved reference below remains a compatibility/generated input during the
+HA-6C migration; it is not a second maintained semantic truth.
+
 The primary public lookup is now:
 
 - [`growatt_register_reference.json`](growatt_register_reference.json) — resolved machine-readable reference;

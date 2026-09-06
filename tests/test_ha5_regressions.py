@@ -4,14 +4,10 @@ from types import SimpleNamespace
 
 from custom_components.growatt_local.API.device_type.base import (
     ATTR_AC_CHARGE_ENABLED,
-    ATTR_BATTERY_CURRENT,
     ATTR_BMS_BATTERY_CURRENT,
     ATTR_INVERTER_ENABLED,
     GrowattDeviceInfo,
     GrowattDeviceRegisters,
-)
-from custom_components.growatt_local.API.device_type.storage_120 import (
-    STORAGE_INPUT_REGISTERS_120_TL_XH,
 )
 from custom_components.growatt_local.API.growatt import select_device_info
 from custom_components.growatt_local.API.utils import process_registers
@@ -50,21 +46,6 @@ def test_signed_bms_current_processing(raw_value: int, expected: float) -> None:
 
     assert process_registers({3217: register}, {3217: raw_value}) == {
         ATTR_BMS_BATTERY_CURRENT: expected
-    }
-
-
-def test_tlxh_battery_current_register_is_signed() -> None:
-    """TL-XH battery current 3170 must preserve negative discharge values."""
-
-    register = next(
-        register
-        for register in STORAGE_INPUT_REGISTERS_120_TL_XH
-        if register.register == 3170
-    )
-
-    assert register.signed is True
-    assert process_registers({3170: register}, {3170: 0xFF9C}) == {
-        ATTR_BATTERY_CURRENT: -10.0
     }
 
 

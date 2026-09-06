@@ -88,7 +88,7 @@ Non-MIN plans are derived from the family/protocol source corpus and are not har
 
 ## Runtime consistency audit
 
-HA runtime mappings checked: **198**; findings: **32**; status: **issues_found**.
+HA runtime mappings checked: **198**; findings: **34**; status: **issues_found**.
 
 | Family | Table | Address | Runtime name | Finding |
 |---|---|---:|---|---|
@@ -100,6 +100,7 @@ HA runtime mappings checked: **198**; findings: **32**; status: **issues_found**
 | min_tl_xh | input | 3047 | operation_hours | signedness_mismatch |
 | min_tl_xh | input | 3049 | output_energy_today | signedness_mismatch |
 | min_tl_xh | input | 3101 | real_output_power_percent | signedness_mismatch |
+| min_tl_xh | input | 3170 | battery_current | signedness_mismatch |
 | min_tl_xh | input | 3191 | bms_avg_temp_a | scale_mismatch |
 | min_tl_xh | input | 3194 | bms_max_cell_temp_b | scale_mismatch |
 | min_tl_xh | input | 3195 | bms_avg_temp_c | scale_mismatch |
@@ -118,6 +119,7 @@ HA runtime mappings checked: **198**; findings: **32**; status: **issues_found**
 | storage_mix | input | 1054 | discharge_energy_total | signedness_mismatch |
 | storage_mix | input | 1056 | charge_energy_today | signedness_mismatch |
 | storage_mix | input | 1058 | charge_energy_total | signedness_mismatch |
+| min_tl_xh | input | 3170 | battery_current | signedness_mismatch |
 | min_tl_xh | input | 3191 | bms_avg_temp_a | scale_mismatch |
 | min_tl_xh | input | 3194 | bms_max_cell_temp_b | scale_mismatch |
 | min_tl_xh | input | 3195 | bms_avg_temp_c | scale_mismatch |

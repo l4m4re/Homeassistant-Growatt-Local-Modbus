@@ -2,7 +2,7 @@
   "meta": {
     "schema_version": "1.0.0",
     "reference_version": "2026.09-resolved",
-    "generated_at": "2026-09-06T09:13:42.995849+00:00",
+    "generated_at": "2026-09-06T10:07:25.575765+00:00",
     "generator": "build_resolved_register_reference.py",
     "primary_public_reference": true,
     "identity": "(family, table, address)",
@@ -26,7 +26,7 @@
         "kind": "runtime_implementation",
         "path": "HA_local_registers.json",
         "independent": true,
-        "sha256": "a39a140bc1940d9ef1802c54ed4b80879b853565b2df8c79b6e80979cc6229f3"
+        "sha256": "e8e3928e904ffca0128e8a6f36534997bd64e408022055765e4bef76c4d3f377"
       },
       "openinverter_gateway": {
         "label": "OpenInverterGateway mapping",
@@ -245012,7 +245012,7 @@
   "runtime_audit": {
     "source": "HA_local_registers",
     "checked_mappings": 198,
-    "finding_count": 32,
+    "finding_count": 34,
     "status": "issues_found",
     "findings": [
       {
@@ -245150,6 +245150,24 @@
         "runtime_name": "real_output_power_percent",
         "runtime_semantic_key": null,
         "reference_id": "register:min_tl_xh:input:3101",
+        "issues": [
+          {
+            "kind": "signedness_mismatch",
+            "reference": true,
+            "runtime": false,
+            "declared": false
+          }
+        ]
+      },
+      {
+        "device": "tlx",
+        "group": "input_tl_xh",
+        "family": "min_tl_xh",
+        "table": "input",
+        "address": 3170,
+        "runtime_name": "battery_current",
+        "runtime_semantic_key": null,
+        "reference_id": "register:min_tl_xh:input:3170",
         "issues": [
           {
             "kind": "signedness_mismatch",
@@ -245473,6 +245491,24 @@
             "kind": "signedness_mismatch",
             "reference": false,
             "runtime": true,
+            "declared": false
+          }
+        ]
+      },
+      {
+        "device": "storage",
+        "group": "input_tl_xh",
+        "family": "min_tl_xh",
+        "table": "input",
+        "address": 3170,
+        "runtime_name": "battery_current",
+        "runtime_semantic_key": null,
+        "reference_id": "register:min_tl_xh:input:3170",
+        "issues": [
+          {
+            "kind": "signedness_mismatch",
+            "reference": true,
+            "runtime": false,
             "declared": false
           }
         ]

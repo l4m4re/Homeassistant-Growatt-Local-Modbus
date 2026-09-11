@@ -324,7 +324,7 @@ INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(name=ATTR_DERATING_MODE, register=104, value_type=int),
     GrowattDeviceRegisters(name=ATTR_FAULT_CODE, register=105, value_type=int),
     GrowattDeviceRegisters(
-        name=ATTR_WARNING_CODE, register=110, value_type=int, length=2
+        name=ATTR_WARNING_CODE, register=110, value_type=int
     ),
 
     GrowattDeviceRegisters(
@@ -380,7 +380,11 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     ),
 
     GrowattDeviceRegisters(
-        name=ATTR_OUTPUT_REACTIVE_POWER, register=3021, value_type=float, length=2,
+        name=ATTR_OUTPUT_REACTIVE_POWER,
+        register=3021,
+        value_type=float,
+        length=2,
+        signed=True,
     ),
 
     GrowattDeviceRegisters(
@@ -470,7 +474,7 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
 
     GrowattDeviceRegisters(name=ATTR_FAULT_CODE, register=3105, value_type=int),
     GrowattDeviceRegisters(
-        name=ATTR_WARNING_CODE, register=3110, value_type=int, length=2
+        name=ATTR_WARNING_CODE, register=3110, value_type=int
     ),
 )
 

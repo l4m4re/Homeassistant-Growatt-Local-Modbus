@@ -1,0 +1,69 @@
+{
+  "validation": "HA-GII-4A-openapi-reauthorization",
+  "disposition": "HA_GII_CLOUD_VALIDATION_ACCEPTED_WITH_FOLLOW_UP",
+  "api": {
+    "v4_client": "growatt-public-api 2026.5.19",
+    "v1_client": "growattServer 2.2.0 / OpenApiV1",
+    "token_redacted": true,
+    "writes": 0
+  },
+  "endpoint_results": [
+    {"api": "V4", "endpoint": "POST /v4/new-api/queryDeviceList", "result": "success", "error_code": 0, "top_level_fields": ["data", "error_code", "error_msg"], "data_fields": ["count", "data", "last_pager", "not_pager", "other", "page_size", "pages", "start_count"]},
+    {"api": "V4", "endpoint": "Min.details_v4()", "result": "success", "error_code": 0, "top_level_fields": ["data", "error_code", "error_msg"], "data_fields": ["devices"]},
+    {"api": "V4", "endpoint": "Min.device_info()", "result": "success", "error_code": 0, "top_level_fields": ["data", "error_code", "error_msg"], "data_fields": ["battery_capacity", "battery_model", "battery_nominal_power", "datalogger_model", "device_model", "device_sn", "device_type", "has_battery", "nominal_power"]},
+    {"api": "V4", "endpoint": "Min.power_realtime()", "result": "success_no_payload", "error_code": 0, "top_level_fields": ["data", "error_code", "error_msg"], "data_fields": []},
+    {"api": "V4", "endpoint": "Min.energy_v4()", "result": "success", "error_code": 0, "top_level_fields": ["data", "error_code", "error_msg"], "data_fields": ["devices"]},
+    {"api": "V4", "endpoint": "Min.energy_history_v4()", "result": "success", "error_code": 0, "top_level_fields": ["data", "error_code", "error_msg"], "data_fields": ["datas", "have_next", "start"], "sample_count": 145},
+    {"api": "V1", "endpoint": "GET /v1/device/list", "result": "success", "error_code": 0, "previous_result": "10012_rate_limit", "top_level_fields": ["data", "error_code", "error_msg"], "data_fields": ["count", "devices"]},
+    {"api": "V1", "endpoint": "GET /v1/device/tlx/tlx_data_info", "result": "success", "error_code": 0, "previous_result": "10011_permission_denied", "top_level_fields": ["data", "dataloggerSn", "device_sn", "error_code", "error_msg"]},
+    {"api": "V1", "endpoint": "POST /v1/device/tlx/tlx_last_data", "result": "success", "error_code": 0, "previous_result": "not_available_old_token", "top_level_fields": ["data", "dataloggerSn", "error_code", "error_msg", "tlx_sn"]},
+    {"api": "V1", "endpoint": "GET /v1/plant/power", "result": "success", "error_code": 0, "previous_result": "10011_permission_denied", "top_level_fields": ["data", "error_code", "error_msg"], "data_fields": ["count", "powers"], "record_count": 288}
+  ],
+  "comparison_sample": {
+    "cloud_time_local": "2026-09-11 21:42:22",
+    "local_sample_utc": "2026-09-11T19:38:01Z",
+    "local_endpoint": "DEV:5021",
+    "local_function": "FC04",
+    "native_blocks": ["3000/125", "3125/125", "3250/125"],
+    "values": {
+      "output_power": {"cloud": {"v4_field": "pac", "value": 608.4}, "local": {"register": "I3023", "value": 606.7}, "unit": "W", "classification": "AGREE_WITH_CLOUD_LATENCY"},
+      "pv_power": {"cloud": {"v4_field": "ppv", "value": 0.0}, "local": {"register": "I3001", "value": 0.0}, "unit": "W", "classification": "AGREE"},
+      "house_load_power": {"cloud": {"v4_field": "pac_to_local_load", "value": 641.0}, "local": {"register": "I3045", "value": 641.0}, "unit": "W", "classification": "AGREE"},
+      "grid_import_power": {"cloud": {"v4_field": "power_of_grid_take", "value": 0.0}, "local": {"register": "I3041", "value": 0.0}, "unit": "W", "classification": "AGREE", "note": "zero-flow state; no positive import sign test"},
+      "grid_export_power": {"cloud": {"v4_field": "power_of_grid_feed", "value": 0.0}, "local": {"register": "I3043", "value": 0.0}, "unit": "W", "classification": "AGREE", "note": "zero-flow state; no positive export sign test"},
+      "battery_soc": {"cloud": {"v4_field": "bdc1_soc/bms_soc", "value": 59.0}, "local": {"register": "I3171", "value": 59.0}, "unit": "%", "classification": "AGREE"},
+      "battery_voltage": {"cloud": {"v4_field": "bdc1_vbat/bms_vbat", "value": "210.12/210.40"}, "local": {"register": "I3169", "value": 210.14}, "unit": "V", "classification": "AGREE_WITH_CLOUD_LATENCY", "note": "local value aligns with BDC1 voltage; BMS voltage is a distinct measurement point"},
+      "battery_current": {"cloud": {"v4_field": "bdc1_ibat", "value": 3.0}, "local": {"register": "I3170", "value": 2.9}, "unit": "A", "classification": "AGREE_WITH_CLOUD_LATENCY"},
+      "bms_battery_current": {"cloud": {"v4_field": "bms_ibat", "value": -3.1}, "local": {"register": "I3217", "value": -2.9}, "unit": "A", "classification": "AGREE_WITH_CLOUD_LATENCY"},
+      "battery_discharge_power": {"cloud": {"v4_field": "bdc1_discharge_power", "value": 647.0}, "local": {"register": "I3178", "value": 617.0}, "unit": "W", "classification": "AGREE_WITH_CLOUD_LATENCY"},
+      "battery_charge_power": {"cloud": {"v4_field": "bdc1_charge_power", "value": 0.0}, "local": {"register": "I3180", "value": 0.0}, "unit": "W", "classification": "AGREE"},
+      "real_output_power_percent": {"cloud": {"v4_field": "real_op_percent", "value": 10.0}, "local": {"register": "I3101", "value": 10.0}, "unit": "%", "classification": "AGREE"},
+      "cell_voltage_extrema": {"cloud": {"v4_field": null, "value": null}, "local": {"register": "I3230/I3231", "value": "3.275/3.270"}, "unit": "V", "classification": "NO_CLOUD_EQUIVALENT"},
+      "bms_registers_3191_3194_3195": {"cloud": {"v4_field": "bms_temp1_bat/bdc1_temp1", "value": "25.0/27.4"}, "local": {"register": "I3191/I3194/I3195", "value": "0/2/14 raw"}, "unit": "raw_or_C", "classification": "UNRESOLVED", "note": "no defensible one-to-one field identity or scale"},
+      "energy_to_user_total": {"cloud": {"v4_field": "e_to_user_total", "value": 7866.5}, "local": {"register": "I3069", "value": 7866.5}, "unit": "kWh", "classification": "AGREE"},
+      "energy_to_grid_total": {"cloud": {"v4_field": "e_to_grid_total", "value": 11169.8}, "local": {"register": "I3073", "value": 11169.8}, "unit": "kWh", "classification": "AGREE"},
+      "battery_charge_total": {"cloud": {"v4_field": "e_charge_total", "value": 3389.1}, "local": {"register": "I3131", "value": 3389.1}, "unit": "kWh", "classification": "AGREE"},
+      "battery_discharge_total": {"cloud": {"v4_field": "e_discharge_total", "value": 3246.1}, "local": {"register": "I3127", "value": 3246.1}, "unit": "kWh", "classification": "AGREE"},
+      "ac_output_energy_total": {"cloud": {"v4_field": "eac_total", "value": 19623.9}, "local": {"register": "I55", "value": 19623.3, "sample_context": "prior local/HA evidence"}, "unit": "kWh", "classification": "AGREE_WITH_CLOUD_LATENCY"}
+    }
+  },
+  "history": {
+    "v4_repeated_samples": [
+      {"cloud_time": "2026-09-11 21:32:22", "pac": 639.1, "pac_to_local_load": 675.0, "bdc1_ibat": 3.2, "bms_ibat": -3.2, "bms_soc": 60.0},
+      {"cloud_time": "2026-09-11 21:37:22", "pac": 607.5, "pac_to_local_load": 645.0, "bdc1_ibat": 3.0, "bms_ibat": -3.0, "bms_soc": 59.0},
+      {"cloud_time": "2026-09-11 21:42:22", "pac": 608.4, "pac_to_local_load": 641.0, "bdc1_ibat": 3.0, "bms_ibat": -3.1, "bms_soc": 59.0},
+      {"cloud_time": "2026-09-11 21:47:22", "pac": 627.3, "pac_to_local_load": 674.0, "bdc1_ibat": 3.1, "bms_ibat": -3.2, "bms_soc": 58.0}
+    ],
+    "v1_repeat_latest": {"cloud_time": "2026-09-11 21:47:22", "pac": 627.3, "bdc1_ibat": 3.1, "bms_ibat": -3.2, "eac_total": 19624.0},
+    "plant_power_points": [{"time": "2026-09-11 21:35", "power": 607.5}, {"time": "2026-09-11 21:40", "power": 608.4}, {"time": "2026-09-11 21:45", "power": 627.3}]
+  },
+  "cloud_metadata_findings": [
+    {"field": "device_info.has_battery", "value": false, "classification": "SEMANTIC_DIFFERENCE", "note": "contradicts the battery fields returned by energy_v4/history_v4 and local ARK telemetry"},
+    {"field": "details_v4.status_text", "value": "tlx.status.checking", "classification": "SEMANTIC_DIFFERENCE", "note": "details_v4 power/energy values were zero while energy_v4 status was Normal and populated"},
+    {"field": "power_realtime.data", "value": null, "classification": "INSUFFICIENT_EVIDENCE", "note": "successful endpoint response but no realtime payload"}
+  ],
+  "production_changed": false,
+  "ha_changed": false,
+  "gii_changed": false,
+  "broker_changed": false
+}

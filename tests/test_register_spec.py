@@ -39,6 +39,30 @@ def test_canonical_spec_validates_and_preserves_table_identity() -> None:
     )
 
 
+def test_known_min_tlxh_corrections_survive_regeneration() -> None:
+    """The resolved MIN control and telemetry addresses remain distinct."""
+    records = {record["physical_id"]: record for record in load_spec()["registers"]}
+
+    assert records["min_tl_xh:holding:3047"]["normalized"]["name"] == (
+        "Battery-first charge power rate"
+    )
+    assert records["min_tl_xh:holding:3048"]["normalized"]["name"] == (
+        "Battery-first stop SOC"
+    )
+    assert records["min_tl_xh:holding:3049"]["normalized"]["name"] == (
+        "AC charging enabled"
+    )
+    assert records["min_tl_xh:holding:3082"]["normalized"]["name"] == (
+        "Load-first stop SOC"
+    )
+    assert records["min_tl_xh:input:3047"]["normalized"]["name"] == (
+        "Inverter runtime"
+    )
+    assert records["min_tl_xh:input:3081"]["normalized"]["name"] == (
+        "PV4 energy total"
+    )
+
+
 def test_bms_and_storage_current_are_distinct_measurement_points() -> None:
     """I3170 and I3217 retain different subsystem meanings."""
     records = {record["physical_id"]: record for record in load_spec()["registers"]}

@@ -2,7 +2,7 @@
   "meta": {
     "schema_version": "1.0.0",
     "reference_version": "2026.09-resolved",
-    "generated_at": "2026-09-06T11:43:14.421605+00:00",
+    "generated_at": "2026-09-11T11:07:29.949260+00:00",
     "generator": "build_resolved_register_reference.py",
     "canonical": false,
     "generated_compatibility_view": true,
@@ -91,7 +91,7 @@
         "path": "consolidated_register_ref.json",
         "independent": false,
         "derived": true,
-        "sha256": "ea93bcfdb23445bbd1890d391ab54050e32af323563f00b67567e6a18bf9748a"
+        "sha256": "e7f0991178739e93e114e8a97af9ed3b7283efef07e75c86c1b373760dd87252"
       }
     },
     "lineage_policy": "Generated graph and overlay derivatives do not count as independent corroboration."
@@ -48511,8 +48511,8 @@
       ],
       "alternatives": [
         "datatype:grott:len2|signed|div10",
-        "datatype:home_assistant:len1|signed|scale10.0",
-        "datatype:manual:len2|signed|scale10",
+        "datatype:home_assistant:len1|scale10.0",
+        "datatype:manual:len2|unsigned|scale10",
         "datatype:openinverter_gateway:len2|unsigned|mult0.1|unit:CURRENT"
       ],
       "source_aliases": {
@@ -89161,8 +89161,8 @@
       ],
       "alternatives": [
         "datatype:grott:len2|signed|div10",
-        "datatype:home_assistant:len1|signed|scale10.0",
-        "datatype:manual:len2|signed|scale10",
+        "datatype:home_assistant:len1|scale10.0",
+        "datatype:manual:len2|unsigned|scale10",
         "datatype:openinverter_gateway:len2|unsigned|mult0.1|unit:CURRENT"
       ],
       "source_aliases": {
@@ -134869,8 +134869,8 @@
       ],
       "alternatives": [
         "datatype:grott:len2|signed|div10",
-        "datatype:home_assistant:len1|signed|scale10.0",
-        "datatype:manual:len2|signed|scale10",
+        "datatype:home_assistant:len1|scale10.0",
+        "datatype:manual:len2|unsigned|scale10",
         "datatype:openinverter_gateway:len2|unsigned|mult0.1|unit:CURRENT"
       ],
       "source_aliases": {

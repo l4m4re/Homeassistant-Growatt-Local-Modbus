@@ -125,7 +125,7 @@
       "path": "consolidated_register_ref.json",
       "independent": false,
       "derived": true,
-      "sha256": "ea93bcfdb23445bbd1890d391ab54050e32af323563f00b67567e6a18bf9748a"
+      "sha256": "e7f0991178739e93e114e8a97af9ed3b7283efef07e75c86c1b373760dd87252"
     },
     "protocol_v314": {
       "label": "Growatt V3.14/3.15 protocol constraints",

@@ -41,16 +41,36 @@ metadata, not broker-only assumptions. The live MIN 6000TL-XH page probes are
 bounded, read-only, repeated twice, and used to mark the native pages safe for
 the MIN plans. Runtime polling has not been rewritten in this phase.
 
-## Authoritative register pipeline
+## Register pipeline and authority model
 
-The authoritative machine-readable route is:
+The complete generated route is:
 
 ```text
 source JSON inputs -> doc/build_register_graph.py
                    -> doc/register_graph.gpickle
                    -> doc/generate_consolidated_ref.py
                    -> doc/consolidated_register_ref.json
+                   -> doc/build_resolved_register_reference.py
+                   -> doc/growatt_register_reference.json
+                   -> doc/register-spec/build_register_spec.py
+                   -> doc/register-spec/growatt-register-spec.json
+                   -> doc/register-spec/*.md
 ```
+
+The layers have deliberately different roles:
+
+- `consolidated_register_ref.json` is the graph-derived audit and
+  consolidation layer, retaining source payloads and alternatives.
+- `growatt_register_reference.json` is the resolved compatibility/reference
+  layer used as a bounded migration input.
+- `register-spec/growatt-register-spec.json` is the canonical,
+  project-independent consumer specification.
+- `register-spec/*.md` are generated human-readable views of that canonical
+  specification.
+
+Only the final `register-spec` product is the maintained semantic truth. The
+earlier JSON layers remain provenance, audit, and compatibility material; they
+are not competing canonical references.
 
 The graph keeps register identity as `(table, register)`; holding and input
 registers with the same numeric address are different records. It retains
@@ -58,12 +78,19 @@ source payloads, alternate datatypes and conflicts so disagreements remain
 inspectable. OpenInverter mappings are graph inputs, while MIN live-validation
 evidence and web-derived proposals remain separate evidence artefacts.
 
-From the integration checkout, rebuild and validate the canonical export with:
+From the integration checkout, rebuild and validate all generated layers with:
 
 ```sh
-python3 doc/build_register_graph.py --output doc/register_graph.gpickle
+python3 doc/build_register_graph.py
 python3 doc/generate_consolidated_ref.py --validate-schema
+python3 doc/build_resolved_register_reference.py
+python3 doc/validate_resolved_register_reference.py
+python3 doc/register-spec/build_register_spec.py
+python3 doc/register-spec/validate_register_spec.py
 ```
+
+`build_register_graph.py --output` resolves relative paths below `doc/`; use
+the default above (or an absolute path) when rebuilding the repository graph.
 
 `generate_consolidated_ref.py` fails if the graph is absent. Its old direct
 source merge is retained only for explicit comparison:

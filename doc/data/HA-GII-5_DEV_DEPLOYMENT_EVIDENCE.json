@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "validation": "HA-GII-5",
+  "read_only": true,
+  "ha_core": {
+    "branch": "research/ha-dev-2-transport-20260906",
+    "version": "2026.9.0",
+    "sha": "1f3748d9310fad0a9b22ceec17654fcb8d42069f",
+    "python": "3.14.5",
+    "pymodbus": "3.13.1"
+  },
+  "consumer": {
+    "branch": "integration/register-spec-consolidation-20260911",
+    "sha": "969553f03c7f78ad624d5362b89b2065c620b4bd"
+  },
+  "canonical": {
+    "branch": "main",
+    "sha": "f061c4aeeadeb06246aac6d4d0732da36fc6996d"
+  },
+  "broker": {
+    "source_sha": "ef325f00f6eb3ab3cc8b88b97844a7237fea02e4",
+    "image": "growatt-rtu-broker:ha-dev-3d-predictive-20260911c",
+    "endpoint": "DEV:5021",
+    "unit": 1
+  },
+  "development_ha": {
+    "configuration": "clean temporary config with existing DEV config-entry and checked-out consumer custom component symlink",
+    "entity_count": 95,
+    "shared_unique_id_suffixes_with_production": 93,
+    "statistics_metadata_count": 27,
+    "short_term_statistics_rows": 54,
+    "long_term_statistics_rows": 0,
+    "polling_started": true,
+    "polling_successful": true
+  },
+  "metadata_checks": {
+    "reactive_power": {
+      "entity_suffix": "reactive_wattage",
+      "unit": "var",
+      "device_class": "reactive_power",
+      "state_class": "measurement",
+      "value": 0.0
+    },
+    "output_percentage": {
+      "entity_suffix": "real_power_output_percentage",
+      "unit": "%",
+      "device_class": null,
+      "not_power_factor": true,
+      "value": 10
+    },
+    "cell_voltage": {
+      "max_register": 3230,
+      "min_register": 3231,
+      "max_value_v": 3.3,
+      "min_value_v": 3.279
+    }
+  },
+  "polling_capture": {
+    "capture_window_utc": {
+      "start": "2026-09-11T18:32:55.576Z",
+      "end": "2026-09-11T18:35:54.680Z"
+    },
+    "ha_request_blocks": [
+      {"function": 3, "start": 3000, "count": 125},
+      {"function": 4, "start": 3000, "count": 125},
+      {"function": 4, "start": 3125, "count": 125}
+    ],
+    "shine_requests": 145,
+    "shine_responses": 145,
+    "shine_timeouts": 0,
+    "shine_crc_bad": 0,
+    "cache_hits": 232,
+    "prefetch_scheduled": 3,
+    "prefetch_completed": 3,
+    "physical_refresh_failures": 1,
+    "downstream_timeouts": 1,
+    "serial_reopens": 1,
+    "async_frames_observed": 7,
+    "async_frames_forwarded": 7,
+    "fc20_refreshes": 18,
+    "writes": 0,
+    "crc_bad_total_reported": 1,
+    "note": "The single timeout/CRC error was on a background PREFETCH physical refresh; HA polling and all Shine request/response pairs continued successfully."
+  },
+  "representative_dev_values": {
+    "output_power_w": 647.1,
+    "reactive_power_var": 0.0,
+    "grid_import_w": 0.0,
+    "grid_export_w": 0.0,
+    "house_load_w": 682.0,
+    "soc_percent": 66,
+    "battery_voltage_v": 211.58,
+    "battery_current_i3170_a": 3.1,
+    "bms_current_i3217_a": -3.2,
+    "discharge_power_w": 679.0,
+    "charge_power_w": 0.0,
+    "total_energy_produced_kwh": 19623.3,
+    "energy_to_grid_total_kwh": 11169.8,
+    "energy_to_user_total_kwh": 7866.5,
+    "battery_discharged_total_kwh": 3245.4,
+    "battery_charged_total_kwh": 3389.1
+  },
+  "production_coexistence": {
+    "production_ha_container_changed": false,
+    "production_broker_changed": false,
+    "recent_production_growatt_fetches_successful": true,
+    "new_production_failure_burst_observed": false
+  },
+  "known_follow_up": {
+    "stale_dev_recorder_unit_conflict": "I3021 historical statistics were W while the reconciled entity is var; clean config avoids the conflict, but a real migration needs a statistics continuity plan.",
+    "production_total_energy_negative_step": "one historical -0.1 step from 19501.1 to 19501.0; not repeated in current total counter history",
+    "production_daily_discharge_statistics": "aggregate sum approximately 144776728 while current daily state is single-digit kWh; classify as old Recorder/integration aggregation outlier",
+    "natural_i3170_charging_or_idle": false
+  }
+}

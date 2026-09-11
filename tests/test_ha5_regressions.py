@@ -54,14 +54,10 @@ def test_tlxh_power_control_switch_is_gated() -> None:
 
     supported = {ATTR_AC_CHARGE_ENABLED, ATTR_INVERTER_ENABLED}
 
-    disabled = get_switch_descriptions(
-        make_config_entry(data_enabled=False), supported
-    )
+    disabled = get_switch_descriptions(make_config_entry(data_enabled=False), supported)
     assert [description.key for description in disabled] == [ATTR_AC_CHARGE_ENABLED]
 
-    enabled = get_switch_descriptions(
-        make_config_entry(data_enabled=True), supported
-    )
+    enabled = get_switch_descriptions(make_config_entry(data_enabled=True), supported)
     assert [description.key for description in enabled] == [
         ATTR_AC_CHARGE_ENABLED,
         ATTR_INVERTER_ENABLED,
@@ -111,4 +107,6 @@ def test_device_info_selection_preserves_offgrid_family() -> None:
 def test_device_info_selection_does_not_guess_unknown_family() -> None:
     """Unknown device codes require explicit family selection."""
 
-    assert select_device_info(make_device_info(0x1200), make_device_info(0x1200)) is None
+    assert (
+        select_device_info(make_device_info(0x1200), make_device_info(0x1200)) is None
+    )

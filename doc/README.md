@@ -4,6 +4,43 @@ This directory collects the source specification and machine-readable material
 for Growatt's “Inverter Modbus RTU Protocol v1.24”, along with generated
 reference docs for the Home Assistant `growatt_local` integration.
 
+## Public resolved register reference
+
+The project-independent canonical product is [`register-spec/`](register-spec/README.md).
+Its machine-readable artifact is [`register-spec/growatt-register-spec.json`](register-spec/growatt-register-spec.json).
+The resolved reference below remains a compatibility/generated input during the
+HA-6C/HA-6D migration; it is not a second maintained semantic truth.
+
+The legacy compatibility lookup is:
+
+- [`growatt_register_reference.json`](growatt_register_reference.json) — resolved machine-readable reference;
+- [`GROWATT_REGISTER_REFERENCE.md`](GROWATT_REGISTER_REFERENCE.md) — generated human-readable view;
+- [`growatt_register_reference.schema.json`](growatt_register_reference.schema.json) — output contract.
+- [`GROWATT_RUNTIME_REGISTER_AUDIT.md`](GROWATT_RUNTIME_REGISTER_AUDIT.md) — current HA runtime mapping and transaction audit;
+- [`min_6000tl_xh_block_validation.json`](min_6000tl_xh_block_validation.json) — bounded live validation of vendor-native MIN pages.
+
+Build and validate them with:
+
+```sh
+python3 doc/build_resolved_register_reference.py
+python3 doc/validate_resolved_register_reference.py
+```
+
+The resolved reference uses `(family, table, address)` as its identity. It
+keeps holding and input namespaces separate, records family applicability,
+source aliases, conflicts and evidence levels, and distinguishes live read
+validation from write verification. The graph and consolidated export below
+remain useful audit/intermediate artefacts; they are not a substitute for the
+resolved public view. Original vendor, runtime, external, model-specific and
+live-evidence files remain retained as provenance.
+
+The reference also separates semantic register selection from physical read
+planning. For the modern V1.24/120 family, the vendor-declared 125-word pages
+and 850 ms minimum / 1 second recommended command period are transport
+metadata, not broker-only assumptions. The live MIN 6000TL-XH page probes are
+bounded, read-only, repeated twice, and used to mark the native pages safe for
+the MIN plans. Runtime polling has not been rewritten in this phase.
+
 ## Authoritative register pipeline
 
 The authoritative machine-readable route is:

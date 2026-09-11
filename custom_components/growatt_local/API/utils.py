@@ -323,8 +323,11 @@ def process_registers(
         elif register.value_type == float and register.length == 2:
             if (second_value := register_values.get(key + 1, None)) is None:
                 continue
-            signed_value = ctypes.c_int32((value << 16) | second_value).value
-            processed_value = round(float(signed_value) / register.scale, 3)
+            raw_value = (value << 16) | second_value
+            decoded_value = (
+                ctypes.c_int32(raw_value).value if register.signed else raw_value
+            )
+            processed_value = round(float(decoded_value) / register.scale, 3)
 
         elif register.value_type == float:
             signed_value = ctypes.c_int16(value).value if register.signed else value

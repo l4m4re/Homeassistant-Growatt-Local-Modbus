@@ -14,6 +14,7 @@ Home Assistant.
 | --- | --- |
 | Branch | `validation/ha-gii-battery-current-sign-20260911` |
 | Starting SHA | `4a452777ea1b8a8d596534723a476ecc42810afd` |
+| Evidence commit SHA | `f3a6113d98cae2c07a26e8552583c783a2cd77bc` |
 | Source | Existing temporary V4 `energy_history_v4()` response |
 | Client | `growatt-public-api 2026.5.19` |
 | History coverage | One-day response, 145 records dated 2026-09-11 |
@@ -134,8 +135,8 @@ The bounded natural-history evidence found charging records and establishes:
 * no inverter write, broker change, HA change, production change, or
   configuration change was made.
 
-The final commit SHA is supplied after the evidence files are committed. HA-GII-5
-is not started by this task.
+The final branch-head SHA is supplied in the handoff after this report-only
+commit. HA-GII-5 is not started by this task.
 
 The compact sanitized evidence is available at
 [`doc/data/HA-GII-4B_BATTERY_CURRENT_SIGN_EVIDENCE.json`](data/HA-GII-4B_BATTERY_CURRENT_SIGN_EVIDENCE.json).

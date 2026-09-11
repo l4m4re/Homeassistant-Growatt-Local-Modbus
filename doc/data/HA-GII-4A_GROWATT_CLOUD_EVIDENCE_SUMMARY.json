@@ -1,0 +1,72 @@
+{
+  "validation": "HA-GII-4A",
+  "disposition": "HA_GII_CLOUD_VALIDATION_ACCEPTED_WITH_FOLLOW_UP",
+  "scope": "read_only_cloud_cross_validation",
+  "api": {
+    "family": "Growatt OpenAPI V1",
+    "client": "growattServer 2.2.0 / OpenApiV1",
+    "token_redacted": true,
+    "plant_list": "authorized",
+    "min_detail": "permission_denied_10011",
+    "device_list": "rate_limited_10012_during_discovery",
+    "plant_power": "permission_denied_10011"
+  },
+  "local": {
+    "endpoint": "DEV:5021",
+    "function": "FC04",
+    "unit": 1,
+    "sample_utc": "2026-09-11T19:07:42Z",
+    "native_blocks": [
+      {"start": 3000, "count": 125, "returned_words": 125, "error": null},
+      {"start": 3125, "count": 125, "returned_words": 125, "error": null},
+      {"start": 3250, "count": 125, "returned_words": 125, "error": null}
+    ],
+    "values": {
+      "input_power_w": {"register": "I3001", "value": 0.0},
+      "output_power_w": {"register": "I3023", "value": 728.9},
+      "grid_import_power_w": {"register": "I3041", "value": 0.0},
+      "grid_export_power_w": {"register": "I3043", "value": 0.0},
+      "house_load_power_w": {"register": "I3045", "value": 770.0},
+      "energy_to_user_total_kwh": {"register": "I3069", "value": 7866.5},
+      "energy_to_grid_total_kwh": {"register": "I3073", "value": 11169.8},
+      "real_output_power_percent": {"register": "I3101", "value": 12.0},
+      "battery_discharge_energy_total_kwh": {"register": "I3127", "value": 3245.7},
+      "battery_charge_energy_total_kwh": {"register": "I3131", "value": 3389.1},
+      "battery_voltage_v": {"register": "I3169", "value": 210.4},
+      "battery_current_i3170_a": {"register": "I3170", "value": 3.6},
+      "soc_percent": {"register": "I3171", "value": 63.0},
+      "battery_discharge_power_w": {"register": "I3178", "value": 770.0},
+      "battery_charge_power_w": {"register": "I3180", "value": 0.0},
+      "bms_i3191_raw": {"register": "I3191", "value": 0},
+      "bms_i3194_raw": {"register": "I3194", "value": 2},
+      "bms_i3195_raw": {"register": "I3195", "value": 13},
+      "bms_current_i3217_a": {"register": "I3217", "value": -3.7},
+      "cell_voltage_max_v": {"register": "I3230", "value": 3.283},
+      "cell_voltage_min_v": {"register": "I3231", "value": 3.271}
+    }
+  },
+  "cloud_inventory": [
+    {"field": "current_power", "value": 578.7, "unit": "W", "scope": "plant", "semantic_key": "output_power", "confidence": "LOW"},
+    {"field": "total_energy", "value": 19623.3, "unit": "kWh", "scope": "plant", "semantic_key": "output_energy_total", "confidence": "MEDIUM"}
+  ],
+  "comparisons": [
+    {"semantic_key": "output_power", "local_register": "I3023", "local_value": 728.9, "cloud_field": "current_power", "cloud_value": 578.7, "unit": "W", "classification": "UNRESOLVED", "reason": "plant response had no measurement timestamp and may be cloud-lagged"},
+    {"semantic_key": "output_energy_total", "local_register": "I55", "local_value": null, "cloud_field": "total_energy", "cloud_value": 19623.3, "unit": "kWh", "classification": "AGREE_WITH_CLOUD_LATENCY", "reason": "same magnitude as prior local/HA total; exact synchronized I55 sample unavailable"},
+    {"semantic_key": "battery_current", "local_register": "I3170", "local_value": 3.6, "cloud_field": null, "cloud_value": null, "unit": "A", "classification": "INSUFFICIENT_EVIDENCE", "reason": "MIN detail permission denied"},
+    {"semantic_key": "bms_battery_current", "local_register": "I3217", "local_value": -3.7, "cloud_field": null, "cloud_value": null, "unit": "A", "classification": "INSUFFICIENT_EVIDENCE", "reason": "MIN detail permission denied"},
+    {"semantic_key": "real_output_power_percent", "local_register": "I3101", "local_value": 12.0, "cloud_field": null, "cloud_value": null, "unit": "%", "classification": "INSUFFICIENT_EVIDENCE", "reason": "no cloud equivalent exposed by authorized response"},
+    {"semantic_key": "grid_import_power", "local_register": "I3041", "local_value": 0.0, "cloud_field": null, "cloud_value": null, "unit": "W", "classification": "INSUFFICIENT_EVIDENCE", "reason": "no cloud equivalent exposed by authorized response"},
+    {"semantic_key": "grid_export_power", "local_register": "I3043", "local_value": 0.0, "cloud_field": null, "cloud_value": null, "unit": "W", "classification": "INSUFFICIENT_EVIDENCE", "reason": "no cloud equivalent exposed by authorized response"},
+    {"semantic_key": "house_load_power", "local_register": "I3045", "local_value": 770.0, "cloud_field": null, "cloud_value": null, "unit": "W", "classification": "INSUFFICIENT_EVIDENCE", "reason": "no cloud equivalent exposed by authorized response"},
+    {"semantic_key": "battery_soc", "local_register": "I3171", "local_value": 63.0, "cloud_field": null, "cloud_value": null, "unit": "%", "classification": "INSUFFICIENT_EVIDENCE", "reason": "MIN detail permission denied"},
+    {"semantic_key": "battery_voltage", "local_register": "I3169", "local_value": 210.4, "cloud_field": null, "cloud_value": null, "unit": "V", "classification": "INSUFFICIENT_EVIDENCE", "reason": "MIN detail permission denied"},
+    {"semantic_key": "battery_charge_discharge_power", "local_register": "I3180/I3178", "local_value": "0.0/770.0", "cloud_field": null, "cloud_value": null, "unit": "W", "classification": "INSUFFICIENT_EVIDENCE", "reason": "MIN detail permission denied"},
+    {"semantic_key": "bms_temperature_fields", "local_register": "I3191/I3194/I3195", "local_value": "0/2/13 raw", "cloud_field": null, "cloud_value": null, "unit": "raw", "classification": "NO_CLOUD_EQUIVALENT", "reason": "MIN detail permission denied"},
+    {"semantic_key": "cell_voltage_extrema", "local_register": "I3230/I3231", "local_value": "3.283/3.271", "cloud_field": null, "cloud_value": null, "unit": "V", "classification": "NO_CLOUD_EQUIVALENT", "reason": "MIN detail permission denied"},
+    {"semantic_key": "energy_to_user_total", "local_register": "I3069", "local_value": 7866.5, "cloud_field": null, "cloud_value": null, "unit": "kWh", "classification": "NO_CLOUD_EQUIVALENT", "reason": "plant list exposes only total generated energy"},
+    {"semantic_key": "energy_to_grid_total", "local_register": "I3073", "local_value": 11169.8, "cloud_field": null, "cloud_value": null, "unit": "kWh", "classification": "NO_CLOUD_EQUIVALENT", "reason": "plant list exposes only total generated energy"},
+    {"semantic_key": "battery_charge_discharge_total", "local_register": "I3131/I3127", "local_value": "3389.1/3245.7", "cloud_field": null, "cloud_value": null, "unit": "kWh", "classification": "NO_CLOUD_EQUIVALENT", "reason": "MIN detail permission denied"}
+  ],
+  "writes": 0,
+  "production_changed": false
+}

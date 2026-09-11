@@ -15,7 +15,7 @@ Dashboard statistics configuration.
 | Starting commit | `ddfa899d171a2eb84cc9d78d2d1fe3c5a50171f2` |
 | Canonical GII authority | `4296c596091bc118c953c69c39b8d625107fb083` |
 | Working branch | `fix/ha-gii-read-decoder-20260911` |
-| Final commit | recorded in the handoff commit for this report |
+| Final commit | `4fbb609c9ce576320edfd5be2c45e76a5116c659` |
 
 ## Exact implementation
 

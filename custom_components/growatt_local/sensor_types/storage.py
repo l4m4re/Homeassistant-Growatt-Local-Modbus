@@ -446,11 +446,13 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="BMS cell voltage max",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        suggested_display_precision=3,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_BMS_CELL_VOLT_MIN,
         name="BMS cell voltage min",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        suggested_display_precision=3,
     ),
 )

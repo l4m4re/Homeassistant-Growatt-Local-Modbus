@@ -2,10 +2,7 @@
 import asyncio
 from collections.abc import Callable, Sequence
 from datetime import timedelta
-import json
 import logging
-import os
-from pathlib import Path
 from typing import Any, Optional
 
 from pymodbus.exceptions import ConnectionException, ModbusIOException
@@ -24,7 +21,6 @@ from homeassistant.const import (
     SUN_EVENT_SUNSET,
 )
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
-from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import entity_registry, issue_registry
 from homeassistant.helpers.event import (
     async_track_sunrise,
@@ -376,20 +372,6 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         return self.growatt_api.get_holding_register_by_name(name)
 
     async def write_register(self, key: str, payload):
-        staging_state_path = os.environ.get("HA_STAGING_STATE_FILE")
-        if staging_state_path:
-            try:
-                state = json.loads(
-                    Path(staging_state_path).read_text(encoding="utf-8")
-                )
-            except (OSError, json.JSONDecodeError) as exc:
-                raise HomeAssistantError(
-                    "Growatt write blocked: staging state is unreadable"
-                ) from exc
-            if state.get("mode") != "HIL_CONTROL" or not state.get("control_armed"):
-                raise HomeAssistantError(
-                    "Growatt write blocked: staging is not armed for HIL_CONTROL"
-                )
         register = self.growatt_api.get_holding_register_by_name(key)
         #TODO: better logging 
         _LOGGER.debug("Device type key %s and register %d", register.name, register.register)

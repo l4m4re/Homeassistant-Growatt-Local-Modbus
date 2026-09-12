@@ -2,7 +2,7 @@
   "meta": {
     "schema_version": "1.0.0",
     "reference_version": "2026.09-resolved",
-    "generated_at": "2026-09-11T11:07:29.949260+00:00",
+    "generated_at": "2026-09-12T08:48:11.195922+00:00",
     "generator": "build_resolved_register_reference.py",
     "canonical": false,
     "generated_compatibility_view": true,
@@ -29,7 +29,7 @@
         "kind": "runtime_implementation",
         "path": "HA_local_registers.json",
         "independent": true,
-        "sha256": "e8e3928e904ffca0128e8a6f36534997bd64e408022055765e4bef76c4d3f377"
+        "sha256": "8717d59b3dc9f0142c2a0723f1e3af0db08e3a5efd66bd1d5977f14151c7896a"
       },
       "openinverter_gateway": {
         "label": "OpenInverterGateway mapping",
@@ -91,7 +91,7 @@
         "path": "consolidated_register_ref.json",
         "independent": false,
         "derived": true,
-        "sha256": "e7f0991178739e93e114e8a97af9ed3b7283efef07e75c86c1b373760dd87252"
+        "sha256": "869dd700bfc78ef5d7d4522a17584d87f6532288779b141a733ac70eabf89b18"
       }
     },
     "lineage_policy": "Generated graph and overlay derivatives do not count as independent corroboration."

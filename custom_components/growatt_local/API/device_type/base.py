@@ -52,6 +52,11 @@ ATTR_DERATING_MODE = "derating_mode"
 ATTR_FAULT_CODE = "fault_code"
 ATTR_WARNING_CODE = "warning_code"
 ATTR_WARNING_VALUE = "warning_value"
+ATTR_STANDBY_FLAGS = "standby_flags"  # 3104
+ATTR_BDC_CONNECT_STATE = "bdc_connect_state"  # 3118
+ATTR_BDC_DERATING_MODE = "bdc_derating_mode"  # 3165
+ATTR_BDC_SYSTEM_MODE_STATUS = "bdc_system_mode_status"  # 3166
+ATTR_BDC_FLAG_WORD = "bdc_flag_word"  # 3187
 
 ATTR_INPUT_POWER = "input_power"  # W
 ATTR_INPUT_ENERGY_TOTAL = "input_energy_total"  # kWh
@@ -351,6 +356,7 @@ class InverterStatus(Enum):
 INVERTER_DERATINGMODES = {
     0: "No Deratring",
     1: "PV",
+    2: "PowerConstant",
     3: "Vac",
     4: "Fac",
     5: "Tboost",
@@ -358,6 +364,13 @@ INVERTER_DERATINGMODES = {
     7: "Control",
     8: "*LoadSpeed",
     9: "*OverBackByTime",
+    10: "InternalTemperature",
+    11: "OutdoorTemperature",
+    12: "LineImpedanceCalculation",
+    13: "ParallelAntiBackflow",
+    14: "LocalAntiBackflow",
+    15: "BdcLoadPriority",
+    16: "CTCheckError",
 }
 INVERTER_WARNINGCODES = {
     0x0000: "None",
@@ -396,22 +409,225 @@ for i in range(1, 24):
 
 def inverter_status(value: dict[str, Any]) -> str | None:
     """Returns status based on multiple registery values."""
-    if ATTR_STATUS_CODE not in value.keys():
+    if ATTR_STATUS_CODE not in value:
         return None
 
-    status_value = InverterStatus(value[ATTR_STATUS_CODE] & 0x0F)
+    status_code = int(value[ATTR_STATUS_CODE]) & 0xFFFF
+    try:
+        status_value = InverterStatus(status_code & 0xFF)
+    except ValueError:
+        return f"Unknown - code: {status_code & 0xFF}"
 
-    if status_value in [InverterStatus.Normal, InverterStatus.PV_charge, InverterStatus.PV_charge_bypass]:
-        derating = value.get(ATTR_DERATING_MODE, None)
-        if (derating is not None and derating in INVERTER_DERATINGMODES.keys() and derating != 0):
+    if status_value in [
+        InverterStatus.Normal,
+        InverterStatus.PV_charge,
+        InverterStatus.PV_charge_bypass,
+    ]:
+        derating = value.get(ATTR_DERATING_MODE)
+        if (
+            derating is not None
+            and derating in INVERTER_DERATINGMODES
+            and derating != 0
+        ):
             return f"{status_value.name} - {INVERTER_DERATINGMODES[derating]}"
 
     elif status_value is InverterStatus.Fault:
-        fault = value.get(ATTR_FAULT_CODE, None)
+        fault = value.get(ATTR_FAULT_CODE)
         if fault is not None:
-            if fault in INVERTER_FAULTCODES.keys():
+            if fault in INVERTER_FAULTCODES:
                 return f"{status_value.name} - {INVERTER_FAULTCODES[fault]}"
-            else:
-                return f"{status_value.name} - code: {fault}"
+            return f"{status_value.name} - code: {fault}"
 
     return status_value.name
+
+
+INVERTER_STATUS_MODES = {
+    0: "waiting_module",
+    1: "self_test",
+    2: "reserved",
+    3: "system_fault_module",
+    4: "flash_module",
+    5: "pv_battery_online_module",
+    6: "battery_online_module",
+}
+
+BDC_CONNECT_STATES = {
+    0: "no_bdc_connected",
+    1: "bdc1_connected",
+    2: "bdc2_connected",
+    3: "bdc1_and_bdc2_connected",
+}
+BDC_SYSTEM_MODES = {
+    0: "no_charge_or_discharge",
+    1: "charge",
+    2: "discharge",
+}
+BDC_SYSTEM_STATUSES = {
+    0: "standby",
+    1: "normal",
+    2: "fault",
+    3: "flash",
+}
+BMS_STATUSES = {
+    0: "dormancy",
+    1: "charge",
+    2: "discharge",
+    3: "free",
+    4: "standby",
+    5: "soft_start",
+    6: "fault",
+    7: "update",
+}
+
+
+def _enum_name(values: dict[int, str], value: int) -> str:
+    return values.get(value, f"unknown_{value}")
+
+
+def diagnostic_attributes(value: dict[str, Any], entity_key: str) -> dict[str, Any]:
+    """Return vendor-backed status details without changing raw entity states."""
+    attributes: dict[str, Any] = {}
+
+    if entity_key in {ATTR_STATUS, ATTR_STATUS_CODE} and ATTR_STATUS_CODE in value:
+        raw = int(value[ATTR_STATUS_CODE]) & 0xFFFF
+        attributes.update(
+            {
+                "status_code_raw": raw,
+                "status_code_mode": raw >> 8,
+                "status_code_mode_name": _enum_name(INVERTER_STATUS_MODES, raw >> 8),
+                "status_code_state": raw & 0xFF,
+                "status_code_state_name": (
+                    InverterStatus(raw & 0xFF).name
+                    if raw & 0xFF in {item.value for item in InverterStatus}
+                    else f"unknown_{raw & 0xFF}"
+                ),
+            }
+        )
+    if entity_key in {ATTR_STATUS, ATTR_DERATING_MODE} and ATTR_DERATING_MODE in value:
+        derating = int(value[ATTR_DERATING_MODE])
+        attributes.update(
+            {
+                "derating_mode_raw": derating,
+                "derating_mode_name": _enum_name(INVERTER_DERATINGMODES, derating),
+            }
+        )
+    if entity_key in {ATTR_STATUS, ATTR_FAULT_CODE} and ATTR_FAULT_CODE in value:
+        fault = int(value[ATTR_FAULT_CODE])
+        attributes.update(
+            {
+                "fault_code_raw": fault,
+                "fault_code_active": fault != 0,
+            }
+        )
+    if entity_key in {ATTR_STATUS, ATTR_WARNING_CODE} and ATTR_WARNING_CODE in value:
+        warning = int(value[ATTR_WARNING_CODE])
+        attributes.update(
+            {
+                "warning_code_raw": warning,
+                "warning_code_active": warning != 0,
+            }
+        )
+    if entity_key in {ATTR_STATUS, ATTR_STANDBY_FLAGS} and ATTR_STANDBY_FLAGS in value:
+        flags = int(value[ATTR_STANDBY_FLAGS]) & 0xFFFF
+        attributes.update(
+            {
+                "standby_flags_raw": flags,
+                "standby_turn_off_order": bool(flags & 0x01),
+                "standby_pv_low": bool(flags & 0x02),
+                "standby_ac_voltage_or_frequency_out_of_scope": bool(flags & 0x04),
+            }
+        )
+    if entity_key in {ATTR_STATUS, ATTR_BDC_NEW_FLAG} and ATTR_BDC_NEW_FLAG in value:
+        separation = int(value[ATTR_BDC_NEW_FLAG])
+        attributes.update(
+            {
+                "bdc_data_separation_raw": separation,
+                "bdc_data_separation_name": _enum_name(
+                    {0: "no_separate_bdc_data", 1: "separate_bdc_data"},
+                    separation,
+                ),
+            }
+        )
+    if (
+        entity_key in {ATTR_STATUS, ATTR_BDC_CONNECT_STATE}
+        and ATTR_BDC_CONNECT_STATE in value
+    ):
+        state = int(value[ATTR_BDC_CONNECT_STATE])
+        attributes.update(
+            {
+                "bdc_connect_state_raw": state,
+                "bdc_connect_state_name": _enum_name(BDC_CONNECT_STATES, state),
+            }
+        )
+    if (
+        entity_key in {ATTR_STATUS, ATTR_BDC_DERATING_MODE}
+        and ATTR_BDC_DERATING_MODE in value
+    ):
+        derating = int(value[ATTR_BDC_DERATING_MODE])
+        attributes.update(
+            {
+                "bdc_derating_mode_raw": derating,
+                "bdc_derating_mode_name": _enum_name(
+                    {
+                        0: "normal_unrestricted",
+                        1: "standby_or_fault",
+                        2: "maximum_discharge_current_limit",
+                        3: "battery_discharge_enabled",
+                        4: "high_bus_discharge_derating",
+                    },
+                    derating,
+                ),
+            }
+        )
+    if (
+        entity_key in {ATTR_STATUS, ATTR_BDC_SYSTEM_MODE_STATUS}
+        and ATTR_BDC_SYSTEM_MODE_STATUS in value
+    ):
+        packed = int(value[ATTR_BDC_SYSTEM_MODE_STATUS]) & 0xFFFF
+        mode = packed >> 8
+        state = packed & 0xFF
+        attributes.update(
+            {
+                "bdc_system_mode_status_raw": packed,
+                "bdc_system_mode": mode,
+                "bdc_system_mode_name": _enum_name(BDC_SYSTEM_MODES, mode),
+                "bdc_system_status": state,
+                "bdc_system_status_name": _enum_name(BDC_SYSTEM_STATUSES, state),
+            }
+        )
+    if entity_key in {ATTR_STATUS, ATTR_BDC_FLAG_WORD} and ATTR_BDC_FLAG_WORD in value:
+        flags = int(value[ATTR_BDC_FLAG_WORD]) & 0xFFFF
+        attributes.update(
+            {
+                "bdc_flag_word_raw": flags,
+                "bdc_charge_enabled": bool(flags & 0x0001),
+                "bdc_discharge_enabled": bool(flags & 0x0002),
+                "bdc_warning_subcode": (flags >> 8) & 0x0F,
+                "bdc_fault_subcode": (flags >> 12) & 0x0F,
+            }
+        )
+    if entity_key in {ATTR_STATUS, ATTR_BMS_STATUS} and ATTR_BMS_STATUS in value:
+        bms_status = int(value[ATTR_BMS_STATUS])
+        attributes.update(
+            {
+                "bms_status_raw": bms_status,
+                "bms_status_name": _enum_name(BMS_STATUSES, bms_status),
+            }
+        )
+    if (
+        entity_key in {ATTR_STATUS, ATTR_BATT_REQUEST_FLAGS}
+        and ATTR_BATT_REQUEST_FLAGS in value
+    ):
+        flags = int(value[ATTR_BATT_REQUEST_FLAGS]) & 0xFFFF
+        attributes.update(
+            {
+                "battery_request_flags_raw": flags,
+                "charging_prohibited": bool(flags & 0x0001),
+                "strong_charge_enabled": bool(flags & 0x0002),
+                "strong_charge_2_enabled": bool(flags & 0x0004),
+                "discharge_prohibited": bool(flags & 0x0100),
+                "power_reduction_enabled": bool(flags & 0x0200),
+            }
+        )
+
+    return attributes

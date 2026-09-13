@@ -39,6 +39,10 @@ from ..API.device_type.base import (
     ATTR_BATTERY_TEMPERATURE_B,
     ATTR_COMM_BOARD_TEMPERATURE,
     ATTR_BDC_NEW_FLAG,
+    ATTR_BDC_CONNECT_STATE,
+    ATTR_BDC_DERATING_MODE,
+    ATTR_BDC_FLAG_WORD,
+    ATTR_BDC_SYSTEM_MODE_STATUS,
     ATTR_PRESENT_FFT_A,
     ATTR_INV_START_DELAY,
     ATTR_BATTERY_VOLTAGE,
@@ -77,6 +81,7 @@ from ..API.device_type.base import (
     ATTR_BMS_CHARGE_VOLT_LIMIT,
     ATTR_BMS_DISCHARGE_VOLT_LIMIT,
     ATTR_BMS_WARN3,
+    ATTR_STANDBY_FLAGS,
     ATTR_BMS_PROTECT3,
     ATTR_BMS_CELL_VOLT_MAX,
     ATTR_BMS_CELL_VOLT_MIN,
@@ -113,7 +118,27 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     ),
     GrowattSensorEntityDescription(
         key=ATTR_BDC_NEW_FLAG,
-        name="BDC present",
+        name="BDC data separation",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_STANDBY_FLAGS,
+        name="Inverter standby flags",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_BDC_CONNECT_STATE,
+        name="BDC connect state",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_BDC_DERATING_MODE,
+        name="BDC derating mode",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_BDC_SYSTEM_MODE_STATUS,
+        name="BDC system mode and status",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_BDC_FLAG_WORD,
+        name="BDC flag word",
     ),
     GrowattSensorEntityDescription(
         key=ATTR_PRESENT_FFT_A,

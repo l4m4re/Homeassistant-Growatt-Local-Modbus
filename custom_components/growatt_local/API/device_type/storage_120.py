@@ -13,6 +13,10 @@ from .base import (
     ATTR_AC_CHARGE_ENABLED,
     ATTR_BAT_ISO_STATUS,
     ATTR_BATT_REQUEST_FLAGS,
+    ATTR_BDC_CONNECT_STATE,
+    ATTR_BDC_DERATING_MODE,
+    ATTR_BDC_FLAG_WORD,
+    ATTR_BDC_SYSTEM_MODE_STATUS,
     ATTR_BATTERY_CURRENT,
     ATTR_BATTERY_FIRST_CHARGE_RATE,
     ATTR_BATTERY_FIRST_STOP_SOC,
@@ -84,6 +88,7 @@ from .base import (
     ATTR_PRESENT_FFT_A,
     ATTR_SERIAL_NUMBER,
     ATTR_SOC_PERCENTAGE,
+    ATTR_STANDBY_FLAGS,
     ATTR_VBUS1_VOLTAGE,
     ATTR_VBUS2_VOLTAGE,
     ATTR_XH_SCHEDULE_1_END,
@@ -384,6 +389,17 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_BDC_NEW_FLAG, register=3164, value_type=int
     ),
     GrowattDeviceRegisters(
+        name=ATTR_BDC_DERATING_MODE,
+        register=3165,
+        value_type=int,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BDC_SYSTEM_MODE_STATUS, register=3166, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BDC_FLAG_WORD, register=3187, value_type=int
+    ),
+    GrowattDeviceRegisters(
         name=ATTR_BATTERY_VOLTAGE, register=3169, value_type=float, scale=100
     ),
     GrowattDeviceRegisters(
@@ -463,6 +479,16 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     ),
     GrowattDeviceRegisters(
         name=ATTR_PRESENT_FFT_A, register=3111, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_STANDBY_FLAGS,
+        register=3104,
+        value_type=int,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BDC_CONNECT_STATE,
+        register=3118,
+        value_type=int,
     ),
     GrowattDeviceRegisters(
         name=ATTR_INV_START_DELAY, register=3115, value_type=int

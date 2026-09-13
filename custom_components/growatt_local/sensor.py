@@ -33,6 +33,7 @@ from .API.device_type.base import (
     ATTR_POWER_TO_USER,
     ATTR_POWER_USER_LOAD,
     ATTR_SOC_PERCENTAGE,
+    diagnostic_attributes,
 )
 from .API.device_type.storage_120 import XH_SCHEDULE_REGISTER_KEYS
 from .const import (
@@ -199,6 +200,10 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SensorEntity):
         if (state := self.coordinator.data.get(self.entity_description.key)) is None:
             return
         self._attr_native_value = state
+        self._attr_extra_state_attributes = (
+            diagnostic_attributes(self.coordinator.data, self.entity_description.key)
+            or None
+        )
         self.async_write_ha_state()
 
     @callback

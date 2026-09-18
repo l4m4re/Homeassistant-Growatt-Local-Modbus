@@ -13,12 +13,15 @@ _UNAVAILABLE_STATES = {"unknown", "unavailable", "none", ""}
 
 
 def _parse_datetime(value: object, timezone: ZoneInfo) -> datetime:
-    if not isinstance(value, str):
+    if isinstance(value, datetime):
+        parsed = value
+    elif isinstance(value, str):
+        try:
+            parsed = datetime.fromisoformat(value)
+        except ValueError as exc:
+            raise ValueError("timestamp_invalid") from exc
+    else:
         raise ValueError("timestamp_missing")  # noqa: TRY004
-    try:
-        parsed = datetime.fromisoformat(value)
-    except ValueError as exc:
-        raise ValueError("timestamp_invalid") from exc
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError("timestamp_naive")
     return parsed.astimezone(timezone)

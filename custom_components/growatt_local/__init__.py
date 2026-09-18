@@ -286,6 +286,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
 
         if status:
             data["status"] = status
+        data["last_successful_update"] = self.data_timestamp
         return data
 
     async def force_refresh(self):

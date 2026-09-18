@@ -1,0 +1,11 @@
+{
+  "domain": "ems_shadow",
+  "name": "EMS Shadow Planner",
+  "codeowners": [],
+  "config_flow": false,
+  "dependencies": ["recorder"],
+  "documentation": "https://github.com/WouterTuinstra/Homeassistant-Growatt-Local-Modbus/blob/main/doc/HA-8D_SHADOW_EMS_PLANNER.md",
+  "iot_class": "calculated",
+  "version": "0.1.0",
+  "requirements": []
+}

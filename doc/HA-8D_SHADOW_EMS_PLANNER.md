@@ -123,6 +123,15 @@ groups contiguous intervals. An optional maximum import price is respected
 unless crossing it is required to reach the explicit target. The planner never
 averages prices into hourly values.
 
+The exact target gap above is continuous energy; the chosen Growatt windows
+cover whole quarter-hour intervals. Cost and wear estimates therefore assume
+the configured maximum AC charge power for every interval in the candidate
+windows, and can model more stored energy than the target gap. The DEV view
+shows that modeled margin separately. Actual charge power and final SOC can
+differ; neither has been validated as a measured device response. Conversion
+loss is grid energy minus stored energy, while the provisional wear cost is
+applied per modeled stored kWh.
+
 The planner returns `FAILSAFE` for stale/invalid Growatt telemetry or SOC,
 invalid/stale/malformed/overlapping/gapped price data, insufficient forecast
 horizon, timezone-invalid/naive input, or unavailable export-price semantics.

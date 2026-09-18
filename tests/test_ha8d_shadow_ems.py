@@ -68,6 +68,26 @@ def test_zonneplan_adapter_uses_quarter_hour_all_in_price() -> None:
     assert len(state.future) == 21
 
 
+def test_zonneplan_adapter_accepts_live_datetime_attributes() -> None:
+    """HA stores Zonneplan forecast timestamps as aware datetime objects."""
+
+    snapshot = _snapshot()
+    fixture = _price_fixture()
+    for item in fixture["entity"]["attributes"]["forecast"]:
+        item["start_date"] = datetime.fromisoformat(item["start_date"])
+        item["end_date"] = datetime.fromisoformat(item["end_date"])
+
+    state = parse_zonneplan_entity(
+        fixture["entity"],
+        now=snapshot.timestamp,
+        retrieved_at=datetime.fromisoformat(fixture["retrieved_at"]),
+    )
+
+    assert state.valid
+    assert state.current is not None
+    assert state.current.price_basis is PriceBasis.ALL_IN_IMPORT
+
+
 def test_zonneplan_adapter_rejects_missing_gap_and_unavailable_data() -> None:
     """Malformed or unavailable provider state cannot become valid prices."""
 
@@ -157,6 +177,36 @@ def test_live_inventory_produces_reproducible_shadow_plan() -> None:
     assert plan.hypothetical_write_count == 3
     assert plan.export_optimization_enabled is False
     assert plan.boundary_semantics_unvalidated
+    assert plan.battery_economics is not None
+    assert plan.battery_economics.grid_energy_kwh == Decimal("8.25")
+    assert plan.battery_economics.stored_energy_kwh == Decimal("7.5900")
+    assert plan.battery_economics.conversion_loss_kwh == Decimal("0.6600")
+    assert plan.battery_economics.wear_cost_eur == Decimal("0.379500")
+    assert "battery_wear_cost_is_provisional" in plan.warnings
+    assert plan.as_dict()["battery_economics"]["wear_assumption"] == (
+        "provisional_example_not_device_specific"
+    )
+
+
+def test_battery_economics_cover_full_quarter_hour_schedule() -> None:
+    """Cost the whole interval-rounded schedule and expose its energy margin."""
+    snapshot = _snapshot()
+    snapshot = replace(
+        snapshot,
+        growatt=replace(snapshot.growatt, battery_soc_pct=64),
+    )
+
+    plan = plan_shadow_ems(snapshot, _config(), price=_prices(snapshot))
+
+    assert plan.required_energy_kwh == Decimal("1.6")
+    assert len(plan.selected_cheap_intervals) == 3
+    assert plan.battery_economics is not None
+    assert plan.battery_economics.grid_energy_kwh == Decimal("2.25")
+    assert plan.battery_economics.stored_energy_kwh == Decimal("2.0700")
+    assert (
+        plan.battery_economics.stored_energy_kwh - plan.required_energy_kwh
+        == Decimal("0.4700")
+    )
 
 
 def test_already_at_target_has_no_charge_intervals() -> None:
@@ -265,7 +315,10 @@ def test_scattered_cheap_intervals_are_compressed_to_nine_slots() -> None:
     assert plan.valid
     assert len(plan.economic_windows) == 11
     assert len(plan.growatt_candidate_windows) == 9
-    assert plan.warnings == ("schedule_windows_are_approximated_for_slot_limit",)
+    assert plan.warnings == (
+        "battery_wear_cost_is_provisional",
+        "schedule_windows_are_approximated_for_slot_limit",
+    )
     assert plan.compression_added_interval_count == 2
     assert plan.compression_extra_cost_eur > 0
     assert all(item.approximate for item in plan.growatt_candidate_windows)

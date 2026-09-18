@@ -1,0 +1,1992 @@
+{
+  "schema_version": 1,
+  "data_role": "curated_educational_examples_only",
+  "source_archive": {
+    "workspace_path": "external/HistorischeStroomPrijzen/",
+    "provenance_status": "not_documented_in_archive",
+    "source_price_field": "prijs_excl_belastingen",
+    "currency": null,
+    "unit": null,
+    "tax_basis": "The source field name says taxes are excluded; exact tariff composition is not documented.",
+    "redistribution_status": "verify_source_and_license_before_public_release"
+  },
+  "timestamp_note": "Record values are copied exactly from the source fields. The source timestamps are timezone-naive strings and their timezone semantics require validation before operational use.",
+  "selections": [
+    {
+      "id": "hourly-volatile-week-2022-08-22",
+      "purpose": "Seven-day hourly sample including the volatile 2022-08-28 price pattern; useful for range and moving-average examples.",
+      "source_file": "2022.json",
+      "source_file_sha256": "7b70a40f5cd35f774519b43b0e5d4305212be62c29447d35289b0f39d16a8e04",
+      "source_local_date_range": {
+        "start_inclusive": "2022-08-22",
+        "end_exclusive": "2022-08-29"
+      },
+      "source_interval_minutes": 60,
+      "record_count": 168,
+      "records": [
+        {
+          "datum_nl": "2022-08-22 00:00:00",
+          "datum_utc": "2022-08-21 22:00:00",
+          "prijs_excl_belastingen": "0,504300"
+        },
+        {
+          "datum_nl": "2022-08-22 01:00:00",
+          "datum_utc": "2022-08-21 23:00:00",
+          "prijs_excl_belastingen": "0,477400"
+        },
+        {
+          "datum_nl": "2022-08-22 02:00:00",
+          "datum_utc": "2022-08-22 00:00:00",
+          "prijs_excl_belastingen": "0,467600"
+        },
+        {
+          "datum_nl": "2022-08-22 03:00:00",
+          "datum_utc": "2022-08-22 01:00:00",
+          "prijs_excl_belastingen": "0,447800"
+        },
+        {
+          "datum_nl": "2022-08-22 04:00:00",
+          "datum_utc": "2022-08-22 02:00:00",
+          "prijs_excl_belastingen": "0,450000"
+        },
+        {
+          "datum_nl": "2022-08-22 05:00:00",
+          "datum_utc": "2022-08-22 03:00:00",
+          "prijs_excl_belastingen": "0,497100"
+        },
+        {
+          "datum_nl": "2022-08-22 06:00:00",
+          "datum_utc": "2022-08-22 04:00:00",
+          "prijs_excl_belastingen": "0,561700"
+        },
+        {
+          "datum_nl": "2022-08-22 07:00:00",
+          "datum_utc": "2022-08-22 05:00:00",
+          "prijs_excl_belastingen": "0,599900"
+        },
+        {
+          "datum_nl": "2022-08-22 08:00:00",
+          "datum_utc": "2022-08-22 06:00:00",
+          "prijs_excl_belastingen": "0,610000"
+        },
+        {
+          "datum_nl": "2022-08-22 09:00:00",
+          "datum_utc": "2022-08-22 07:00:00",
+          "prijs_excl_belastingen": "0,595600"
+        },
+        {
+          "datum_nl": "2022-08-22 10:00:00",
+          "datum_utc": "2022-08-22 08:00:00",
+          "prijs_excl_belastingen": "0,583500"
+        },
+        {
+          "datum_nl": "2022-08-22 11:00:00",
+          "datum_utc": "2022-08-22 09:00:00",
+          "prijs_excl_belastingen": "0,567500"
+        },
+        {
+          "datum_nl": "2022-08-22 12:00:00",
+          "datum_utc": "2022-08-22 10:00:00",
+          "prijs_excl_belastingen": "0,459900"
+        },
+        {
+          "datum_nl": "2022-08-22 13:00:00",
+          "datum_utc": "2022-08-22 11:00:00",
+          "prijs_excl_belastingen": "0,520000"
+        },
+        {
+          "datum_nl": "2022-08-22 14:00:00",
+          "datum_utc": "2022-08-22 12:00:00",
+          "prijs_excl_belastingen": "0,550000"
+        },
+        {
+          "datum_nl": "2022-08-22 15:00:00",
+          "datum_utc": "2022-08-22 13:00:00",
+          "prijs_excl_belastingen": "0,577200"
+        },
+        {
+          "datum_nl": "2022-08-22 16:00:00",
+          "datum_utc": "2022-08-22 14:00:00",
+          "prijs_excl_belastingen": "0,586700"
+        },
+        {
+          "datum_nl": "2022-08-22 17:00:00",
+          "datum_utc": "2022-08-22 15:00:00",
+          "prijs_excl_belastingen": "0,613600"
+        },
+        {
+          "datum_nl": "2022-08-22 18:00:00",
+          "datum_utc": "2022-08-22 16:00:00",
+          "prijs_excl_belastingen": "0,640000"
+        },
+        {
+          "datum_nl": "2022-08-22 19:00:00",
+          "datum_utc": "2022-08-22 17:00:00",
+          "prijs_excl_belastingen": "0,644200"
+        },
+        {
+          "datum_nl": "2022-08-22 20:00:00",
+          "datum_utc": "2022-08-22 18:00:00",
+          "prijs_excl_belastingen": "0,680000"
+        },
+        {
+          "datum_nl": "2022-08-22 21:00:00",
+          "datum_utc": "2022-08-22 19:00:00",
+          "prijs_excl_belastingen": "0,629600"
+        },
+        {
+          "datum_nl": "2022-08-22 22:00:00",
+          "datum_utc": "2022-08-22 20:00:00",
+          "prijs_excl_belastingen": "0,588900"
+        },
+        {
+          "datum_nl": "2022-08-22 23:00:00",
+          "datum_utc": "2022-08-22 21:00:00",
+          "prijs_excl_belastingen": "0,545000"
+        },
+        {
+          "datum_nl": "2022-08-23 00:00:00",
+          "datum_utc": "2022-08-22 22:00:00",
+          "prijs_excl_belastingen": "0,550000"
+        },
+        {
+          "datum_nl": "2022-08-23 01:00:00",
+          "datum_utc": "2022-08-22 23:00:00",
+          "prijs_excl_belastingen": "0,504700"
+        },
+        {
+          "datum_nl": "2022-08-23 02:00:00",
+          "datum_utc": "2022-08-23 00:00:00",
+          "prijs_excl_belastingen": "0,507000"
+        },
+        {
+          "datum_nl": "2022-08-23 03:00:00",
+          "datum_utc": "2022-08-23 01:00:00",
+          "prijs_excl_belastingen": "0,500600"
+        },
+        {
+          "datum_nl": "2022-08-23 04:00:00",
+          "datum_utc": "2022-08-23 02:00:00",
+          "prijs_excl_belastingen": "0,503300"
+        },
+        {
+          "datum_nl": "2022-08-23 05:00:00",
+          "datum_utc": "2022-08-23 03:00:00",
+          "prijs_excl_belastingen": "0,531000"
+        },
+        {
+          "datum_nl": "2022-08-23 06:00:00",
+          "datum_utc": "2022-08-23 04:00:00",
+          "prijs_excl_belastingen": "0,628000"
+        },
+        {
+          "datum_nl": "2022-08-23 07:00:00",
+          "datum_utc": "2022-08-23 05:00:00",
+          "prijs_excl_belastingen": "0,668200"
+        },
+        {
+          "datum_nl": "2022-08-23 08:00:00",
+          "datum_utc": "2022-08-23 06:00:00",
+          "prijs_excl_belastingen": "0,680000"
+        },
+        {
+          "datum_nl": "2022-08-23 09:00:00",
+          "datum_utc": "2022-08-23 07:00:00",
+          "prijs_excl_belastingen": "0,640100"
+        },
+        {
+          "datum_nl": "2022-08-23 10:00:00",
+          "datum_utc": "2022-08-23 08:00:00",
+          "prijs_excl_belastingen": "0,614000"
+        },
+        {
+          "datum_nl": "2022-08-23 11:00:00",
+          "datum_utc": "2022-08-23 09:00:00",
+          "prijs_excl_belastingen": "0,539400"
+        },
+        {
+          "datum_nl": "2022-08-23 12:00:00",
+          "datum_utc": "2022-08-23 10:00:00",
+          "prijs_excl_belastingen": "0,511900"
+        },
+        {
+          "datum_nl": "2022-08-23 13:00:00",
+          "datum_utc": "2022-08-23 11:00:00",
+          "prijs_excl_belastingen": "0,500000"
+        },
+        {
+          "datum_nl": "2022-08-23 14:00:00",
+          "datum_utc": "2022-08-23 12:00:00",
+          "prijs_excl_belastingen": "0,549300"
+        },
+        {
+          "datum_nl": "2022-08-23 15:00:00",
+          "datum_utc": "2022-08-23 13:00:00",
+          "prijs_excl_belastingen": "0,572600"
+        },
+        {
+          "datum_nl": "2022-08-23 16:00:00",
+          "datum_utc": "2022-08-23 14:00:00",
+          "prijs_excl_belastingen": "0,604400"
+        },
+        {
+          "datum_nl": "2022-08-23 17:00:00",
+          "datum_utc": "2022-08-23 15:00:00",
+          "prijs_excl_belastingen": "0,648200"
+        },
+        {
+          "datum_nl": "2022-08-23 18:00:00",
+          "datum_utc": "2022-08-23 16:00:00",
+          "prijs_excl_belastingen": "0,713700"
+        },
+        {
+          "datum_nl": "2022-08-23 19:00:00",
+          "datum_utc": "2022-08-23 17:00:00",
+          "prijs_excl_belastingen": "0,795000"
+        },
+        {
+          "datum_nl": "2022-08-23 20:00:00",
+          "datum_utc": "2022-08-23 18:00:00",
+          "prijs_excl_belastingen": "0,771000"
+        },
+        {
+          "datum_nl": "2022-08-23 21:00:00",
+          "datum_utc": "2022-08-23 19:00:00",
+          "prijs_excl_belastingen": "0,708800"
+        },
+        {
+          "datum_nl": "2022-08-23 22:00:00",
+          "datum_utc": "2022-08-23 20:00:00",
+          "prijs_excl_belastingen": "0,644000"
+        },
+        {
+          "datum_nl": "2022-08-23 23:00:00",
+          "datum_utc": "2022-08-23 21:00:00",
+          "prijs_excl_belastingen": "0,600000"
+        },
+        {
+          "datum_nl": "2022-08-24 00:00:00",
+          "datum_utc": "2022-08-23 22:00:00",
+          "prijs_excl_belastingen": "0,581800"
+        },
+        {
+          "datum_nl": "2022-08-24 01:00:00",
+          "datum_utc": "2022-08-23 23:00:00",
+          "prijs_excl_belastingen": "0,550000"
+        },
+        {
+          "datum_nl": "2022-08-24 02:00:00",
+          "datum_utc": "2022-08-24 00:00:00",
+          "prijs_excl_belastingen": "0,550200"
+        },
+        {
+          "datum_nl": "2022-08-24 03:00:00",
+          "datum_utc": "2022-08-24 01:00:00",
+          "prijs_excl_belastingen": "0,536000"
+        },
+        {
+          "datum_nl": "2022-08-24 04:00:00",
+          "datum_utc": "2022-08-24 02:00:00",
+          "prijs_excl_belastingen": "0,539000"
+        },
+        {
+          "datum_nl": "2022-08-24 05:00:00",
+          "datum_utc": "2022-08-24 03:00:00",
+          "prijs_excl_belastingen": "0,574200"
+        },
+        {
+          "datum_nl": "2022-08-24 06:00:00",
+          "datum_utc": "2022-08-24 04:00:00",
+          "prijs_excl_belastingen": "0,648000"
+        },
+        {
+          "datum_nl": "2022-08-24 07:00:00",
+          "datum_utc": "2022-08-24 05:00:00",
+          "prijs_excl_belastingen": "0,683300"
+        },
+        {
+          "datum_nl": "2022-08-24 08:00:00",
+          "datum_utc": "2022-08-24 06:00:00",
+          "prijs_excl_belastingen": "0,694300"
+        },
+        {
+          "datum_nl": "2022-08-24 09:00:00",
+          "datum_utc": "2022-08-24 07:00:00",
+          "prijs_excl_belastingen": "0,649900"
+        },
+        {
+          "datum_nl": "2022-08-24 10:00:00",
+          "datum_utc": "2022-08-24 08:00:00",
+          "prijs_excl_belastingen": "0,530000"
+        },
+        {
+          "datum_nl": "2022-08-24 11:00:00",
+          "datum_utc": "2022-08-24 09:00:00",
+          "prijs_excl_belastingen": "0,522600"
+        },
+        {
+          "datum_nl": "2022-08-24 12:00:00",
+          "datum_utc": "2022-08-24 10:00:00",
+          "prijs_excl_belastingen": "0,457200"
+        },
+        {
+          "datum_nl": "2022-08-24 13:00:00",
+          "datum_utc": "2022-08-24 11:00:00",
+          "prijs_excl_belastingen": "0,495600"
+        },
+        {
+          "datum_nl": "2022-08-24 14:00:00",
+          "datum_utc": "2022-08-24 12:00:00",
+          "prijs_excl_belastingen": "0,495100"
+        },
+        {
+          "datum_nl": "2022-08-24 15:00:00",
+          "datum_utc": "2022-08-24 13:00:00",
+          "prijs_excl_belastingen": "0,554400"
+        },
+        {
+          "datum_nl": "2022-08-24 16:00:00",
+          "datum_utc": "2022-08-24 14:00:00",
+          "prijs_excl_belastingen": "0,600100"
+        },
+        {
+          "datum_nl": "2022-08-24 17:00:00",
+          "datum_utc": "2022-08-24 15:00:00",
+          "prijs_excl_belastingen": "0,672300"
+        },
+        {
+          "datum_nl": "2022-08-24 18:00:00",
+          "datum_utc": "2022-08-24 16:00:00",
+          "prijs_excl_belastingen": "0,750000"
+        },
+        {
+          "datum_nl": "2022-08-24 19:00:00",
+          "datum_utc": "2022-08-24 17:00:00",
+          "prijs_excl_belastingen": "0,850000"
+        },
+        {
+          "datum_nl": "2022-08-24 20:00:00",
+          "datum_utc": "2022-08-24 18:00:00",
+          "prijs_excl_belastingen": "0,783600"
+        },
+        {
+          "datum_nl": "2022-08-24 21:00:00",
+          "datum_utc": "2022-08-24 19:00:00",
+          "prijs_excl_belastingen": "0,724900"
+        },
+        {
+          "datum_nl": "2022-08-24 22:00:00",
+          "datum_utc": "2022-08-24 20:00:00",
+          "prijs_excl_belastingen": "0,659400"
+        },
+        {
+          "datum_nl": "2022-08-24 23:00:00",
+          "datum_utc": "2022-08-24 21:00:00",
+          "prijs_excl_belastingen": "0,570500"
+        },
+        {
+          "datum_nl": "2022-08-25 00:00:00",
+          "datum_utc": "2022-08-24 22:00:00",
+          "prijs_excl_belastingen": "0,521400"
+        },
+        {
+          "datum_nl": "2022-08-25 01:00:00",
+          "datum_utc": "2022-08-24 23:00:00",
+          "prijs_excl_belastingen": "0,522900"
+        },
+        {
+          "datum_nl": "2022-08-25 02:00:00",
+          "datum_utc": "2022-08-25 00:00:00",
+          "prijs_excl_belastingen": "0,520100"
+        },
+        {
+          "datum_nl": "2022-08-25 03:00:00",
+          "datum_utc": "2022-08-25 01:00:00",
+          "prijs_excl_belastingen": "0,513100"
+        },
+        {
+          "datum_nl": "2022-08-25 04:00:00",
+          "datum_utc": "2022-08-25 02:00:00",
+          "prijs_excl_belastingen": "0,518600"
+        },
+        {
+          "datum_nl": "2022-08-25 05:00:00",
+          "datum_utc": "2022-08-25 03:00:00",
+          "prijs_excl_belastingen": "0,530100"
+        },
+        {
+          "datum_nl": "2022-08-25 06:00:00",
+          "datum_utc": "2022-08-25 04:00:00",
+          "prijs_excl_belastingen": "0,606200"
+        },
+        {
+          "datum_nl": "2022-08-25 07:00:00",
+          "datum_utc": "2022-08-25 05:00:00",
+          "prijs_excl_belastingen": "0,667600"
+        },
+        {
+          "datum_nl": "2022-08-25 08:00:00",
+          "datum_utc": "2022-08-25 06:00:00",
+          "prijs_excl_belastingen": "0,689800"
+        },
+        {
+          "datum_nl": "2022-08-25 09:00:00",
+          "datum_utc": "2022-08-25 07:00:00",
+          "prijs_excl_belastingen": "0,637400"
+        },
+        {
+          "datum_nl": "2022-08-25 10:00:00",
+          "datum_utc": "2022-08-25 08:00:00",
+          "prijs_excl_belastingen": "0,572000"
+        },
+        {
+          "datum_nl": "2022-08-25 11:00:00",
+          "datum_utc": "2022-08-25 09:00:00",
+          "prijs_excl_belastingen": "0,484500"
+        },
+        {
+          "datum_nl": "2022-08-25 12:00:00",
+          "datum_utc": "2022-08-25 10:00:00",
+          "prijs_excl_belastingen": "0,418400"
+        },
+        {
+          "datum_nl": "2022-08-25 13:00:00",
+          "datum_utc": "2022-08-25 11:00:00",
+          "prijs_excl_belastingen": "0,487200"
+        },
+        {
+          "datum_nl": "2022-08-25 14:00:00",
+          "datum_utc": "2022-08-25 12:00:00",
+          "prijs_excl_belastingen": "0,401300"
+        },
+        {
+          "datum_nl": "2022-08-25 15:00:00",
+          "datum_utc": "2022-08-25 13:00:00",
+          "prijs_excl_belastingen": "0,499900"
+        },
+        {
+          "datum_nl": "2022-08-25 16:00:00",
+          "datum_utc": "2022-08-25 14:00:00",
+          "prijs_excl_belastingen": "0,532100"
+        },
+        {
+          "datum_nl": "2022-08-25 17:00:00",
+          "datum_utc": "2022-08-25 15:00:00",
+          "prijs_excl_belastingen": "0,686800"
+        },
+        {
+          "datum_nl": "2022-08-25 18:00:00",
+          "datum_utc": "2022-08-25 16:00:00",
+          "prijs_excl_belastingen": "0,714200"
+        },
+        {
+          "datum_nl": "2022-08-25 19:00:00",
+          "datum_utc": "2022-08-25 17:00:00",
+          "prijs_excl_belastingen": "0,766800"
+        },
+        {
+          "datum_nl": "2022-08-25 20:00:00",
+          "datum_utc": "2022-08-25 18:00:00",
+          "prijs_excl_belastingen": "0,760000"
+        },
+        {
+          "datum_nl": "2022-08-25 21:00:00",
+          "datum_utc": "2022-08-25 19:00:00",
+          "prijs_excl_belastingen": "0,710000"
+        },
+        {
+          "datum_nl": "2022-08-25 22:00:00",
+          "datum_utc": "2022-08-25 20:00:00",
+          "prijs_excl_belastingen": "0,673400"
+        },
+        {
+          "datum_nl": "2022-08-25 23:00:00",
+          "datum_utc": "2022-08-25 21:00:00",
+          "prijs_excl_belastingen": "0,626700"
+        },
+        {
+          "datum_nl": "2022-08-26 00:00:00",
+          "datum_utc": "2022-08-25 22:00:00",
+          "prijs_excl_belastingen": "0,607200"
+        },
+        {
+          "datum_nl": "2022-08-26 01:00:00",
+          "datum_utc": "2022-08-25 23:00:00",
+          "prijs_excl_belastingen": "0,580100"
+        },
+        {
+          "datum_nl": "2022-08-26 02:00:00",
+          "datum_utc": "2022-08-26 00:00:00",
+          "prijs_excl_belastingen": "0,572500"
+        },
+        {
+          "datum_nl": "2022-08-26 03:00:00",
+          "datum_utc": "2022-08-26 01:00:00",
+          "prijs_excl_belastingen": "0,571000"
+        },
+        {
+          "datum_nl": "2022-08-26 04:00:00",
+          "datum_utc": "2022-08-26 02:00:00",
+          "prijs_excl_belastingen": "0,569200"
+        },
+        {
+          "datum_nl": "2022-08-26 05:00:00",
+          "datum_utc": "2022-08-26 03:00:00",
+          "prijs_excl_belastingen": "0,599000"
+        },
+        {
+          "datum_nl": "2022-08-26 06:00:00",
+          "datum_utc": "2022-08-26 04:00:00",
+          "prijs_excl_belastingen": "0,750000"
+        },
+        {
+          "datum_nl": "2022-08-26 07:00:00",
+          "datum_utc": "2022-08-26 05:00:00",
+          "prijs_excl_belastingen": "0,769200"
+        },
+        {
+          "datum_nl": "2022-08-26 08:00:00",
+          "datum_utc": "2022-08-26 06:00:00",
+          "prijs_excl_belastingen": "0,803000"
+        },
+        {
+          "datum_nl": "2022-08-26 09:00:00",
+          "datum_utc": "2022-08-26 07:00:00",
+          "prijs_excl_belastingen": "0,781600"
+        },
+        {
+          "datum_nl": "2022-08-26 10:00:00",
+          "datum_utc": "2022-08-26 08:00:00",
+          "prijs_excl_belastingen": "0,763200"
+        },
+        {
+          "datum_nl": "2022-08-26 11:00:00",
+          "datum_utc": "2022-08-26 09:00:00",
+          "prijs_excl_belastingen": "0,750000"
+        },
+        {
+          "datum_nl": "2022-08-26 12:00:00",
+          "datum_utc": "2022-08-26 10:00:00",
+          "prijs_excl_belastingen": "0,699900"
+        },
+        {
+          "datum_nl": "2022-08-26 13:00:00",
+          "datum_utc": "2022-08-26 11:00:00",
+          "prijs_excl_belastingen": "0,641800"
+        },
+        {
+          "datum_nl": "2022-08-26 14:00:00",
+          "datum_utc": "2022-08-26 12:00:00",
+          "prijs_excl_belastingen": "0,590100"
+        },
+        {
+          "datum_nl": "2022-08-26 15:00:00",
+          "datum_utc": "2022-08-26 13:00:00",
+          "prijs_excl_belastingen": "0,648000"
+        },
+        {
+          "datum_nl": "2022-08-26 16:00:00",
+          "datum_utc": "2022-08-26 14:00:00",
+          "prijs_excl_belastingen": "0,659900"
+        },
+        {
+          "datum_nl": "2022-08-26 17:00:00",
+          "datum_utc": "2022-08-26 15:00:00",
+          "prijs_excl_belastingen": "0,750000"
+        },
+        {
+          "datum_nl": "2022-08-26 18:00:00",
+          "datum_utc": "2022-08-26 16:00:00",
+          "prijs_excl_belastingen": "0,770000"
+        },
+        {
+          "datum_nl": "2022-08-26 19:00:00",
+          "datum_utc": "2022-08-26 17:00:00",
+          "prijs_excl_belastingen": "0,779800"
+        },
+        {
+          "datum_nl": "2022-08-26 20:00:00",
+          "datum_utc": "2022-08-26 18:00:00",
+          "prijs_excl_belastingen": "0,778500"
+        },
+        {
+          "datum_nl": "2022-08-26 21:00:00",
+          "datum_utc": "2022-08-26 19:00:00",
+          "prijs_excl_belastingen": "0,770000"
+        },
+        {
+          "datum_nl": "2022-08-26 22:00:00",
+          "datum_utc": "2022-08-26 20:00:00",
+          "prijs_excl_belastingen": "0,747700"
+        },
+        {
+          "datum_nl": "2022-08-26 23:00:00",
+          "datum_utc": "2022-08-26 21:00:00",
+          "prijs_excl_belastingen": "0,700000"
+        },
+        {
+          "datum_nl": "2022-08-27 00:00:00",
+          "datum_utc": "2022-08-26 22:00:00",
+          "prijs_excl_belastingen": "0,685100"
+        },
+        {
+          "datum_nl": "2022-08-27 01:00:00",
+          "datum_utc": "2022-08-26 23:00:00",
+          "prijs_excl_belastingen": "0,644200"
+        },
+        {
+          "datum_nl": "2022-08-27 02:00:00",
+          "datum_utc": "2022-08-27 00:00:00",
+          "prijs_excl_belastingen": "0,636800"
+        },
+        {
+          "datum_nl": "2022-08-27 03:00:00",
+          "datum_utc": "2022-08-27 01:00:00",
+          "prijs_excl_belastingen": "0,587900"
+        },
+        {
+          "datum_nl": "2022-08-27 04:00:00",
+          "datum_utc": "2022-08-27 02:00:00",
+          "prijs_excl_belastingen": "0,563500"
+        },
+        {
+          "datum_nl": "2022-08-27 05:00:00",
+          "datum_utc": "2022-08-27 03:00:00",
+          "prijs_excl_belastingen": "0,573100"
+        },
+        {
+          "datum_nl": "2022-08-27 06:00:00",
+          "datum_utc": "2022-08-27 04:00:00",
+          "prijs_excl_belastingen": "0,580900"
+        },
+        {
+          "datum_nl": "2022-08-27 07:00:00",
+          "datum_utc": "2022-08-27 05:00:00",
+          "prijs_excl_belastingen": "0,636000"
+        },
+        {
+          "datum_nl": "2022-08-27 08:00:00",
+          "datum_utc": "2022-08-27 06:00:00",
+          "prijs_excl_belastingen": "0,682600"
+        },
+        {
+          "datum_nl": "2022-08-27 09:00:00",
+          "datum_utc": "2022-08-27 07:00:00",
+          "prijs_excl_belastingen": "0,686000"
+        },
+        {
+          "datum_nl": "2022-08-27 10:00:00",
+          "datum_utc": "2022-08-27 08:00:00",
+          "prijs_excl_belastingen": "0,660800"
+        },
+        {
+          "datum_nl": "2022-08-27 11:00:00",
+          "datum_utc": "2022-08-27 09:00:00",
+          "prijs_excl_belastingen": "0,571500"
+        },
+        {
+          "datum_nl": "2022-08-27 12:00:00",
+          "datum_utc": "2022-08-27 10:00:00",
+          "prijs_excl_belastingen": "0,537600"
+        },
+        {
+          "datum_nl": "2022-08-27 13:00:00",
+          "datum_utc": "2022-08-27 11:00:00",
+          "prijs_excl_belastingen": "0,477000"
+        },
+        {
+          "datum_nl": "2022-08-27 14:00:00",
+          "datum_utc": "2022-08-27 12:00:00",
+          "prijs_excl_belastingen": "0,490200"
+        },
+        {
+          "datum_nl": "2022-08-27 15:00:00",
+          "datum_utc": "2022-08-27 13:00:00",
+          "prijs_excl_belastingen": "0,446000"
+        },
+        {
+          "datum_nl": "2022-08-27 16:00:00",
+          "datum_utc": "2022-08-27 14:00:00",
+          "prijs_excl_belastingen": "0,478600"
+        },
+        {
+          "datum_nl": "2022-08-27 17:00:00",
+          "datum_utc": "2022-08-27 15:00:00",
+          "prijs_excl_belastingen": "0,550300"
+        },
+        {
+          "datum_nl": "2022-08-27 18:00:00",
+          "datum_utc": "2022-08-27 16:00:00",
+          "prijs_excl_belastingen": "0,667200"
+        },
+        {
+          "datum_nl": "2022-08-27 19:00:00",
+          "datum_utc": "2022-08-27 17:00:00",
+          "prijs_excl_belastingen": "0,707400"
+        },
+        {
+          "datum_nl": "2022-08-27 20:00:00",
+          "datum_utc": "2022-08-27 18:00:00",
+          "prijs_excl_belastingen": "0,700100"
+        },
+        {
+          "datum_nl": "2022-08-27 21:00:00",
+          "datum_utc": "2022-08-27 19:00:00",
+          "prijs_excl_belastingen": "0,666000"
+        },
+        {
+          "datum_nl": "2022-08-27 22:00:00",
+          "datum_utc": "2022-08-27 20:00:00",
+          "prijs_excl_belastingen": "0,659900"
+        },
+        {
+          "datum_nl": "2022-08-27 23:00:00",
+          "datum_utc": "2022-08-27 21:00:00",
+          "prijs_excl_belastingen": "0,597300"
+        },
+        {
+          "datum_nl": "2022-08-28 00:00:00",
+          "datum_utc": "2022-08-27 22:00:00",
+          "prijs_excl_belastingen": "0,585000"
+        },
+        {
+          "datum_nl": "2022-08-28 01:00:00",
+          "datum_utc": "2022-08-27 23:00:00",
+          "prijs_excl_belastingen": "0,491400"
+        },
+        {
+          "datum_nl": "2022-08-28 02:00:00",
+          "datum_utc": "2022-08-28 00:00:00",
+          "prijs_excl_belastingen": "0,467700"
+        },
+        {
+          "datum_nl": "2022-08-28 03:00:00",
+          "datum_utc": "2022-08-28 01:00:00",
+          "prijs_excl_belastingen": "0,430000"
+        },
+        {
+          "datum_nl": "2022-08-28 04:00:00",
+          "datum_utc": "2022-08-28 02:00:00",
+          "prijs_excl_belastingen": "0,426000"
+        },
+        {
+          "datum_nl": "2022-08-28 05:00:00",
+          "datum_utc": "2022-08-28 03:00:00",
+          "prijs_excl_belastingen": "0,409900"
+        },
+        {
+          "datum_nl": "2022-08-28 06:00:00",
+          "datum_utc": "2022-08-28 04:00:00",
+          "prijs_excl_belastingen": "0,427300"
+        },
+        {
+          "datum_nl": "2022-08-28 07:00:00",
+          "datum_utc": "2022-08-28 05:00:00",
+          "prijs_excl_belastingen": "0,441900"
+        },
+        {
+          "datum_nl": "2022-08-28 08:00:00",
+          "datum_utc": "2022-08-28 06:00:00",
+          "prijs_excl_belastingen": "0,467500"
+        },
+        {
+          "datum_nl": "2022-08-28 09:00:00",
+          "datum_utc": "2022-08-28 07:00:00",
+          "prijs_excl_belastingen": "0,437600"
+        },
+        {
+          "datum_nl": "2022-08-28 10:00:00",
+          "datum_utc": "2022-08-28 08:00:00",
+          "prijs_excl_belastingen": "0,274400"
+        },
+        {
+          "datum_nl": "2022-08-28 11:00:00",
+          "datum_utc": "2022-08-28 09:00:00",
+          "prijs_excl_belastingen": "0,219400"
+        },
+        {
+          "datum_nl": "2022-08-28 12:00:00",
+          "datum_utc": "2022-08-28 10:00:00",
+          "prijs_excl_belastingen": "0,006800"
+        },
+        {
+          "datum_nl": "2022-08-28 13:00:00",
+          "datum_utc": "2022-08-28 11:00:00",
+          "prijs_excl_belastingen": "-0,010900"
+        },
+        {
+          "datum_nl": "2022-08-28 14:00:00",
+          "datum_utc": "2022-08-28 12:00:00",
+          "prijs_excl_belastingen": "-0,010000"
+        },
+        {
+          "datum_nl": "2022-08-28 15:00:00",
+          "datum_utc": "2022-08-28 13:00:00",
+          "prijs_excl_belastingen": "-0,037300"
+        },
+        {
+          "datum_nl": "2022-08-28 16:00:00",
+          "datum_utc": "2022-08-28 14:00:00",
+          "prijs_excl_belastingen": "0,076000"
+        },
+        {
+          "datum_nl": "2022-08-28 17:00:00",
+          "datum_utc": "2022-08-28 15:00:00",
+          "prijs_excl_belastingen": "0,336200"
+        },
+        {
+          "datum_nl": "2022-08-28 18:00:00",
+          "datum_utc": "2022-08-28 16:00:00",
+          "prijs_excl_belastingen": "0,576400"
+        },
+        {
+          "datum_nl": "2022-08-28 19:00:00",
+          "datum_utc": "2022-08-28 17:00:00",
+          "prijs_excl_belastingen": "0,672400"
+        },
+        {
+          "datum_nl": "2022-08-28 20:00:00",
+          "datum_utc": "2022-08-28 18:00:00",
+          "prijs_excl_belastingen": "0,699000"
+        },
+        {
+          "datum_nl": "2022-08-28 21:00:00",
+          "datum_utc": "2022-08-28 19:00:00",
+          "prijs_excl_belastingen": "0,645300"
+        },
+        {
+          "datum_nl": "2022-08-28 22:00:00",
+          "datum_utc": "2022-08-28 20:00:00",
+          "prijs_excl_belastingen": "0,606700"
+        },
+        {
+          "datum_nl": "2022-08-28 23:00:00",
+          "datum_utc": "2022-08-28 21:00:00",
+          "prijs_excl_belastingen": "0,590000"
+        }
+      ]
+    },
+    {
+      "id": "hourly-negative-prices-2023-07-02",
+      "purpose": "One day with repeated negative source values; useful for explaining negative-price handling.",
+      "source_file": "2023.json",
+      "source_file_sha256": "dd2aa60ca27cae523eada165cf82031e499497b50a2962713a22b053a6cc39db",
+      "source_local_date_range": {
+        "start_inclusive": "2023-07-02",
+        "end_exclusive": "2023-07-03"
+      },
+      "source_interval_minutes": 60,
+      "record_count": 24,
+      "records": [
+        {
+          "datum_nl": "2023-07-02 00:00:00",
+          "datum_utc": "2023-07-01 22:00:00",
+          "prijs_excl_belastingen": "0,016500"
+        },
+        {
+          "datum_nl": "2023-07-02 01:00:00",
+          "datum_utc": "2023-07-01 23:00:00",
+          "prijs_excl_belastingen": "0,003200"
+        },
+        {
+          "datum_nl": "2023-07-02 02:00:00",
+          "datum_utc": "2023-07-02 00:00:00",
+          "prijs_excl_belastingen": "0,000000"
+        },
+        {
+          "datum_nl": "2023-07-02 03:00:00",
+          "datum_utc": "2023-07-02 01:00:00",
+          "prijs_excl_belastingen": "0,000000"
+        },
+        {
+          "datum_nl": "2023-07-02 04:00:00",
+          "datum_utc": "2023-07-02 02:00:00",
+          "prijs_excl_belastingen": "0,000000"
+        },
+        {
+          "datum_nl": "2023-07-02 05:00:00",
+          "datum_utc": "2023-07-02 03:00:00",
+          "prijs_excl_belastingen": "-0,000100"
+        },
+        {
+          "datum_nl": "2023-07-02 06:00:00",
+          "datum_utc": "2023-07-02 04:00:00",
+          "prijs_excl_belastingen": "-0,000100"
+        },
+        {
+          "datum_nl": "2023-07-02 07:00:00",
+          "datum_utc": "2023-07-02 05:00:00",
+          "prijs_excl_belastingen": "-0,000500"
+        },
+        {
+          "datum_nl": "2023-07-02 08:00:00",
+          "datum_utc": "2023-07-02 06:00:00",
+          "prijs_excl_belastingen": "-0,003000"
+        },
+        {
+          "datum_nl": "2023-07-02 09:00:00",
+          "datum_utc": "2023-07-02 07:00:00",
+          "prijs_excl_belastingen": "-0,016900"
+        },
+        {
+          "datum_nl": "2023-07-02 10:00:00",
+          "datum_utc": "2023-07-02 08:00:00",
+          "prijs_excl_belastingen": "-0,060000"
+        },
+        {
+          "datum_nl": "2023-07-02 11:00:00",
+          "datum_utc": "2023-07-02 09:00:00",
+          "prijs_excl_belastingen": "-0,252900"
+        },
+        {
+          "datum_nl": "2023-07-02 12:00:00",
+          "datum_utc": "2023-07-02 10:00:00",
+          "prijs_excl_belastingen": "-0,449600"
+        },
+        {
+          "datum_nl": "2023-07-02 13:00:00",
+          "datum_utc": "2023-07-02 11:00:00",
+          "prijs_excl_belastingen": "-0,500000"
+        },
+        {
+          "datum_nl": "2023-07-02 14:00:00",
+          "datum_utc": "2023-07-02 12:00:00",
+          "prijs_excl_belastingen": "-0,500000"
+        },
+        {
+          "datum_nl": "2023-07-02 15:00:00",
+          "datum_utc": "2023-07-02 13:00:00",
+          "prijs_excl_belastingen": "-0,500000"
+        },
+        {
+          "datum_nl": "2023-07-02 16:00:00",
+          "datum_utc": "2023-07-02 14:00:00",
+          "prijs_excl_belastingen": "-0,172400"
+        },
+        {
+          "datum_nl": "2023-07-02 17:00:00",
+          "datum_utc": "2023-07-02 15:00:00",
+          "prijs_excl_belastingen": "-0,035200"
+        },
+        {
+          "datum_nl": "2023-07-02 18:00:00",
+          "datum_utc": "2023-07-02 16:00:00",
+          "prijs_excl_belastingen": "-0,006000"
+        },
+        {
+          "datum_nl": "2023-07-02 19:00:00",
+          "datum_utc": "2023-07-02 17:00:00",
+          "prijs_excl_belastingen": "0,004900"
+        },
+        {
+          "datum_nl": "2023-07-02 20:00:00",
+          "datum_utc": "2023-07-02 18:00:00",
+          "prijs_excl_belastingen": "0,069100"
+        },
+        {
+          "datum_nl": "2023-07-02 21:00:00",
+          "datum_utc": "2023-07-02 19:00:00",
+          "prijs_excl_belastingen": "0,085600"
+        },
+        {
+          "datum_nl": "2023-07-02 22:00:00",
+          "datum_utc": "2023-07-02 20:00:00",
+          "prijs_excl_belastingen": "0,094900"
+        },
+        {
+          "datum_nl": "2023-07-02 23:00:00",
+          "datum_utc": "2023-07-02 21:00:00",
+          "prijs_excl_belastingen": "0,086100"
+        }
+      ]
+    },
+    {
+      "id": "quarter-hour-negative-prices-2025-05-11",
+      "purpose": "One complete quarter-hour day with negative values; useful for showing the finer source resolution.",
+      "source_file": "2025.json",
+      "source_file_sha256": "01456b00e0ce2d9a9f2f77eb4fd17c78d328001a9b15c138dacfbee44327fa94",
+      "source_local_date_range": {
+        "start_inclusive": "2025-05-11",
+        "end_exclusive": "2025-05-12"
+      },
+      "source_interval_minutes": 15,
+      "record_count": 96,
+      "records": [
+        {
+          "datum_nl": "2025-05-11 00:00:00",
+          "datum_utc": "2025-05-10 22:00:00",
+          "prijs_excl_belastingen": "0,097800"
+        },
+        {
+          "datum_nl": "2025-05-11 00:15:00",
+          "datum_utc": "2025-05-10 22:15:00",
+          "prijs_excl_belastingen": "0,097800"
+        },
+        {
+          "datum_nl": "2025-05-11 00:30:00",
+          "datum_utc": "2025-05-10 22:30:00",
+          "prijs_excl_belastingen": "0,097800"
+        },
+        {
+          "datum_nl": "2025-05-11 00:45:00",
+          "datum_utc": "2025-05-10 22:45:00",
+          "prijs_excl_belastingen": "0,097800"
+        },
+        {
+          "datum_nl": "2025-05-11 01:00:00",
+          "datum_utc": "2025-05-10 23:00:00",
+          "prijs_excl_belastingen": "0,089920"
+        },
+        {
+          "datum_nl": "2025-05-11 01:15:00",
+          "datum_utc": "2025-05-10 23:15:00",
+          "prijs_excl_belastingen": "0,089920"
+        },
+        {
+          "datum_nl": "2025-05-11 01:30:00",
+          "datum_utc": "2025-05-10 23:30:00",
+          "prijs_excl_belastingen": "0,089920"
+        },
+        {
+          "datum_nl": "2025-05-11 01:45:00",
+          "datum_utc": "2025-05-10 23:45:00",
+          "prijs_excl_belastingen": "0,089920"
+        },
+        {
+          "datum_nl": "2025-05-11 02:00:00",
+          "datum_utc": "2025-05-11 00:00:00",
+          "prijs_excl_belastingen": "0,090060"
+        },
+        {
+          "datum_nl": "2025-05-11 02:15:00",
+          "datum_utc": "2025-05-11 00:15:00",
+          "prijs_excl_belastingen": "0,090060"
+        },
+        {
+          "datum_nl": "2025-05-11 02:30:00",
+          "datum_utc": "2025-05-11 00:30:00",
+          "prijs_excl_belastingen": "0,090060"
+        },
+        {
+          "datum_nl": "2025-05-11 02:45:00",
+          "datum_utc": "2025-05-11 00:45:00",
+          "prijs_excl_belastingen": "0,090060"
+        },
+        {
+          "datum_nl": "2025-05-11 03:00:00",
+          "datum_utc": "2025-05-11 01:00:00",
+          "prijs_excl_belastingen": "0,089720"
+        },
+        {
+          "datum_nl": "2025-05-11 03:15:00",
+          "datum_utc": "2025-05-11 01:15:00",
+          "prijs_excl_belastingen": "0,089720"
+        },
+        {
+          "datum_nl": "2025-05-11 03:30:00",
+          "datum_utc": "2025-05-11 01:30:00",
+          "prijs_excl_belastingen": "0,089720"
+        },
+        {
+          "datum_nl": "2025-05-11 03:45:00",
+          "datum_utc": "2025-05-11 01:45:00",
+          "prijs_excl_belastingen": "0,089720"
+        },
+        {
+          "datum_nl": "2025-05-11 04:00:00",
+          "datum_utc": "2025-05-11 02:00:00",
+          "prijs_excl_belastingen": "0,089490"
+        },
+        {
+          "datum_nl": "2025-05-11 04:15:00",
+          "datum_utc": "2025-05-11 02:15:00",
+          "prijs_excl_belastingen": "0,089490"
+        },
+        {
+          "datum_nl": "2025-05-11 04:30:00",
+          "datum_utc": "2025-05-11 02:30:00",
+          "prijs_excl_belastingen": "0,089490"
+        },
+        {
+          "datum_nl": "2025-05-11 04:45:00",
+          "datum_utc": "2025-05-11 02:45:00",
+          "prijs_excl_belastingen": "0,089490"
+        },
+        {
+          "datum_nl": "2025-05-11 05:00:00",
+          "datum_utc": "2025-05-11 03:00:00",
+          "prijs_excl_belastingen": "0,089460"
+        },
+        {
+          "datum_nl": "2025-05-11 05:15:00",
+          "datum_utc": "2025-05-11 03:15:00",
+          "prijs_excl_belastingen": "0,089460"
+        },
+        {
+          "datum_nl": "2025-05-11 05:30:00",
+          "datum_utc": "2025-05-11 03:30:00",
+          "prijs_excl_belastingen": "0,089460"
+        },
+        {
+          "datum_nl": "2025-05-11 05:45:00",
+          "datum_utc": "2025-05-11 03:45:00",
+          "prijs_excl_belastingen": "0,089460"
+        },
+        {
+          "datum_nl": "2025-05-11 06:00:00",
+          "datum_utc": "2025-05-11 04:00:00",
+          "prijs_excl_belastingen": "0,082340"
+        },
+        {
+          "datum_nl": "2025-05-11 06:15:00",
+          "datum_utc": "2025-05-11 04:15:00",
+          "prijs_excl_belastingen": "0,082340"
+        },
+        {
+          "datum_nl": "2025-05-11 06:30:00",
+          "datum_utc": "2025-05-11 04:30:00",
+          "prijs_excl_belastingen": "0,082340"
+        },
+        {
+          "datum_nl": "2025-05-11 06:45:00",
+          "datum_utc": "2025-05-11 04:45:00",
+          "prijs_excl_belastingen": "0,082340"
+        },
+        {
+          "datum_nl": "2025-05-11 07:00:00",
+          "datum_utc": "2025-05-11 05:00:00",
+          "prijs_excl_belastingen": "0,062220"
+        },
+        {
+          "datum_nl": "2025-05-11 07:15:00",
+          "datum_utc": "2025-05-11 05:15:00",
+          "prijs_excl_belastingen": "0,062220"
+        },
+        {
+          "datum_nl": "2025-05-11 07:30:00",
+          "datum_utc": "2025-05-11 05:30:00",
+          "prijs_excl_belastingen": "0,062220"
+        },
+        {
+          "datum_nl": "2025-05-11 07:45:00",
+          "datum_utc": "2025-05-11 05:45:00",
+          "prijs_excl_belastingen": "0,062220"
+        },
+        {
+          "datum_nl": "2025-05-11 08:00:00",
+          "datum_utc": "2025-05-11 06:00:00",
+          "prijs_excl_belastingen": "0,004960"
+        },
+        {
+          "datum_nl": "2025-05-11 08:15:00",
+          "datum_utc": "2025-05-11 06:15:00",
+          "prijs_excl_belastingen": "0,004960"
+        },
+        {
+          "datum_nl": "2025-05-11 08:30:00",
+          "datum_utc": "2025-05-11 06:30:00",
+          "prijs_excl_belastingen": "0,004960"
+        },
+        {
+          "datum_nl": "2025-05-11 08:45:00",
+          "datum_utc": "2025-05-11 06:45:00",
+          "prijs_excl_belastingen": "0,004960"
+        },
+        {
+          "datum_nl": "2025-05-11 09:00:00",
+          "datum_utc": "2025-05-11 07:00:00",
+          "prijs_excl_belastingen": "-0,000100"
+        },
+        {
+          "datum_nl": "2025-05-11 09:15:00",
+          "datum_utc": "2025-05-11 07:15:00",
+          "prijs_excl_belastingen": "-0,000100"
+        },
+        {
+          "datum_nl": "2025-05-11 09:30:00",
+          "datum_utc": "2025-05-11 07:30:00",
+          "prijs_excl_belastingen": "-0,000100"
+        },
+        {
+          "datum_nl": "2025-05-11 09:45:00",
+          "datum_utc": "2025-05-11 07:45:00",
+          "prijs_excl_belastingen": "-0,000100"
+        },
+        {
+          "datum_nl": "2025-05-11 10:00:00",
+          "datum_utc": "2025-05-11 08:00:00",
+          "prijs_excl_belastingen": "-0,012010"
+        },
+        {
+          "datum_nl": "2025-05-11 10:15:00",
+          "datum_utc": "2025-05-11 08:15:00",
+          "prijs_excl_belastingen": "-0,012010"
+        },
+        {
+          "datum_nl": "2025-05-11 10:30:00",
+          "datum_utc": "2025-05-11 08:30:00",
+          "prijs_excl_belastingen": "-0,012010"
+        },
+        {
+          "datum_nl": "2025-05-11 10:45:00",
+          "datum_utc": "2025-05-11 08:45:00",
+          "prijs_excl_belastingen": "-0,012010"
+        },
+        {
+          "datum_nl": "2025-05-11 11:00:00",
+          "datum_utc": "2025-05-11 09:00:00",
+          "prijs_excl_belastingen": "-0,067420"
+        },
+        {
+          "datum_nl": "2025-05-11 11:15:00",
+          "datum_utc": "2025-05-11 09:15:00",
+          "prijs_excl_belastingen": "-0,067420"
+        },
+        {
+          "datum_nl": "2025-05-11 11:30:00",
+          "datum_utc": "2025-05-11 09:30:00",
+          "prijs_excl_belastingen": "-0,067420"
+        },
+        {
+          "datum_nl": "2025-05-11 11:45:00",
+          "datum_utc": "2025-05-11 09:45:00",
+          "prijs_excl_belastingen": "-0,067420"
+        },
+        {
+          "datum_nl": "2025-05-11 12:00:00",
+          "datum_utc": "2025-05-11 10:00:00",
+          "prijs_excl_belastingen": "-0,319120"
+        },
+        {
+          "datum_nl": "2025-05-11 12:15:00",
+          "datum_utc": "2025-05-11 10:15:00",
+          "prijs_excl_belastingen": "-0,319120"
+        },
+        {
+          "datum_nl": "2025-05-11 12:30:00",
+          "datum_utc": "2025-05-11 10:30:00",
+          "prijs_excl_belastingen": "-0,319120"
+        },
+        {
+          "datum_nl": "2025-05-11 12:45:00",
+          "datum_utc": "2025-05-11 10:45:00",
+          "prijs_excl_belastingen": "-0,319120"
+        },
+        {
+          "datum_nl": "2025-05-11 13:00:00",
+          "datum_utc": "2025-05-11 11:00:00",
+          "prijs_excl_belastingen": "-0,350000"
+        },
+        {
+          "datum_nl": "2025-05-11 13:15:00",
+          "datum_utc": "2025-05-11 11:15:00",
+          "prijs_excl_belastingen": "-0,350000"
+        },
+        {
+          "datum_nl": "2025-05-11 13:30:00",
+          "datum_utc": "2025-05-11 11:30:00",
+          "prijs_excl_belastingen": "-0,350000"
+        },
+        {
+          "datum_nl": "2025-05-11 13:45:00",
+          "datum_utc": "2025-05-11 11:45:00",
+          "prijs_excl_belastingen": "-0,350000"
+        },
+        {
+          "datum_nl": "2025-05-11 14:00:00",
+          "datum_utc": "2025-05-11 12:00:00",
+          "prijs_excl_belastingen": "-0,299930"
+        },
+        {
+          "datum_nl": "2025-05-11 14:15:00",
+          "datum_utc": "2025-05-11 12:15:00",
+          "prijs_excl_belastingen": "-0,299930"
+        },
+        {
+          "datum_nl": "2025-05-11 14:30:00",
+          "datum_utc": "2025-05-11 12:30:00",
+          "prijs_excl_belastingen": "-0,299930"
+        },
+        {
+          "datum_nl": "2025-05-11 14:45:00",
+          "datum_utc": "2025-05-11 12:45:00",
+          "prijs_excl_belastingen": "-0,299930"
+        },
+        {
+          "datum_nl": "2025-05-11 15:00:00",
+          "datum_utc": "2025-05-11 13:00:00",
+          "prijs_excl_belastingen": "-0,109960"
+        },
+        {
+          "datum_nl": "2025-05-11 15:15:00",
+          "datum_utc": "2025-05-11 13:15:00",
+          "prijs_excl_belastingen": "-0,109960"
+        },
+        {
+          "datum_nl": "2025-05-11 15:30:00",
+          "datum_utc": "2025-05-11 13:30:00",
+          "prijs_excl_belastingen": "-0,109960"
+        },
+        {
+          "datum_nl": "2025-05-11 15:45:00",
+          "datum_utc": "2025-05-11 13:45:00",
+          "prijs_excl_belastingen": "-0,109960"
+        },
+        {
+          "datum_nl": "2025-05-11 16:00:00",
+          "datum_utc": "2025-05-11 14:00:00",
+          "prijs_excl_belastingen": "-0,018450"
+        },
+        {
+          "datum_nl": "2025-05-11 16:15:00",
+          "datum_utc": "2025-05-11 14:15:00",
+          "prijs_excl_belastingen": "-0,018450"
+        },
+        {
+          "datum_nl": "2025-05-11 16:30:00",
+          "datum_utc": "2025-05-11 14:30:00",
+          "prijs_excl_belastingen": "-0,018450"
+        },
+        {
+          "datum_nl": "2025-05-11 16:45:00",
+          "datum_utc": "2025-05-11 14:45:00",
+          "prijs_excl_belastingen": "-0,018450"
+        },
+        {
+          "datum_nl": "2025-05-11 17:00:00",
+          "datum_utc": "2025-05-11 15:00:00",
+          "prijs_excl_belastingen": "-0,000120"
+        },
+        {
+          "datum_nl": "2025-05-11 17:15:00",
+          "datum_utc": "2025-05-11 15:15:00",
+          "prijs_excl_belastingen": "-0,000120"
+        },
+        {
+          "datum_nl": "2025-05-11 17:30:00",
+          "datum_utc": "2025-05-11 15:30:00",
+          "prijs_excl_belastingen": "-0,000120"
+        },
+        {
+          "datum_nl": "2025-05-11 17:45:00",
+          "datum_utc": "2025-05-11 15:45:00",
+          "prijs_excl_belastingen": "-0,000120"
+        },
+        {
+          "datum_nl": "2025-05-11 18:00:00",
+          "datum_utc": "2025-05-11 16:00:00",
+          "prijs_excl_belastingen": "0,077010"
+        },
+        {
+          "datum_nl": "2025-05-11 18:15:00",
+          "datum_utc": "2025-05-11 16:15:00",
+          "prijs_excl_belastingen": "0,077010"
+        },
+        {
+          "datum_nl": "2025-05-11 18:30:00",
+          "datum_utc": "2025-05-11 16:30:00",
+          "prijs_excl_belastingen": "0,077010"
+        },
+        {
+          "datum_nl": "2025-05-11 18:45:00",
+          "datum_utc": "2025-05-11 16:45:00",
+          "prijs_excl_belastingen": "0,077010"
+        },
+        {
+          "datum_nl": "2025-05-11 19:00:00",
+          "datum_utc": "2025-05-11 17:00:00",
+          "prijs_excl_belastingen": "0,111950"
+        },
+        {
+          "datum_nl": "2025-05-11 19:15:00",
+          "datum_utc": "2025-05-11 17:15:00",
+          "prijs_excl_belastingen": "0,111950"
+        },
+        {
+          "datum_nl": "2025-05-11 19:30:00",
+          "datum_utc": "2025-05-11 17:30:00",
+          "prijs_excl_belastingen": "0,111950"
+        },
+        {
+          "datum_nl": "2025-05-11 19:45:00",
+          "datum_utc": "2025-05-11 17:45:00",
+          "prijs_excl_belastingen": "0,111950"
+        },
+        {
+          "datum_nl": "2025-05-11 20:00:00",
+          "datum_utc": "2025-05-11 18:00:00",
+          "prijs_excl_belastingen": "0,124860"
+        },
+        {
+          "datum_nl": "2025-05-11 20:15:00",
+          "datum_utc": "2025-05-11 18:15:00",
+          "prijs_excl_belastingen": "0,124860"
+        },
+        {
+          "datum_nl": "2025-05-11 20:30:00",
+          "datum_utc": "2025-05-11 18:30:00",
+          "prijs_excl_belastingen": "0,124860"
+        },
+        {
+          "datum_nl": "2025-05-11 20:45:00",
+          "datum_utc": "2025-05-11 18:45:00",
+          "prijs_excl_belastingen": "0,124860"
+        },
+        {
+          "datum_nl": "2025-05-11 21:00:00",
+          "datum_utc": "2025-05-11 19:00:00",
+          "prijs_excl_belastingen": "0,115300"
+        },
+        {
+          "datum_nl": "2025-05-11 21:15:00",
+          "datum_utc": "2025-05-11 19:15:00",
+          "prijs_excl_belastingen": "0,115300"
+        },
+        {
+          "datum_nl": "2025-05-11 21:30:00",
+          "datum_utc": "2025-05-11 19:30:00",
+          "prijs_excl_belastingen": "0,115300"
+        },
+        {
+          "datum_nl": "2025-05-11 21:45:00",
+          "datum_utc": "2025-05-11 19:45:00",
+          "prijs_excl_belastingen": "0,115300"
+        },
+        {
+          "datum_nl": "2025-05-11 22:00:00",
+          "datum_utc": "2025-05-11 20:00:00",
+          "prijs_excl_belastingen": "0,098450"
+        },
+        {
+          "datum_nl": "2025-05-11 22:15:00",
+          "datum_utc": "2025-05-11 20:15:00",
+          "prijs_excl_belastingen": "0,098450"
+        },
+        {
+          "datum_nl": "2025-05-11 22:30:00",
+          "datum_utc": "2025-05-11 20:30:00",
+          "prijs_excl_belastingen": "0,098450"
+        },
+        {
+          "datum_nl": "2025-05-11 22:45:00",
+          "datum_utc": "2025-05-11 20:45:00",
+          "prijs_excl_belastingen": "0,098450"
+        },
+        {
+          "datum_nl": "2025-05-11 23:00:00",
+          "datum_utc": "2025-05-11 21:00:00",
+          "prijs_excl_belastingen": "0,084680"
+        },
+        {
+          "datum_nl": "2025-05-11 23:15:00",
+          "datum_utc": "2025-05-11 21:15:00",
+          "prijs_excl_belastingen": "0,084680"
+        },
+        {
+          "datum_nl": "2025-05-11 23:30:00",
+          "datum_utc": "2025-05-11 21:30:00",
+          "prijs_excl_belastingen": "0,084680"
+        },
+        {
+          "datum_nl": "2025-05-11 23:45:00",
+          "datum_utc": "2025-05-11 21:45:00",
+          "prijs_excl_belastingen": "0,084680"
+        }
+      ]
+    },
+    {
+      "id": "quarter-hour-wide-range-2026-06-24",
+      "purpose": "One complete quarter-hour day with a wide intraday range; useful for price-chart and trend examples.",
+      "source_file": "2026-09.json",
+      "source_file_sha256": "75c06794b52374c61ac479fa70488d09388112a6bb3f008d7376ea2a847d8d10",
+      "source_local_date_range": {
+        "start_inclusive": "2026-06-24",
+        "end_exclusive": "2026-06-25"
+      },
+      "source_interval_minutes": 15,
+      "record_count": 96,
+      "records": [
+        {
+          "datum_nl": "2026-06-24 00:00:00",
+          "datum_utc": "2026-06-23 22:00:00",
+          "prijs_excl_belastingen": "0,230800"
+        },
+        {
+          "datum_nl": "2026-06-24 00:15:00",
+          "datum_utc": "2026-06-23 22:15:00",
+          "prijs_excl_belastingen": "0,189100"
+        },
+        {
+          "datum_nl": "2026-06-24 00:30:00",
+          "datum_utc": "2026-06-23 22:30:00",
+          "prijs_excl_belastingen": "0,175300"
+        },
+        {
+          "datum_nl": "2026-06-24 00:45:00",
+          "datum_utc": "2026-06-23 22:45:00",
+          "prijs_excl_belastingen": "0,164100"
+        },
+        {
+          "datum_nl": "2026-06-24 01:00:00",
+          "datum_utc": "2026-06-23 23:00:00",
+          "prijs_excl_belastingen": "0,194400"
+        },
+        {
+          "datum_nl": "2026-06-24 01:15:00",
+          "datum_utc": "2026-06-23 23:15:00",
+          "prijs_excl_belastingen": "0,173900"
+        },
+        {
+          "datum_nl": "2026-06-24 01:30:00",
+          "datum_utc": "2026-06-23 23:30:00",
+          "prijs_excl_belastingen": "0,163600"
+        },
+        {
+          "datum_nl": "2026-06-24 01:45:00",
+          "datum_utc": "2026-06-23 23:45:00",
+          "prijs_excl_belastingen": "0,154500"
+        },
+        {
+          "datum_nl": "2026-06-24 02:00:00",
+          "datum_utc": "2026-06-24 00:00:00",
+          "prijs_excl_belastingen": "0,153600"
+        },
+        {
+          "datum_nl": "2026-06-24 02:15:00",
+          "datum_utc": "2026-06-24 00:15:00",
+          "prijs_excl_belastingen": "0,149900"
+        },
+        {
+          "datum_nl": "2026-06-24 02:30:00",
+          "datum_utc": "2026-06-24 00:30:00",
+          "prijs_excl_belastingen": "0,151800"
+        },
+        {
+          "datum_nl": "2026-06-24 02:45:00",
+          "datum_utc": "2026-06-24 00:45:00",
+          "prijs_excl_belastingen": "0,149600"
+        },
+        {
+          "datum_nl": "2026-06-24 03:00:00",
+          "datum_utc": "2026-06-24 01:00:00",
+          "prijs_excl_belastingen": "0,148100"
+        },
+        {
+          "datum_nl": "2026-06-24 03:15:00",
+          "datum_utc": "2026-06-24 01:15:00",
+          "prijs_excl_belastingen": "0,148200"
+        },
+        {
+          "datum_nl": "2026-06-24 03:30:00",
+          "datum_utc": "2026-06-24 01:30:00",
+          "prijs_excl_belastingen": "0,151400"
+        },
+        {
+          "datum_nl": "2026-06-24 03:45:00",
+          "datum_utc": "2026-06-24 01:45:00",
+          "prijs_excl_belastingen": "0,151200"
+        },
+        {
+          "datum_nl": "2026-06-24 04:00:00",
+          "datum_utc": "2026-06-24 02:00:00",
+          "prijs_excl_belastingen": "0,153800"
+        },
+        {
+          "datum_nl": "2026-06-24 04:15:00",
+          "datum_utc": "2026-06-24 02:15:00",
+          "prijs_excl_belastingen": "0,155600"
+        },
+        {
+          "datum_nl": "2026-06-24 04:30:00",
+          "datum_utc": "2026-06-24 02:30:00",
+          "prijs_excl_belastingen": "0,154700"
+        },
+        {
+          "datum_nl": "2026-06-24 04:45:00",
+          "datum_utc": "2026-06-24 02:45:00",
+          "prijs_excl_belastingen": "0,155500"
+        },
+        {
+          "datum_nl": "2026-06-24 05:00:00",
+          "datum_utc": "2026-06-24 03:00:00",
+          "prijs_excl_belastingen": "0,155900"
+        },
+        {
+          "datum_nl": "2026-06-24 05:15:00",
+          "datum_utc": "2026-06-24 03:15:00",
+          "prijs_excl_belastingen": "0,155000"
+        },
+        {
+          "datum_nl": "2026-06-24 05:30:00",
+          "datum_utc": "2026-06-24 03:30:00",
+          "prijs_excl_belastingen": "0,162500"
+        },
+        {
+          "datum_nl": "2026-06-24 05:45:00",
+          "datum_utc": "2026-06-24 03:45:00",
+          "prijs_excl_belastingen": "0,170100"
+        },
+        {
+          "datum_nl": "2026-06-24 06:00:00",
+          "datum_utc": "2026-06-24 04:00:00",
+          "prijs_excl_belastingen": "0,181100"
+        },
+        {
+          "datum_nl": "2026-06-24 06:15:00",
+          "datum_utc": "2026-06-24 04:15:00",
+          "prijs_excl_belastingen": "0,176700"
+        },
+        {
+          "datum_nl": "2026-06-24 06:30:00",
+          "datum_utc": "2026-06-24 04:30:00",
+          "prijs_excl_belastingen": "0,189500"
+        },
+        {
+          "datum_nl": "2026-06-24 06:45:00",
+          "datum_utc": "2026-06-24 04:45:00",
+          "prijs_excl_belastingen": "0,208600"
+        },
+        {
+          "datum_nl": "2026-06-24 07:00:00",
+          "datum_utc": "2026-06-24 05:00:00",
+          "prijs_excl_belastingen": "0,240900"
+        },
+        {
+          "datum_nl": "2026-06-24 07:15:00",
+          "datum_utc": "2026-06-24 05:15:00",
+          "prijs_excl_belastingen": "0,191800"
+        },
+        {
+          "datum_nl": "2026-06-24 07:30:00",
+          "datum_utc": "2026-06-24 05:30:00",
+          "prijs_excl_belastingen": "0,162400"
+        },
+        {
+          "datum_nl": "2026-06-24 07:45:00",
+          "datum_utc": "2026-06-24 05:45:00",
+          "prijs_excl_belastingen": "0,141100"
+        },
+        {
+          "datum_nl": "2026-06-24 08:00:00",
+          "datum_utc": "2026-06-24 06:00:00",
+          "prijs_excl_belastingen": "0,206500"
+        },
+        {
+          "datum_nl": "2026-06-24 08:15:00",
+          "datum_utc": "2026-06-24 06:15:00",
+          "prijs_excl_belastingen": "0,151100"
+        },
+        {
+          "datum_nl": "2026-06-24 08:30:00",
+          "datum_utc": "2026-06-24 06:30:00",
+          "prijs_excl_belastingen": "0,141100"
+        },
+        {
+          "datum_nl": "2026-06-24 08:45:00",
+          "datum_utc": "2026-06-24 06:45:00",
+          "prijs_excl_belastingen": "0,115000"
+        },
+        {
+          "datum_nl": "2026-06-24 09:00:00",
+          "datum_utc": "2026-06-24 07:00:00",
+          "prijs_excl_belastingen": "0,140100"
+        },
+        {
+          "datum_nl": "2026-06-24 09:15:00",
+          "datum_utc": "2026-06-24 07:15:00",
+          "prijs_excl_belastingen": "0,126500"
+        },
+        {
+          "datum_nl": "2026-06-24 09:30:00",
+          "datum_utc": "2026-06-24 07:30:00",
+          "prijs_excl_belastingen": "0,110400"
+        },
+        {
+          "datum_nl": "2026-06-24 09:45:00",
+          "datum_utc": "2026-06-24 07:45:00",
+          "prijs_excl_belastingen": "0,105900"
+        },
+        {
+          "datum_nl": "2026-06-24 10:00:00",
+          "datum_utc": "2026-06-24 08:00:00",
+          "prijs_excl_belastingen": "0,123900"
+        },
+        {
+          "datum_nl": "2026-06-24 10:15:00",
+          "datum_utc": "2026-06-24 08:15:00",
+          "prijs_excl_belastingen": "0,114900"
+        },
+        {
+          "datum_nl": "2026-06-24 10:30:00",
+          "datum_utc": "2026-06-24 08:30:00",
+          "prijs_excl_belastingen": "0,100200"
+        },
+        {
+          "datum_nl": "2026-06-24 10:45:00",
+          "datum_utc": "2026-06-24 08:45:00",
+          "prijs_excl_belastingen": "0,079100"
+        },
+        {
+          "datum_nl": "2026-06-24 11:00:00",
+          "datum_utc": "2026-06-24 09:00:00",
+          "prijs_excl_belastingen": "0,100300"
+        },
+        {
+          "datum_nl": "2026-06-24 11:15:00",
+          "datum_utc": "2026-06-24 09:15:00",
+          "prijs_excl_belastingen": "0,090000"
+        },
+        {
+          "datum_nl": "2026-06-24 11:30:00",
+          "datum_utc": "2026-06-24 09:30:00",
+          "prijs_excl_belastingen": "0,073500"
+        },
+        {
+          "datum_nl": "2026-06-24 11:45:00",
+          "datum_utc": "2026-06-24 09:45:00",
+          "prijs_excl_belastingen": "0,067000"
+        },
+        {
+          "datum_nl": "2026-06-24 12:00:00",
+          "datum_utc": "2026-06-24 10:00:00",
+          "prijs_excl_belastingen": "0,086600"
+        },
+        {
+          "datum_nl": "2026-06-24 12:15:00",
+          "datum_utc": "2026-06-24 10:15:00",
+          "prijs_excl_belastingen": "0,073100"
+        },
+        {
+          "datum_nl": "2026-06-24 12:30:00",
+          "datum_utc": "2026-06-24 10:30:00",
+          "prijs_excl_belastingen": "0,056600"
+        },
+        {
+          "datum_nl": "2026-06-24 12:45:00",
+          "datum_utc": "2026-06-24 10:45:00",
+          "prijs_excl_belastingen": "0,054700"
+        },
+        {
+          "datum_nl": "2026-06-24 13:00:00",
+          "datum_utc": "2026-06-24 11:00:00",
+          "prijs_excl_belastingen": "0,068700"
+        },
+        {
+          "datum_nl": "2026-06-24 13:15:00",
+          "datum_utc": "2026-06-24 11:15:00",
+          "prijs_excl_belastingen": "0,070100"
+        },
+        {
+          "datum_nl": "2026-06-24 13:30:00",
+          "datum_utc": "2026-06-24 11:30:00",
+          "prijs_excl_belastingen": "0,064300"
+        },
+        {
+          "datum_nl": "2026-06-24 13:45:00",
+          "datum_utc": "2026-06-24 11:45:00",
+          "prijs_excl_belastingen": "0,063000"
+        },
+        {
+          "datum_nl": "2026-06-24 14:00:00",
+          "datum_utc": "2026-06-24 12:00:00",
+          "prijs_excl_belastingen": "0,048400"
+        },
+        {
+          "datum_nl": "2026-06-24 14:15:00",
+          "datum_utc": "2026-06-24 12:15:00",
+          "prijs_excl_belastingen": "0,051200"
+        },
+        {
+          "datum_nl": "2026-06-24 14:30:00",
+          "datum_utc": "2026-06-24 12:30:00",
+          "prijs_excl_belastingen": "0,067600"
+        },
+        {
+          "datum_nl": "2026-06-24 14:45:00",
+          "datum_utc": "2026-06-24 12:45:00",
+          "prijs_excl_belastingen": "0,082300"
+        },
+        {
+          "datum_nl": "2026-06-24 15:00:00",
+          "datum_utc": "2026-06-24 13:00:00",
+          "prijs_excl_belastingen": "0,030700"
+        },
+        {
+          "datum_nl": "2026-06-24 15:15:00",
+          "datum_utc": "2026-06-24 13:15:00",
+          "prijs_excl_belastingen": "0,066500"
+        },
+        {
+          "datum_nl": "2026-06-24 15:30:00",
+          "datum_utc": "2026-06-24 13:30:00",
+          "prijs_excl_belastingen": "0,074500"
+        },
+        {
+          "datum_nl": "2026-06-24 15:45:00",
+          "datum_utc": "2026-06-24 13:45:00",
+          "prijs_excl_belastingen": "0,091100"
+        },
+        {
+          "datum_nl": "2026-06-24 16:00:00",
+          "datum_utc": "2026-06-24 14:00:00",
+          "prijs_excl_belastingen": "0,095200"
+        },
+        {
+          "datum_nl": "2026-06-24 16:15:00",
+          "datum_utc": "2026-06-24 14:15:00",
+          "prijs_excl_belastingen": "0,107100"
+        },
+        {
+          "datum_nl": "2026-06-24 16:30:00",
+          "datum_utc": "2026-06-24 14:30:00",
+          "prijs_excl_belastingen": "0,110900"
+        },
+        {
+          "datum_nl": "2026-06-24 16:45:00",
+          "datum_utc": "2026-06-24 14:45:00",
+          "prijs_excl_belastingen": "0,123300"
+        },
+        {
+          "datum_nl": "2026-06-24 17:00:00",
+          "datum_utc": "2026-06-24 15:00:00",
+          "prijs_excl_belastingen": "0,109900"
+        },
+        {
+          "datum_nl": "2026-06-24 17:15:00",
+          "datum_utc": "2026-06-24 15:15:00",
+          "prijs_excl_belastingen": "0,120800"
+        },
+        {
+          "datum_nl": "2026-06-24 17:30:00",
+          "datum_utc": "2026-06-24 15:30:00",
+          "prijs_excl_belastingen": "0,137000"
+        },
+        {
+          "datum_nl": "2026-06-24 17:45:00",
+          "datum_utc": "2026-06-24 15:45:00",
+          "prijs_excl_belastingen": "0,151400"
+        },
+        {
+          "datum_nl": "2026-06-24 18:00:00",
+          "datum_utc": "2026-06-24 16:00:00",
+          "prijs_excl_belastingen": "0,138400"
+        },
+        {
+          "datum_nl": "2026-06-24 18:15:00",
+          "datum_utc": "2026-06-24 16:15:00",
+          "prijs_excl_belastingen": "0,155200"
+        },
+        {
+          "datum_nl": "2026-06-24 18:30:00",
+          "datum_utc": "2026-06-24 16:30:00",
+          "prijs_excl_belastingen": "0,205300"
+        },
+        {
+          "datum_nl": "2026-06-24 18:45:00",
+          "datum_utc": "2026-06-24 16:45:00",
+          "prijs_excl_belastingen": "0,294200"
+        },
+        {
+          "datum_nl": "2026-06-24 19:00:00",
+          "datum_utc": "2026-06-24 17:00:00",
+          "prijs_excl_belastingen": "0,240000"
+        },
+        {
+          "datum_nl": "2026-06-24 19:15:00",
+          "datum_utc": "2026-06-24 17:15:00",
+          "prijs_excl_belastingen": "0,334500"
+        },
+        {
+          "datum_nl": "2026-06-24 19:30:00",
+          "datum_utc": "2026-06-24 17:30:00",
+          "prijs_excl_belastingen": "0,660800"
+        },
+        {
+          "datum_nl": "2026-06-24 19:45:00",
+          "datum_utc": "2026-06-24 17:45:00",
+          "prijs_excl_belastingen": "0,789300"
+        },
+        {
+          "datum_nl": "2026-06-24 20:00:00",
+          "datum_utc": "2026-06-24 18:00:00",
+          "prijs_excl_belastingen": "0,641200"
+        },
+        {
+          "datum_nl": "2026-06-24 20:15:00",
+          "datum_utc": "2026-06-24 18:15:00",
+          "prijs_excl_belastingen": "0,759000"
+        },
+        {
+          "datum_nl": "2026-06-24 20:30:00",
+          "datum_utc": "2026-06-24 18:30:00",
+          "prijs_excl_belastingen": "0,833300"
+        },
+        {
+          "datum_nl": "2026-06-24 20:45:00",
+          "datum_utc": "2026-06-24 18:45:00",
+          "prijs_excl_belastingen": "0,902500"
+        },
+        {
+          "datum_nl": "2026-06-24 21:00:00",
+          "datum_utc": "2026-06-24 19:00:00",
+          "prijs_excl_belastingen": "0,827000"
+        },
+        {
+          "datum_nl": "2026-06-24 21:15:00",
+          "datum_utc": "2026-06-24 19:15:00",
+          "prijs_excl_belastingen": "0,813000"
+        },
+        {
+          "datum_nl": "2026-06-24 21:30:00",
+          "datum_utc": "2026-06-24 19:30:00",
+          "prijs_excl_belastingen": "0,800000"
+        },
+        {
+          "datum_nl": "2026-06-24 21:45:00",
+          "datum_utc": "2026-06-24 19:45:00",
+          "prijs_excl_belastingen": "0,757500"
+        },
+        {
+          "datum_nl": "2026-06-24 22:00:00",
+          "datum_utc": "2026-06-24 20:00:00",
+          "prijs_excl_belastingen": "0,800000"
+        },
+        {
+          "datum_nl": "2026-06-24 22:15:00",
+          "datum_utc": "2026-06-24 20:15:00",
+          "prijs_excl_belastingen": "0,643700"
+        },
+        {
+          "datum_nl": "2026-06-24 22:30:00",
+          "datum_utc": "2026-06-24 20:30:00",
+          "prijs_excl_belastingen": "0,487500"
+        },
+        {
+          "datum_nl": "2026-06-24 22:45:00",
+          "datum_utc": "2026-06-24 20:45:00",
+          "prijs_excl_belastingen": "0,340400"
+        },
+        {
+          "datum_nl": "2026-06-24 23:00:00",
+          "datum_utc": "2026-06-24 21:00:00",
+          "prijs_excl_belastingen": "0,408100"
+        },
+        {
+          "datum_nl": "2026-06-24 23:15:00",
+          "datum_utc": "2026-06-24 21:15:00",
+          "prijs_excl_belastingen": "0,338500"
+        },
+        {
+          "datum_nl": "2026-06-24 23:30:00",
+          "datum_utc": "2026-06-24 21:30:00",
+          "prijs_excl_belastingen": "0,263000"
+        },
+        {
+          "datum_nl": "2026-06-24 23:45:00",
+          "datum_utc": "2026-06-24 21:45:00",
+          "prijs_excl_belastingen": "0,199100"
+        }
+      ]
+    }
+  ]
+}

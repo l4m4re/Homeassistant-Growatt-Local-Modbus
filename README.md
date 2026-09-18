@@ -18,7 +18,7 @@ Currently there are 3 protocol versions supported with this integration:
 * RTU Protocol 2 version 1.24 used by newer models and larger devices including Storage and Hybrid inverters
 * RTU Protocol for SPH Hybrid/Offgrid inverters version 0.11
 
-Currently the communication layer (API) is included in this repository but following the guidelines of HASS there should be seperate repositories
+The Modbus communication API currently ships inside this custom integration. If the project is prepared for contribution to Home Assistant Core, the communication code should be extracted into a reusable Python library and published as a transparent dependency. That Core-contribution requirement is separate from using this repository as a custom integration.
 
 ## Additional functionality of this intergration
 

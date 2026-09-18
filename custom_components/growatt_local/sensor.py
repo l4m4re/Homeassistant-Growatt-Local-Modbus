@@ -3,12 +3,13 @@ import logging
 import re
 from typing import Optional
 
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_MODEL,
     CONF_NAME,
     CONF_TYPE,
+    EntityCategory,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
@@ -135,6 +136,7 @@ async def async_setup_entry(
             for description in sensor_descriptions
         ]
     )
+    entities.append(GrowattUpdateTimestampEntity(coordinator, config_entry))
 
     if device_type == DeviceTypes.HYBRID_120_TL_XH:
         coordinator.get_keys_by_name(
@@ -244,6 +246,35 @@ class _GrowattFeedbackEntity(CoordinatorEntity, SensorEntity):
         """Return a stable non-energy-continuity unique ID."""
 
         return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self._key}"
+
+
+class GrowattUpdateTimestampEntity(CoordinatorEntity, SensorEntity):
+    """Expose the last successful coordinator poll for control freshness checks."""
+
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+
+    def __init__(self, coordinator, entry) -> None:
+        """Initialize the poll timestamp sensor."""
+        super().__init__(coordinator, "last_successful_update")
+        self._entry = entry
+        self._attr_unique_id = (
+            f"{DOMAIN}_{entry.data[CONF_SERIAL_NUMBER]}_last_successful_update"
+        )
+        self._attr_name = "Last successful update"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, entry.data[CONF_SERIAL_NUMBER])},
+            manufacturer="Growatt",
+            model=entry.data[CONF_MODEL],
+            sw_version=entry.data[CONF_FIRMWARE],
+            name=entry.options[CONF_NAME],
+        )
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Update with the timestamp of the latest successful poll."""
+        self._attr_native_value = self.coordinator.data_timestamp
+        self.async_write_ha_state()
 
 
 class GrowattPriorityEntity(_GrowattFeedbackEntity):

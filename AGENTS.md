@@ -1,33 +1,34 @@
-Nieuw
-+42-0
 # Agent Instructions
 
-This repository tracks work on expanding Growatt inverter support for Home Assistant, focusing on the MIN 6000XH-TL inverter with battery. The register map is complete as far as currently determined (see `testing/growatt_registers.md`).
+This repository contains the **Growatt Local Home Assistant integration**. The goal is a dependable, user-configurable integration for local Growatt Modbus connections, including direct serial and network transports.
 
-## Workflow / Tasks
+This is the Growatt workstream within the wider home-energy project in the HA-core workspace. See [`../../ROADMAP.md`](../../ROADMAP.md) for the cross-system plan; this repository's [`ROADMAP.md`](ROADMAP.md) covers Growatt-specific work.
 
-1. **Normalize protocol specification**
-  - Parse `testing/Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English.txt` into a structured register table (`registers.json`).
-  - Record register number, function code, length, scale, unit, and description.
-  - Document the script that generates the table in `testing/README.md`.
+## Project plan
 
-2. **Complete TL-XH register mapping**
-  - Add attribute constants for unmapped registers in `custom_components/growatt_local/API/device_type/base.py`.
-  - Update `custom_components/growatt_local/API/device_type/storage_120.py` so the `STORAGE_INPUT_REGISTERS_120_TL_XH` and `STORAGE_HOLDING_REGISTERS_120` structures cover all known registers.
+Read [`ROADMAP.md`](ROADMAP.md) before starting project work. It records the current state, planned user-facing setup, sensor selection, validation, and the eventual Raspberry Pi production update. Keep it current when a phase is completed or the plan changes. Treat the detailed validation and production cutover documents linked there as the source of evidence and cutover requirements.
 
-3. **Surface registers as Home Assistant entities**
-  - Extend `sensor_types/storage.py` (and `switch.py` if required) with sensor or switch descriptions for each new attribute.
-  - Provide translations for each new entity in `translations/*.json`.
+The runtime register map and entity descriptions are distinct from the broader Growatt register research/specification repository. Do not assume that a documented register is safe or useful to expose in this integration without model applicability, decoding, and validation evidence.
+Before adding broad register or sensor coverage, complete the reviewed register-map reconciliation in `ROADMAP.md`; do not bulk-generate runtime entities from the research specification.
 
-4. **Validate against hardware**
-  - Use or extend `testing/read_registers.py` to poll added ranges and verify scaling on real hardware.
-  - Compare results with external references and document discrepancies in `testing/growatt_registers.md`.
+## Implementation boundaries
 
-5. **Broker usage policy**
-  - The broker project is **not** to be used directly in this repository for development or testing.
-  - For dry-run and container testing, always use the Modbus simulator now provided by the broker package (`python -m growatt_broker.simulator.modbus_simulator`).
-  - The broker may be used only to generate static datasets for the simulator, which should then be copied into the Growatt repo.
-  - Do not add broker dependencies or startup logic to this repository.
-  - See `testing/README.md` for simulator usage and dataset provenance.
+- The integration may connect by serial, TCP, or UDP. A TCP broker can be an external bridge; it is not an integration runtime dependency and must not be started by this repository.
+- Use the isolated Modbus simulator and static fixtures described in `testing/README.md` for repository-local dry runs. Any live DEV broker/HIL access remains outside the integration runtime and must be explicitly bounded and documented.
+- The physical Modbus serial link has one master at a time. Do not run direct-serial HA polling alongside the broker polling the same inverter.
+- Setup, reconfiguration, commissioning dashboards, and sensor discovery must remain read-only. Do not issue inverter writes as part of connection tests or sensor selection.
+- Keep device identity based on the inverter serial number. A transport change must not silently repoint an existing config entry to a different inverter.
+- Preserve existing entity IDs and recorder/statistics continuity when adding setup choices or changing register polling. Existing users must not lose entities through an implicit default change.
+- The development HA staging dashboard lives in the HA-core wrapper, not in this integration package. Keep it optional and free of fixed production endpoints if it is generalized for reuse.
 
-These steps are iterative; each commit should leave the repository in a working state with tests executed. For full developer and usage instructions, see the updated `README.md` and `testing/README.md`.
+## Development workflow
+
+- Review the relevant tests and validation documents before changing runtime behavior.
+- For Home Assistant config flow or options changes, update translations and regenerate the English translation file as described in the HA-core `AGENTS.md`.
+- Add focused tests for transport validation, serial-number identity checks, selected entity/register plans, and reload behavior.
+- Run the integration tests and Home Assistant lint/validation required by the containing HA-core workspace.
+- Do not commit, publish, or open a pull request without human review of the complete change.
+
+## Raspberry Pi production boundary
+
+The RPi update is a later, separately reviewed cutover. Follow the backup, compatibility, pre-cutover inventory, smoke-test, and rollback gates in [`doc/HA-GII-6_PRODUCTION_UPGRADE_READINESS.md`](doc/HA-GII-6_PRODUCTION_UPGRADE_READINESS.md). Do not infer production deployment authorization from development validation or from this roadmap.

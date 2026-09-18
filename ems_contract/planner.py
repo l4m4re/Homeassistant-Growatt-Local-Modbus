@@ -56,6 +56,8 @@ class PlannerConfig:
     cheap_charge_upper_soc_pct: Decimal = Decimal(80)
     maximum_ac_battery_charge_power_w: Decimal = Decimal(3000)
     charging_efficiency: Decimal = Decimal("0.92")
+    battery_wear_cost_eur_per_kwh_stored: Decimal = Decimal("0.05")
+    battery_wear_assumption: str = "provisional_example_not_device_specific"
     minimum_telemetry_freshness: timedelta = timedelta(minutes=5)
     minimum_price_data_freshness: timedelta = timedelta(minutes=20)
     required_forecast_horizon: timedelta = timedelta(hours=8)
@@ -74,6 +76,8 @@ class PlannerConfig:
             raise ValueError("battery_capacity_invalid")
         if not 0 < self.charging_efficiency <= 1:
             raise ValueError("charging_efficiency_invalid")
+        if self.battery_wear_cost_eur_per_kwh_stored < 0:
+            raise ValueError("battery_wear_cost_invalid")
         if not self.maximum_ac_battery_charge_power_w > 0:
             raise ValueError("charge_power_invalid")
         if not 0 < self.maximum_growatt_schedule_slots <= 9:
@@ -95,6 +99,7 @@ class PlannerConfig:
             "cheap_charge_upper_soc_pct",
             "maximum_ac_battery_charge_power_w",
             "charging_efficiency",
+            "battery_wear_cost_eur_per_kwh_stored",
             "grid_service_current_limit_a",
             "grid_safety_margin_a",
             "maximum_acceptable_import_price",
@@ -184,6 +189,21 @@ class CrossSourceDiagnostic:
 
 
 @dataclass(frozen=True)
+class BatteryChargeEconomics:
+    """Cost and conversion-loss estimate for the scheduled charge windows."""
+
+    grid_energy_kwh: Decimal
+    stored_energy_kwh: Decimal
+    conversion_loss_kwh: Decimal
+    import_cost_eur: Decimal
+    wear_cost_eur: Decimal
+    total_charge_cost_eur: Decimal
+    cost_per_stored_kwh_eur: Decimal | None
+    wear_cost_eur_per_kwh_stored: Decimal
+    wear_assumption: str
+
+
+@dataclass(frozen=True)
 class ShadowPlan:
     """Structured, explainable shadow output with no actuator handle."""
 
@@ -217,6 +237,7 @@ class ShadowPlan:
     invalid_reasons: tuple[str, ...]
     diagnostics: tuple[str, ...]
     cross_source: CrossSourceDiagnostic | None = None
+    battery_economics: BatteryChargeEconomics | None = None
 
     def as_dict(self) -> dict[str, object]:
         """Return compact JSON-friendly output for the CLI and HA diagnostics."""
@@ -264,6 +285,31 @@ class ShadowPlan:
             "invalid_reasons": list(self.invalid_reasons),
             "diagnostics": list(self.diagnostics),
             "cross_source": _cross_source(self.cross_source),
+            "battery_economics": (
+                {
+                    "grid_energy_kwh": _decimal(self.battery_economics.grid_energy_kwh),
+                    "stored_energy_kwh": _decimal(
+                        self.battery_economics.stored_energy_kwh
+                    ),
+                    "conversion_loss_kwh": _decimal(
+                        self.battery_economics.conversion_loss_kwh
+                    ),
+                    "import_cost_eur": _decimal(self.battery_economics.import_cost_eur),
+                    "wear_cost_eur": _decimal(self.battery_economics.wear_cost_eur),
+                    "total_charge_cost_eur": _decimal(
+                        self.battery_economics.total_charge_cost_eur
+                    ),
+                    "cost_per_stored_kwh_eur": _decimal(
+                        self.battery_economics.cost_per_stored_kwh_eur
+                    ),
+                    "wear_cost_eur_per_kwh_stored": _decimal(
+                        self.battery_economics.wear_cost_eur_per_kwh_stored
+                    ),
+                    "wear_assumption": self.battery_economics.wear_assumption,
+                }
+                if self.battery_economics is not None
+                else None
+            ),
         }
 
 
@@ -513,6 +559,38 @@ def _diff_and_budget(
             )
         )
     return tuple(diffs), tuple(budget)
+
+
+def _charge_economics(
+    intervals: Sequence[PriceInterval], config: PlannerConfig
+) -> BatteryChargeEconomics | None:
+    """Estimate scheduled grid energy, conversion losses, and wear cost."""
+
+    if any(item.import_price is None for item in intervals):
+        return None
+    grid_per_interval = (
+        config.maximum_ac_battery_charge_power_w * Decimal("0.25") / Decimal(1000)
+    )
+    grid_energy = grid_per_interval * len(intervals)
+    stored_energy = grid_energy * config.charging_efficiency
+    conversion_loss = grid_energy - stored_energy
+    import_cost = sum(
+        (item.import_price or Decimal(0)) * grid_per_interval for item in intervals
+    )
+    wear_cost = stored_energy * config.battery_wear_cost_eur_per_kwh_stored
+    total_cost = import_cost + wear_cost
+    cost_per_stored_kwh = total_cost / stored_energy if stored_energy > 0 else None
+    return BatteryChargeEconomics(
+        grid_energy_kwh=grid_energy,
+        stored_energy_kwh=stored_energy,
+        conversion_loss_kwh=conversion_loss,
+        import_cost_eur=import_cost,
+        wear_cost_eur=wear_cost,
+        total_charge_cost_eur=total_cost,
+        cost_per_stored_kwh_eur=cost_per_stored_kwh,
+        wear_cost_eur_per_kwh_stored=(config.battery_wear_cost_eur_per_kwh_stored),
+        wear_assumption=config.battery_wear_assumption,
+    )
 
 
 def cross_source_balance(
@@ -791,6 +869,11 @@ def plan_shadow_ems(
         for item in added_intervals
     )
     warnings: list[str] = []
+    battery_economics = _charge_economics(candidate_intervals, config)
+    if battery_economics is None:
+        warnings.append("candidate_price_missing_cost_estimate_unavailable")
+    elif "provisional" in config.battery_wear_assumption.lower():
+        warnings.append("battery_wear_cost_is_provisional")
     if any(item.approximate for item in candidates):
         warnings.append("schedule_windows_are_approximated_for_slot_limit")
     if requested_mode is ShadowMode.CHEAP_CHARGE and required_battery == 0:
@@ -835,4 +918,5 @@ def plan_shadow_ems(
             "No Growatt/Peblar/Zoe actuator is connected to this plan.",
         ),
         cross_source=cross_source,
+        battery_economics=battery_economics,
     )

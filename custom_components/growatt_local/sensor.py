@@ -36,7 +36,10 @@ from .API.device_type.base import (
     ATTR_SOC_PERCENTAGE,
     diagnostic_attributes,
 )
-from .API.device_type.storage_120 import XH_SCHEDULE_REGISTER_KEYS
+from .API.device_type.storage_120 import (
+    XH_SCHEDULE_REGISTER_KEYS,
+    XH_TOU_SETTING_KEYS,
+)
 from .const import (
     CONF_AC_PHASES,
     CONF_DC_STRING,
@@ -140,12 +143,14 @@ async def async_setup_entry(
 
     if device_type == DeviceTypes.HYBRID_120_TL_XH:
         coordinator.get_keys_by_name(
-            {ATTR_CURRENT_PRIORITY, *XH_SCHEDULE_REGISTER_KEYS}, True
+            {ATTR_CURRENT_PRIORITY, *XH_SCHEDULE_REGISTER_KEYS, *XH_TOU_SETTING_KEYS},
+            True,
         )
         entities.extend(
             (
                 GrowattPriorityEntity(coordinator, entry=config_entry),
                 GrowattScheduleEntity(coordinator, entry=config_entry),
+                GrowattTouSettingsEntity(coordinator, entry=config_entry),
             )
         )
 
@@ -346,6 +351,42 @@ class GrowattScheduleEntity(_GrowattFeedbackEntity):
         self._attr_extra_state_attributes = {
             "slots": [slot.as_dict() for slot in schedule],
             "decode_valid": all(slot.valid for slot in schedule),
+            "observed_at": _observed_at(self.coordinator),
+            "sensor_contract_version": SENSOR_CONTRACT_VERSION,
+        }
+        self.async_write_ha_state()
+
+
+class GrowattTouSettingsEntity(_GrowattFeedbackEntity):
+    """Expose scalar TL-XH TOU limits as bounded read-only attributes."""
+
+    def __init__(self, coordinator, entry) -> None:
+        """Initialize the TOU settings sensor."""
+
+        super().__init__(
+            coordinator,
+            entry,
+            "xh_tou_settings",
+            "XH TOU settings",
+            listener_context=XH_TOU_SETTING_KEYS[0],
+        )
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        values = {
+            key: self.coordinator.data.get(key) for key in XH_TOU_SETTING_KEYS
+        }
+        if any(value is None for value in values.values()):
+            self._attr_native_value = STATE_UNAVAILABLE
+            self._attr_extra_state_attributes = {
+                "sensor_contract_version": SENSOR_CONTRACT_VERSION,
+            }
+            self.async_write_ha_state()
+            return
+
+        self._attr_native_value = "valid"
+        self._attr_extra_state_attributes = {
+            **values,
             "observed_at": _observed_at(self.coordinator),
             "sensor_contract_version": SENSOR_CONTRACT_VERSION,
         }

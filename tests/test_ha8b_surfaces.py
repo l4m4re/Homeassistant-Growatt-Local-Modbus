@@ -11,6 +11,10 @@ from custom_components.growatt_local.API.device_type.base import (
     ATTR_BATTERY_CURRENT,
     ATTR_BMS_BATTERY_CURRENT,
     ATTR_CURRENT_PRIORITY,
+    ATTR_LOAD_FIRST_STOP_SOC,
+)
+from custom_components.growatt_local.API.device_type.storage_120 import (
+    XH_TOU_SETTING_KEYS,
 )
 from custom_components.growatt_local.API.growatt import get_register_information
 from custom_components.growatt_local.API.utils import process_registers
@@ -18,6 +22,7 @@ from custom_components.growatt_local.sensor import (
     GrowattDeviceEntity,
     GrowattPriorityEntity,
     GrowattScheduleEntity,
+    GrowattTouSettingsEntity,
 )
 from custom_components.growatt_local.sensor_types.inverter import INVERTER_SENSOR_TYPES
 from custom_components.growatt_local.sensor_types.storage import STORAGE_SENSOR_TYPES
@@ -143,6 +148,12 @@ def test_feedback_entities_have_additive_stable_unique_ids() -> None:
     assert priority.unique_id == "growatt_local_SNL0CGV020_current_priority"
     assert schedule.unique_id == "growatt_local_SNL0CGV020_xh_schedule"
     assert schedule.coordinator_context == "xh_schedule_1_start"
+    tou = GrowattTouSettingsEntity(coordinator, entry)
+    assert tou.unique_id == "growatt_local_SNL0CGV020_xh_tou_settings"
+    assert tou.coordinator_context == XH_TOU_SETTING_KEYS[0]
+
+    registers = get_register_information(DeviceTypes.HYBRID_120_TL_XH)
+    assert registers.holding[3082].name == ATTR_LOAD_FIRST_STOP_SOC
 
 
 def test_production_sensor_contract_fixture() -> None:

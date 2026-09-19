@@ -56,7 +56,7 @@ cutover.
 
 ## Growatt feedback surface
 
-The integration now exposes two additive read-only entities for the
+The integration now exposes three additive read-only entities for the
 `HYBRID_120_TL_XH` family. They use the existing native MIN block polling;
 they do not add one Modbus transaction per entity.
 
@@ -64,12 +64,14 @@ they do not add one Modbus transaction per entity.
 | --- | --- | --- | --- |
 | `sensor.growatt_current_priority` | FC04 I3144 | `load_first`, `battery_first`, `grid_first`, or `unknown_<raw>` | `raw_value`, `mode`, `valid`, `observed_at` |
 | `sensor.growatt_xh_schedule` | FC03 H3038-H3045 and H3050-H3059; H3046 reserved and H3049 remains separate AC-charge state | `valid`, `invalid`, or unavailable | bounded `slots` list, `decode_valid`, `observed_at` |
+| `sensor.growatt_xh_tou_settings` | FC03 H3036-H3049 and H3082 | `valid` or unavailable | grid-first and battery-first limits, AC-charge enable, load-first stop SOC, `observed_at` |
 
 The unique-ID basis is additive and deterministic:
 
 ```text
 growatt_local_<serial>_current_priority
 growatt_local_<serial>_xh_schedule
+growatt_local_<serial>_xh_tou_settings
 ```
 
 I3144 raw values 0, 1, and 2 decode to Load First, Battery First, and Grid
@@ -81,6 +83,11 @@ contains slot number, start/end time, priority state and raw value, enabled,
 both source words, and a validity flag. This gives a separate EMS enough
 information to inspect configured slots and actual priority without importing
 Growatt Python internals or exposing hundreds of raw-register entities.
+
+The TOU settings entity retains the scalar limits separately from the schedule:
+grid-first discharge rate and stop SOC, battery-first charge rate and stop SOC,
+AC-charge enable, and load-first stop SOC. It is read-only; the existing AC
+charge switch remains the only compatibility write surface.
 
 HA-7B live evidence is covered by deterministic tests:
 

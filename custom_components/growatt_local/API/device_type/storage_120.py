@@ -339,6 +339,12 @@ STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         value_type=int,
         read_write=True,
     ),
+    GrowattDeviceRegisters(
+        name=ATTR_LOAD_FIRST_STOP_SOC,
+        register=3082,
+        value_type=int,
+        read_write=True,
+    ),
 )
 
 STORAGE_INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
@@ -645,4 +651,13 @@ XH_SCHEDULE_REGISTER_KEYS = (
     ATTR_XH_SCHEDULE_8_END,
     ATTR_XH_SCHEDULE_9_START,
     ATTR_XH_SCHEDULE_9_END,
+)
+
+XH_TOU_SETTING_KEYS = (
+    ATTR_GRID_FIRST_DISCHARGE_RATE,
+    ATTR_GRID_FIRST_STOP_SOC,
+    ATTR_BATTERY_FIRST_CHARGE_RATE,
+    ATTR_BATTERY_FIRST_STOP_SOC,
+    ATTR_AC_CHARGE_ENABLED,
+    ATTR_LOAD_FIRST_STOP_SOC,
 )

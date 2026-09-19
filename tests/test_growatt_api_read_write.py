@@ -95,6 +95,11 @@ async def test_growatt_api_read_write():
         result2 = await device.update(keys)
         after = result2.get(ATTR_INVERTER_ENABLED, None)
         assert after == new_val, f"Write did not persist: wrote {new_val}, got {after}"
+
+        await device.write_registers(100, [0x1234, 0x5678])
+        pair = await device.modbus.read_holding_registers(100, 2, device.device_id)
+        assert pair == {100: 0x1234, 101: 0x5678}
+
         # Try writing with extra kwargs to catch argument errors
         with pytest.raises(TypeError):
             await device.write_register(reg_addr, [new_val], slave=1)

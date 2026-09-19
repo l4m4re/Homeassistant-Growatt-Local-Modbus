@@ -22,8 +22,7 @@ ATTR_BATTERY_FIRST_CHARGE_RATE = "battery_first_charge_rate"
 ATTR_BATTERY_FIRST_STOP_SOC = "battery_first_stop_soc"
 ATTR_LOAD_FIRST_STOP_SOC = "load_first_stop_soc"
 
-# TL-XH schedule holding-register words. These names are internal keys for
-# the bounded read-only schedule surface, not standalone HA entities.
+# TL-XH schedule holding-register words used by the feedback and control surfaces.
 ATTR_XH_SCHEDULE_RESERVED_4 = "xh_schedule_reserved_4"
 ATTR_XH_SCHEDULE_1_START = "xh_schedule_1_start"
 ATTR_XH_SCHEDULE_1_END = "xh_schedule_1_end"

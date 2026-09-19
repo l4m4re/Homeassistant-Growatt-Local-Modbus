@@ -22,9 +22,12 @@ from .const import (
     DOMAIN,
     inverter_power_control_enabled,
 )
+from .API.const import DeviceTypes
+from .API.device_type.storage_120 import XH_SCHEDULE_REGISTER_KEYS
 from .sensor_types.inverter import INVERTER_POWER_SWITCH
 from .sensor_types.storage import STORAGE_TL_XH_SWITCH_TYPES
 from .sensor_types.switch_entity_description import GrowattSwitchEntityDescription
+from .tou import TOU_SLOTS, GrowattTouEnabledSwitch
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -71,6 +74,13 @@ async def async_setup_entry(
             for description in sensor_descriptions
         ]
     )
+
+    if coordinator.growatt_api.device is DeviceTypes.HYBRID_120_TL_XH:
+        coordinator.get_keys_by_name(set(XH_SCHEDULE_REGISTER_KEYS), True)
+        entities.extend(
+            GrowattTouEnabledSwitch(coordinator, config_entry, slot)
+            for slot in TOU_SLOTS
+        )
 
     async_add_entities(entities, True)
 

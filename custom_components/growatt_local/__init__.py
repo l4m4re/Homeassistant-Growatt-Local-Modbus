@@ -21,6 +21,7 @@ from homeassistant.const import (
     SUN_EVENT_SUNSET,
 )
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import entity_registry, issue_registry
 from homeassistant.helpers.event import (
     async_track_sunrise,
@@ -52,6 +53,7 @@ from .const import (
     CONF_UDP,
     DOMAIN,
     PLATFORMS,
+    TOU_READBACK_DELAY,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -219,6 +221,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         self._failed_update_count = 0
         self.keys = RegisterKeys()
         self.p_keys = RegisterKeys()
+        self._tou_write_lock = asyncio.Lock()
         self._midnight_listeners: dict[
             CALLBACK_TYPE, tuple[CALLBACK_TYPE, object | None]
         ] = {}
@@ -283,6 +286,8 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         if status is None:
             status = self.growatt_api.status(data)
             self.data_timestamp = dt_util.utcnow()
+            if self.data:
+                data = {**self.data, **data}
 
         if status:
             data["status"] = status
@@ -377,3 +382,30 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         #TODO: better logging 
         _LOGGER.debug("Device type key %s and register %d", register.name, register.register)
         await self.growatt_api.write_register(register.register, payload)
+
+    async def write_registers(self, register: int, payload: Sequence[int]) -> None:
+        """Write consecutive holding registers with FC10."""
+
+        await self.growatt_api.write_registers(register, payload)
+
+    async def write_xh_schedule(
+        self,
+        start_register: int,
+        start_key: str,
+        end_key: str,
+        start_word: int,
+        end_word: int,
+    ) -> None:
+        """Write one TL-XH period and verify it after the broker cache expires."""
+
+        async with self._tou_write_lock:
+            await self.write_registers(start_register, (start_word, end_word))
+            await asyncio.sleep(TOU_READBACK_DELAY)
+            await self.force_refresh()
+            if (
+                self.data.get(start_key) != start_word
+                or self.data.get(end_key) != end_word
+            ):
+                raise HomeAssistantError(
+                    f"Growatt TOU readback mismatch for H{start_register}"
+                )

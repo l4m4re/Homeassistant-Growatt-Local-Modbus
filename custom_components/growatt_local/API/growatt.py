@@ -163,6 +163,15 @@ class GrowattModbusBase:
             register, payload[0], device_id=device_id
         )
 
+    async def write_registers(
+        self, register: int, values: Sequence[int], device_id: int
+    ) -> ModbusPDU:
+        """Write consecutive holding registers with FC10."""
+
+        return await self.client.write_registers(
+            register, list(values), device_id=device_id
+        )
+
     async def read_holding_registers(self, start_address, count, device_id) -> dict[int, int]:
         data = await self.client.read_holding_registers(start_address, count=count, device_id=device_id)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
@@ -359,6 +368,21 @@ class GrowattDevice:
             self.device_id,
         )
         data = await self.modbus.write_register(register, payload, self.device_id)
+        _LOGGER.info("Write response done")
+        return data
+
+    async def write_registers(
+        self, register: int, payload: Sequence[int]
+    ) -> ModbusPDU:
+        """Write consecutive holding registers with FC10."""
+
+        _LOGGER.info(
+            "Write registers %s with payload %s and unit %s",
+            register,
+            payload,
+            self.device_id,
+        )
+        data = await self.modbus.write_registers(register, payload, self.device_id)
         _LOGGER.info("Write response done")
         return data
 

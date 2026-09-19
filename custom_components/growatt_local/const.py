@@ -50,4 +50,12 @@ def inverter_power_control_enabled(config_entry) -> bool:
         config_entry.data.get(CONF_INVERTER_POWER_CONTROL, False),
     )
 
-PLATFORMS = [Platform.SENSOR, Platform.SWITCH, Platform.NUMBER]
+PLATFORMS = [
+    Platform.SENSOR,
+    Platform.SWITCH,
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.TIME,
+]
+
+TOU_READBACK_DELAY = 11

@@ -1,12 +1,13 @@
 # HA-8B: EMS public surfaces and provider contracts
 
-Status: read-only public-surface implementation; no tariff or control policy
+Status: feedback plus explicit TL-XH TOU controls; no tariff or control policy
 
 Date: 2026-09-06
 
 HA-8B continues the HA-8A architecture. The Growatt integration provides
-device-driver data and bounded read-only feedback. EMS policy, tariff choice,
-arbitration, and future writes remain outside `growatt_local`.
+device-driver data, bounded feedback, and the inverter's explicit nine-period
+TOU controls. EMS policy, tariff choice, and arbitration remain outside
+`growatt_local`.
 
 ## Compatibility contract
 
@@ -54,7 +55,7 @@ cumulative counter requires matching interval deltas, understood reset and
 rollover behaviour, no artificial jump/reset, and Recorder continuity before
 cutover.
 
-## Growatt feedback surface
+## Growatt feedback and TOU control surface
 
 The integration now exposes three additive read-only entities for the
 `HYBRID_120_TL_XH` family. They use the existing native MIN block polling;
@@ -86,8 +87,24 @@ Growatt Python internals or exposing hundreds of raw-register entities.
 
 The TOU settings entity retains the scalar limits separately from the schedule:
 grid-first discharge rate and stop SOC, battery-first charge rate and stop SOC,
-AC-charge enable, and load-first stop SOC. It is read-only; the existing AC
-charge switch remains the only compatibility write surface.
+AC-charge enable, and load-first stop SOC. It remains read-only. H3049 is a
+global AC-charge permission and remains exposed through the existing
+`switch.growatt_ac_charge` compatibility surface; it is not duplicated on each
+TOU period.
+
+Each TL-XH period also has four explicit controls:
+
+| Control pattern | Count | Meaning |
+| --- | ---: | --- |
+| `select.<name>_tou_<n>_priority` | 9 | `load_first`, `battery_first`, or `grid_first` |
+| `time.<name>_tou_<n>_start` / `_end` | 18 | period start and end in local inverter time |
+| `switch.<name>_tou_<n>_enabled` | 9 | enable bit in the period's packed start word |
+
+Changing any one control writes the complete two-register period pair with
+Modbus FC10. The other fields are preserved, including the priority and enable
+bits when a time is changed. Writes are serialized, wait 11 seconds for the
+broker cache, and force a fresh readback; a mismatch raises a Home Assistant
+service error instead of leaving an optimistic state.
 
 HA-7B live evidence is covered by deterministic tests:
 
@@ -103,17 +120,17 @@ model.
 
 ## Existing schedule/control inventory
 
-The API mapping now contains read metadata for the relevant holding registers,
-but no new writable HA entity or service was added for them:
+The API mapping contains typed metadata for the relevant holding registers and
+the controls above use the following write/readback surface:
 
 | Register(s) | Existing API object | Existing HA surface | HA-8A class | EMS use in HA-8B |
 | --- | --- | --- | --- | --- |
 | H3036 | `GrowattDeviceRegisters`, R/W metadata | none | persistent-or-unknown | read metadata only |
 | H3037 | `GrowattDeviceRegisters`, R/W metadata | none | persistent-or-unknown | read metadata only |
-| H3038-H3059 | raw typed register metadata; H3046 reserved | schedule-state sensor only | persistent-or-unknown | read-only feedback |
+| H3038-H3059 | raw typed register metadata; H3046 reserved | schedule sensor plus nine TOU control groups | persistent-or-unknown | FC10 pair write with readback |
 | H3047 | `GrowattDeviceRegisters`, R/W metadata | none | persistent-or-unknown | read metadata only |
 | H3048 | `GrowattDeviceRegisters`, R/W metadata | none | persistent-or-unknown | read metadata only |
-| H3049 | existing sensor and AC-charge switch | `sensor.growatt_ac_charge_enabled`, `switch.growatt_ac_charge` | persistent-or-unknown | existing compatibility surface unchanged |
+| H3049 | existing sensor and AC-charge switch | `sensor.growatt_ac_charge_enabled`, `switch.growatt_ac_charge` | persistent-or-unknown | global AC-charge compatibility surface |
 | H3082 | `GrowattDeviceRegisters`, R/W metadata | none | persistent-or-unknown | read metadata only |
 | H0 | existing power-control register | conditional `switch.growatt_power_control` | persistent-or-unknown | existing compatibility surface unchanged |
 | I3144 | new typed register mapping | additive current-priority sensor | read-only feedback | EMS feedback |
@@ -221,7 +238,7 @@ entities and provider timestamps. It must record entity IDs, unique IDs,
 classes, units, sign, source, and Recorder/statistics metadata before any EMS
 provider is enabled.
 
-## Tests and no-write boundary
+## Tests and write boundary
 
 Focused tests cover:
 
@@ -230,9 +247,13 @@ Focused tests cover:
 - I3144 values 0/1/2 and unknown raw values;
 - HA-7B Time 1/2/3, disabled slots, raw-word retention, and invalid priority;
 - persistent-control no-op/readback metadata;
+- TOU word packing, per-period control preservation, FC10 arguments, and
+  staging-HA service readback;
 - valid price intervals, stale price state, unavailable EV state, partial EV
   state, and deterministic normalized snapshots.
 
-No Modbus write, mutating Home Assistant service call, schedule change,
-Peblar command, Zoe command, or production deployment was performed. The
-HA-core parent gitlink was not changed.
+The staging HA instance performed a controlled HIL test on disabled period 2:
+its end time was written from 19:58 to 23:55 and then restored to 19:58. Both
+FC10 writes were acknowledged, the post-cache readbacks matched, and the period
+remained disabled. No production HA deployment or non-TOU control was changed.
+The HA-core parent gitlink was not changed.

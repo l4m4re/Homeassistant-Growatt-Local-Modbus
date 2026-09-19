@@ -220,10 +220,17 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SensorEntity):
 class _GrowattFeedbackEntity(CoordinatorEntity, SensorEntity):
     """Base for bounded, read-only EMS feedback entities."""
 
-    def __init__(self, coordinator, entry, key: str, name: str) -> None:
+    def __init__(
+        self,
+        coordinator,
+        entry,
+        key: str,
+        name: str,
+        listener_context: str | None = None,
+    ) -> None:
         """Initialize a feedback entity."""
 
-        super().__init__(coordinator, key)
+        super().__init__(coordinator, listener_context or key)
         self._config_entry = entry
         self._key = key
         self._name = name
@@ -311,7 +318,13 @@ class GrowattScheduleEntity(_GrowattFeedbackEntity):
     def __init__(self, coordinator, entry) -> None:
         """Initialize the schedule-state sensor."""
 
-        super().__init__(coordinator, entry, "xh_schedule", "XH schedule")
+        super().__init__(
+            coordinator,
+            entry,
+            "xh_schedule",
+            "XH schedule",
+            listener_context=XH_SCHEDULE_REGISTER_KEYS[0],
+        )
 
     @callback
     def _handle_coordinator_update(self) -> None:

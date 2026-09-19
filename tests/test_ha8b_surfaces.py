@@ -142,6 +142,7 @@ def test_feedback_entities_have_additive_stable_unique_ids() -> None:
 
     assert priority.unique_id == "growatt_local_SNL0CGV020_current_priority"
     assert schedule.unique_id == "growatt_local_SNL0CGV020_xh_schedule"
+    assert schedule.coordinator_context == "xh_schedule_1_start"
 
 
 def test_production_sensor_contract_fixture() -> None:

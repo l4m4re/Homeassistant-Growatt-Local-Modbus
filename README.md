@@ -37,10 +37,9 @@ Recent updates expose additional energy-flow information for hybrid models:
 ### Recently added features
 
 - **Model-specific runtime mappings** with focused integration tests
-- **Static simulator** (`growatt_broker.simulator.modbus_simulator`) with deterministic and realistic datasets
 - **VS Code devcontainer forked from HA core** ([repo](https://github.com/l4m4re/HA-core/tree/growatt-local-test))
 - **Pytest environment** with comprehensive tests
-- **Synergy with external broker project** for dataset generation (not a runtime dependency)
+- **Optional Modbus Workbench integration** for live transport and simulator-based testing
 
 ### Register Map
 
@@ -50,13 +49,6 @@ repository. This integration keeps only the model-specific runtime mappings,
 decoding, polling plans, entity descriptions, and focused compatibility tests.
 See [`doc/README.md`](doc/README.md) before adding or changing a runtime
 register.
-
-### Simulator
-
-- The simulator (`growatt_broker.simulator.modbus_simulator`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
-- By default, it simulates a MIN 6000XH-TL with battery.
-- See [`testing/README.md`](testing/README.md) for advanced usage, mutation plug-ins, and dataset provenance.
-
 
 ## Manual Installation by ssh
 
@@ -94,14 +86,14 @@ You can develop and test this integration either standalone (limited) or inside 
 
 ### 1. Standalone (limited)
 
-You can check out this repository, install the requirements (optionally using a venv), and run pytest and scripts in the `testing` directory. This does not require a full Home Assistant installation, but only limited tests and scripts will work.
+You can check out this repository, install the requirements (optionally using a venv), and run the focused tests and direct register reader in the `testing` directory. The optional Modbus Workbench simulator is maintained in the companion broker repository.
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements_dev.txt
 pytest
-python testing/probe_simulator.py
+python testing/read_registers.py
 ```
 
 ### 2. Home Assistant Core Devcontainer (recommended)
@@ -119,24 +111,14 @@ python testing/probe_simulator.py
     - VS Code will prompt to reopen in the container.
     - All dependencies are pre-installed.
 
-3. **Run the simulator:**
-    ```bash
-    cd external/Homeassistant-Growatt-Local-Modbus
-    python -m growatt_broker.simulator.modbus_simulator
-    ```
-    - By default, this simulates a MIN 6000XH-TL inverter on TCP port 5020.
-
-4. **Start Home Assistant Core:**
+3. **Start Home Assistant Core:**
     ```bash
     hass -c config
     ```
     - Open Home Assistant in your browser (usually at `http://localhost:8123`).
 
-5. **Add the Growatt device in Home Assistant:**
-    - Use TCP transport.
-    - Host: `localhost`
-    - Port: `5020`
-    - Slave address: `1`
+4. **Add the Growatt device in Home Assistant** using the transport and
+   endpoint of the inverter or optional external broker.
 
 
 ## Manual Dev Container Setup
@@ -154,21 +136,6 @@ pytest external/Homeassistant-Growatt-Local-Modbus/tests
 ```
 
 For more details, see the Home Assistant core documentation and the integration README.
-
-## Modbus Simulator (Development & Testing)
-
-This repository includes a lightweight Modbus TCP simulator (see `testing/` directory) used by the automated tests to exercise register parsing and mutation logic without real hardware.
-
-Key points:
-* Address Base: All dataset register addresses are treated as starting at Modbus address `0`. When you seed a dataset JSON (or the built‑in default), tests (and example probes) read starting at `0` (e.g. `read_input_registers(0, count=...)`). No offset translation is currently applied.
-* Datasets: A dataset provides two optional top‑level objects: `"input"` and `"holding"`, each a mapping of register address (as string) to value. Missing registers implicitly read back as `0`.
-* Mutation Loop: When mutators are enabled a background asyncio task wakes roughly once per second, increments an internal tick counter, and gives each mutator a chance to update in‑memory register dictionaries in place. This keeps I/O operations (client reads) simple and non‑blocking.
-* Clean Shutdown: The simulator context manager cancels the mutation task before closing the server so tests do not leak tasks. Always keep Modbus client operations inside the simulator `async with` block.
-* Client Usage Notes: Use keyword form `count=<n>` with `pymodbus` async client methods (e.g. `await client.read_input_registers(0, count=10)`). Do not pass unsupported kwargs like `unit`/`slave` to the high‑level async client in this test harness.
-
-If you create additional mutators, ensure they are pure (no long blocking awaits) and idempotent per tick. For deterministic tests, keep mutation math simple and bounded.
-
-Future enhancements (not yet implemented): optional configurable tick interval, address base normalization, and capture replay integration.
 
 # Example: Testing the API and Requesting Register Values Without Home Assistant
 

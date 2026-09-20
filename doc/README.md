@@ -20,15 +20,10 @@ An entry in the GII specification is not automatically a Home Assistant
 entity. Promote a register into the runtime only after checking model
 applicability, decoding, entity metadata, and validation evidence.
 
-## Runtime and validation reports
-
-- [`GROWATT_RUNTIME_REGISTER_AUDIT.md`](GROWATT_RUNTIME_REGISTER_AUDIT.md)
-  explains the current transaction plan and the boundary between Modbus
-  blocks, decoding, and entities.
-- [`HA-7A_MIN_RUNTIME_AUDIT.md`](HA-7A_MIN_RUNTIME_AUDIT.md) records the
-  evidence-gated MIN/TL-XH mapping review.
-- [`HA-7C_MIN_NATIVE_BLOCK_POLLING.md`](HA-7C_MIN_NATIVE_BLOCK_POLLING.md)
-  records the family-specific native page polling implementation.
+Runtime register audits and polling-plan reviews belong with the evidence in
+the GII repository, under
+[`docs/consolidation/`](https://github.com/l4m4re/growatt-inverter-info/tree/main/docs/consolidation).
+They are deliberately not duplicated in this integration repository.
 
 Project-specific HIL and production-readiness records are kept in the
 workspace documentation at `../../doc/home-energy/growatt/`. They are not
@@ -42,9 +37,10 @@ Run the focused tests from the repository root:
 pytest
 ```
 
-Run the deterministic Modbus simulator and its helper tools as described in
+Run the focused integration tests and direct register reader as described in
 [`../testing/README.md`](../testing/README.md). The simulator and fixtures are
-test infrastructure; they are not runtime dependencies of the integration.
+maintained by the companion broker project and are not runtime dependencies of
+the integration.
 
 Changes to the runtime register dictionaries should include the corresponding
 entity metadata, translations, polling-plan checks, and focused regression

@@ -47,6 +47,27 @@ high/low word pair for PV4 lifetime energy. The old family-wide manual data
 type overlay incorrectly treated holding `3079–3082` as energy words. The
 canonical MIN overlay keeps the two namespaces separate.
 
+## Portal Battery Settings mapping
+
+On 2026-09-20 the five values in the Growatt portal's **Battery Settings**
+screen were each changed by one percentage point (and Grid Charging was
+enabled). The subsequent HA/broker readback at 09:27 local time matched the
+following mapping:
+
+| Portal label | Holding register | Portal change | Readback |
+|---|---:|---:|---:|
+| Charging Power Rate | H3047 | 70 → 71% | 71% |
+| Charge Stop SOC | H3048 | 100 → 99% | 99% |
+| Discharging Power Rate | H3036 | 70 → 69% | 69% |
+| Discharging Stop SOC | H3037 | 10 → 11% | 11% |
+| Grid Charging | H3049 | disabled → enabled | 1 |
+
+This is a live portal-to-register confirmation for the production
+MIN 6000TL-XH, rather than a name-based inference. The portal block does not
+show H3082 (Load-first stop SOC); its readback remained 0%. The values are
+persistent device settings, while the active priority sensor was still
+`load_first` outside the enabled TOU window.
+
 ## Read-only input telemetry
 
 | FC04 registers | Meaning | Encoding |

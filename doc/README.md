@@ -48,10 +48,11 @@ entity metadata, translations, polling-plan checks, and focused regression
 tests. Keep entity IDs and Recorder/statistics semantics stable when changing
 decoding or polling.
 
-The current MIN/TL-XH comparison used GII commit `f2d52d4` and
+The current MIN/TL-XH comparison uses GII commit `4d1feaa` and
 `spec/growatt-register-spec.json` SHA-256
-`f38c42f35f98d82e4ad05f4d060a57cecbbf4fb59272c0050d4be62b658214b7`. It
-keeps the reviewed runtime overlay in
+`c7a6919222a453b5657b783c8d584c0a325b52547c5f7453663acb380bd4c8bc`. It
+decodes the bidirectional AC output pair I3023–I3024 as signed int32 `/10`
+and I3101 as signed int16 percentage values. It keeps the reviewed runtime overlay in
 `sources/evidence/min-6000tl-xh-register-map.json` as the promotion boundary:
 reserved words are excluded, while the reviewed PV4 energy rows at I3079 and
 I3081 are represented by the existing input-energy attributes. The reviewed

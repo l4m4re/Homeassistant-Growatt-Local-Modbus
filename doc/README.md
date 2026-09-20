@@ -26,8 +26,9 @@ the GII repository, under
 They are deliberately not duplicated in this integration repository.
 
 Project-specific HIL and production-readiness records are kept in the
-workspace documentation at `../../doc/home-energy/growatt/`. They are not
-part of the reusable integration package.
+private Home Energy Manager project at
+`../../home-energy-manager/docs/growatt/`. They are not part of the reusable
+integration package.
 
 ## Reproducible integration checks
 

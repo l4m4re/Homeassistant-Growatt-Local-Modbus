@@ -1,6 +1,6 @@
 # Growatt Local HA integration roadmap
 
-**Status snapshot:** 2026-09-17
+**Status snapshot:** 2026-09-20
 
 **Scope:** the Growatt workstream within the wider home-energy and smart-charging project. It covers the `growatt_local` integration, the register-map handoff, and the Growatt production update on the Raspberry Pi (RPi). The cross-system plan is in the HA-core workspace [`ROADMAP.md`](../../ROADMAP.md). This document does not authorize a production cutover.
 
@@ -16,6 +16,31 @@
 - Read-only HIL validation has been recorded for a MIN 6000TL-XH with ARK storage through the DEV TCP broker endpoint. The HA-GII-5 report accepted that bounded run with follow-ups; it did not change production HA, the production broker, or inverter settings. See [`doc/HA-GII-5_DEV_HA_DEPLOYMENT_VALIDATION.md`](doc/HA-GII-5_DEV_HA_DEPLOYMENT_VALIDATION.md).
 - A production upgrade readiness review exists. It identifies outstanding pre-cutover gates, including a fresh verified full backup, production Core compatibility, a pre-cutover entity/statistics inventory, and a check of the reactive-power statistics metadata. The candidate reviewed there has not been deployed. See [`doc/HA-GII-6_PRODUCTION_UPGRADE_READINESS.md`](doc/HA-GII-6_PRODUCTION_UPGRADE_READINESS.md).
 - The provisional cross-device `ems_contract/` also lives in this repository. It includes a quarter-hour price planner, curated machine-readable historical price examples, and pytest backtests against recorded negative-price and high-volatility patterns. The EMS package and examples are temporary occupants of the Growatt repository; their separation belongs in the wider project roadmap's planned cleanup/restructure. Zoe charging-rate exploration exists in the sibling PyCanZE tools, but a next-day Zoe SoC/charge prediction model is not implemented yet.
+
+## Recent TOU control work and broker dependency
+
+The TL-XH integration now exposes all nine inverter time-of-use periods as
+configurable Home Assistant controls: a priority selector, start and end time,
+and enable switch for each period. Each change writes the complete two-register
+period pair with Modbus FC10, preserves the other packed fields, serializes
+concurrent writes, and verifies the device value after a cache-aware refresh.
+The global AC-charge permission at H3049 remains a separate control and is not
+duplicated per period.
+
+The implementation is committed as `8ee0db8` (`Add configurable TL-XH TOU
+controls`). The DEV staging HA instance registered all 36 controls. A live HIL
+test changed the end time of disabled period 2 from 19:58 to 23:55, confirmed
+the write/readback, and restored 19:58 while leaving the period disabled. The
+full nested test suite passed 102 tests.
+
+The current 11-second wait in the HA write path is a temporary workaround for
+broker cache coherence. After a successful FC06 or FC10 write, the broker can
+otherwise return the old value for the affected cached register block until its
+normal refresh. The broker roadmap must therefore deliver a serialized
+read-after-write of the complete affected block, using the actual device
+response and committing the refreshed block atomically before acknowledging the
+write. Remove the HA delay only after that broker behavior has tests for FC06,
+FC10, concurrent readers, and failed readback.
 
 ## Product direction
 
@@ -63,6 +88,7 @@ The primary transport transition to support is broker-mediated TCP to direct ser
 - Run focused unit/config-flow tests, translation checks, Home Assistant validation, and the relevant integration test suite.
 - Validate setup, reconfiguration, sensor selection, reload, identity continuity, and absence of writes in disposable HA/simulator testing.
 - Run bounded read-only checks against the DEV broker path, then separately conduct deliberate, supervised tests of supported manual controls and verify the equipment response. Check direct serial in a controlled test window. Never let HA and the broker poll the same inverter serial connection simultaneously.
+- Validate TOU FC10 writes through the broker's read-after-write cache contract. Keep the current HA cache wait only as a temporary compatibility measure; remove it after the broker refreshes and atomically publishes the actual post-write block for FC06 and FC10, including concurrent-read and failed-readback cases.
 - Confirm existing entity IDs, unique IDs, energy totals, device identity, and recorder/statistics behavior remain acceptable. Record unresolved findings rather than silently migrating history.
 
 ### 6. Update the RPi in a controlled cutover

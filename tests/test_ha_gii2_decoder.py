@@ -7,6 +7,8 @@ from custom_components.growatt_local.API.const import DeviceTypes
 from custom_components.growatt_local.API.device_type.base import (
     ATTR_BATTERY_CURRENT,
     ATTR_OUTPUT_ENERGY_TODAY,
+    ATTR_OUTPUT_PERCENTAGE,
+    ATTR_OUTPUT_POWER,
     ATTR_OUTPUT_REACTIVE_POWER,
     ATTR_PRESENT_FFT_A,
     ATTR_WARNING_CODE,
@@ -95,6 +97,9 @@ def test_min_warning_words_are_separate_and_contract_keys_are_stable() -> None:
     assert registers.input[3170].signed is False
     assert registers.input[3021].name == ATTR_OUTPUT_REACTIVE_POWER
     assert registers.input[3021].signed is True
+    assert registers.input[3023].length == 2
+    assert registers.input[3023].signed is True
+    assert registers.input[3101].signed is True
 
     warning_description = next(
         description for description in INVERTER_SENSOR_TYPES
@@ -112,3 +117,19 @@ def test_min_warning_words_are_separate_and_contract_keys_are_stable() -> None:
 
     assert warning_description.key == "warning_code"
     assert entity.unique_id == "growatt_local_fixture-serial_warning_code"
+
+
+def test_tlxh_charging_output_values_decode_as_signed() -> None:
+    """Negative hybrid output values must not wrap into MW or 65,000%."""
+    registers = get_register_information(DeviceTypes.HYBRID_120_TL_XH)
+
+    assert process_registers(
+        {
+            3023: registers.input[3023],
+            3101: registers.input[3101],
+        },
+        {3023: 0xFFFF, 3024: 0xF1F0, 3101: 0xFFC4},
+    ) == {
+        ATTR_OUTPUT_POWER: -360.0,
+        ATTR_OUTPUT_PERCENTAGE: -60,
+    }

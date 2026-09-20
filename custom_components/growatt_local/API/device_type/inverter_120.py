@@ -388,7 +388,11 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     ),
 
     GrowattDeviceRegisters(
-        name=ATTR_OUTPUT_POWER, register=3023, value_type=float, length=2
+        name=ATTR_OUTPUT_POWER,
+        register=3023,
+        value_type=float,
+        length=2,
+        signed=True,
     ),
 
     GrowattDeviceRegisters(
@@ -470,7 +474,9 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(name=ATTR_BOOST_TEMPERATURE, register=3095, value_type=float),
     GrowattDeviceRegisters(name=ATTR_P_BUS_VOLTAGE, register=3098, value_type=float),
     GrowattDeviceRegisters(name=ATTR_N_BUS_VOLTAGE, register=3099, value_type=float),
-    GrowattDeviceRegisters(name=ATTR_OUTPUT_PERCENTAGE, register=3101, value_type=int),
+    GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_PERCENTAGE, register=3101, value_type=int, signed=True
+    ),
 
     GrowattDeviceRegisters(name=ATTR_FAULT_CODE, register=3105, value_type=int),
     GrowattDeviceRegisters(

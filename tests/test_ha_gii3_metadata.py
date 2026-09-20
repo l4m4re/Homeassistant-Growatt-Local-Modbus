@@ -115,7 +115,7 @@ def test_output_percentage_is_not_power_factor() -> None:
         3101,
         1,
         10,
-        False,
+        True,
     )
     assert description.key == ATTR_OUTPUT_PERCENTAGE
     assert description.native_unit_of_measurement == PERCENTAGE

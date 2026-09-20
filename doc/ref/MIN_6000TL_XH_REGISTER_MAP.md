@@ -68,6 +68,33 @@ show H3082 (Load-first stop SOC); its readback remained 0%. The values are
 persistent device settings, while the active priority sensor was still
 `load_first` outside the enabled TOU window.
 
+## Recorder correlation of the discharge stop
+
+The HA Recorder provides operational evidence that the portal's H3037 value
+also affects `load_first` on this inverter. Before the 2026-09-20 portal
+change, H3037 was 10% and H3082 was 0%. On 2026-09-13 and 2026-09-14 the
+priority sensor was continuously `load_first`. Each descent through 10% was
+accompanied by a sharp reduction in reported battery discharge, for example:
+
+| Local time | SOC | Discharge power |
+|---|---:|---:|
+| 2026-09-13 09:43 | 11% | 3,632 W |
+| 2026-09-13 09:44 | 10% | 113 W |
+| 2026-09-13 14:38 | 11% | 3,181 W |
+| 2026-09-13 14:41 | 10% | 112 W |
+| 2026-09-13 17:47 | 11% | 3,641 W |
+| 2026-09-13 17:48 | 10% | 120 W |
+| 2026-09-14 02:58 | 11% | 392 W |
+| 2026-09-14 03:11 | 10% | 107 W |
+
+The residual 100–120 W is not a complete zero reading, but the normal
+multi-kilowatt discharge stopped and did not resume until the SOC rose again.
+This supports H3037 as the effective discharge threshold in `load_first` for
+this firmware/configuration. It does not yet distinguish a global H3037 rule
+from a firmware fallback when H3082 is zero, and the Recorder contains no
+`grid_first` interval for comparison. H3037 is now 11% after the portal test;
+the next crossing of that threshold should be monitored.
+
 ## Read-only input telemetry
 
 | FC04 registers | Meaning | Encoding |

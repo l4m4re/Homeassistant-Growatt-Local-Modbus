@@ -36,10 +36,6 @@ This guide describes how to use, test, and extend the Growatt Local Modbus integ
   - Port: `5020`
   - Slave address: `1`
 
-## Register Map Completeness
-
-- The register mapping for MIN 6000XH-TL is complete as far as currently determined. See [`growatt_registers.md`](growatt_registers.md) for details.
-
 ## Simulator Usage
 
 - The simulator (`growatt_broker.simulator.modbus_simulator`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
@@ -301,65 +297,21 @@ ha core stop && docker run --rm -it --device=$SER:/dev/ttyUSB0 -v "$REPO":/app -
   sh -lc 'pip install -q "pymodbus[serial]>=3.8,<3.9" && PYTHONPATH=/app SERIAL_PORT=/dev/ttyUSB0 python /app/read_registers.py' && ha core start
 ```
 
-## Parsing register specification
+## Register knowledge
 
-`parse_registers.py` converts the in-repo documentation
-`growatt_registers.md` into machine readable JSON files. Run from this
-directory:
-
-```bash
-python parse_registers.py
-```
-
-The script writes four outputs:
-
-* `holding_min.json`
-* `holding_tl_xh.json`
-* `input_min.json`
-* `input_tl_xh.json`
-
-After generating new definitions, copy them into `../external/growatt-rtu-broker/growatt_broker/simulator/` so the shared simulator picks up the updates.
-
-Each entry records register number, function code, length, scale, unit,
-and description for the corresponding device type.
+The shared register specification is maintained in the sibling `growatt-inverter-info` repository. This test directory contains only simulator utilities and does not generate a second register map.
 
 ---
 
 ## Dataset provenance (simulation)
 
-The default simulator dataset `growatt_broker/simulator/datasets/min_6000xh_tl.json` was generated from
-`scan3.txt` contained in this repository under `python-modbus-scanner/`.
-That scan originated from (and the scanner utility lives at):
+The deterministic simulator dataset is maintained by the companion
+`growatt-rtu-broker` project. This repository does not carry a second copy of
+the register map or private live captures. When a reviewed fixture is needed,
+record its source and checksum in the broker project before using it here.
 
-  https://github.com/l4m4re/python-modbus-scanner
-
-`scan3.txt` only logs registers with non-zero values (plus some negatives), so
-the dataset represents a realistic snapshot of a running **MIN 6000XH‑TL**.
-
-If you regenerate it, you can run:
-
-```bash
-python testing/build_dataset_from_scan.py \
-  --scan-file testing/python-modbus-scanner/scan3.txt \
-  --out ../external/growatt-rtu-broker/growatt_broker/simulator/datasets/min_6000xh_tl.json
-```
-
-Then restart any running simulator instance.
-
-**Note:** The full broker project is only used to generate static datasets for the simulator. All dry-run and container testing should use the Modbus simulator provided by the broker package (`python -m growatt_broker.simulator.modbus_simulator`). Do not use the broker directly for development or testing in this repository.
-
-To annotate a dataset with a provenance tag without breaking the loader you
-may add a top‑level `_source` field, e.g.:
-
-```jsonc
-{
-  "_source": "Derived from scan3.txt (python-modbus-scanner commit <hash>)",
-  "holding": { ... },
-  "input": { ... }
-}
-```
-
-The simulator ignores unknown top‑level keys.
+The simulator ignores unknown top-level keys, so a dataset may carry a
+provenance tag alongside its `holding` and `input` mappings.
 
 ---
 
@@ -368,10 +320,10 @@ The simulator ignores unknown top‑level keys.
 A separate companion project (Modbus Workbench, formerly Growatt RTU Broker) can complement this repository without being merged into it. Keeping concerns separated reduces review friction while unlocking advanced workflows.
 
 ### Roles at a glance
-- This repo (integration + simulator):
-  - Defines register maps / ATTR_* constants.
-  - Provides static & replayable datasets for dry runs (CI, dev container).
-  - Offers tooling to parse protocol specs and build JSON datasets.
+- This repo (integration + simulator utilities):
+  - Defines the runtime `ATTR_*` constants and entity mappings.
+  - Provides deterministic simulator helpers for dry runs (CI, dev container).
+  - Offers tools to compact reviewed captures into broker-owned datasets.
 - Modbus Workbench project (separate repo):
   - Mediates a *live* RS‑485 inverter connection and (optionally) the ShineWiFi dongle simultaneously.
   - Exposes a Modbus TCP endpoint for Home Assistant (and other tools) while enforcing safe pacing.

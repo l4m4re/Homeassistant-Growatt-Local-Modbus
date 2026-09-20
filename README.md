@@ -36,7 +36,7 @@ Recent updates expose additional energy-flow information for hybrid models:
 
 ### Recently added features
 
-- **Complete register map** for MIN 6000XH-TL (see `testing/growatt_registers.md`)
+- **Model-specific runtime mappings** with focused integration tests
 - **Static simulator** (`growatt_broker.simulator.modbus_simulator`) with deterministic and realistic datasets
 - **VS Code devcontainer forked from HA core** ([repo](https://github.com/l4m4re/HA-core/tree/growatt-local-test))
 - **Pytest environment** with comprehensive tests
@@ -46,10 +46,10 @@ Recent updates expose additional energy-flow information for hybrid models:
 
 Shared Growatt register knowledge is maintained in the project-independent
 [`growatt-inverter-info`](https://github.com/l4m4re/growatt-inverter-info)
-repository. This integration keeps the runtime mappings and the compatibility
-views needed by HA. See
-[`doc/REGISTER_KNOWLEDGE_WORKFLOW.md`](doc/REGISTER_KNOWLEDGE_WORKFLOW.md)
-before adding or changing register knowledge.
+repository. This integration keeps only the model-specific runtime mappings,
+decoding, polling plans, entity descriptions, and focused compatibility tests.
+See [`doc/README.md`](doc/README.md) before adding or changing a runtime
+register.
 
 ### Simulator
 

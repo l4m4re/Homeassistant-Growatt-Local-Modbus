@@ -72,6 +72,8 @@ from .base import (
     ATTR_ENERGY_TO_USER_TOTAL,
     ATTR_GRID_FIRST_DISCHARGE_RATE,
     ATTR_GRID_FIRST_STOP_SOC,
+    ATTR_INPUT_4_ENERGY_TODAY,
+    ATTR_INPUT_4_ENERGY_TOTAL,
     ATTR_INV_START_DELAY,
     ATTR_INVERTER_ENABLED,
     ATTR_INVERTER_MODEL,
@@ -91,6 +93,9 @@ from .base import (
     ATTR_STANDBY_FLAGS,
     ATTR_VBUS1_VOLTAGE,
     ATTR_VBUS2_VOLTAGE,
+    ATTR_XH_UPS_EPS_FREQUENCY_SELECTION,
+    ATTR_XH_UPS_EPS_FUNCTION_ENABLE,
+    ATTR_XH_UPS_EPS_VOLTAGE_SELECTION,
     ATTR_XH_SCHEDULE_1_END,
     ATTR_XH_SCHEDULE_1_START,
     ATTR_XH_SCHEDULE_2_END,
@@ -109,7 +114,6 @@ from .base import (
     ATTR_XH_SCHEDULE_8_START,
     ATTR_XH_SCHEDULE_9_END,
     ATTR_XH_SCHEDULE_9_START,
-    ATTR_XH_SCHEDULE_RESERVED_4,
     DEVICE_TYPE_CODE_REGISTER,
     FIRMWARE_REGISTER,
     NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
@@ -262,12 +266,6 @@ STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         read_write=True,
     ),
     GrowattDeviceRegisters(
-        name=ATTR_XH_SCHEDULE_RESERVED_4,
-        register=3046,
-        value_type=int,
-        read_write=True,
-    ),
-    GrowattDeviceRegisters(
         name=ATTR_BATTERY_FIRST_CHARGE_RATE,
         register=3047,
         value_type=int,
@@ -336,6 +334,24 @@ STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_XH_SCHEDULE_9_END,
         register=3059,
+        value_type=int,
+        read_write=True,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_XH_UPS_EPS_FUNCTION_ENABLE,
+        register=3079,
+        value_type=int,
+        read_write=True,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_XH_UPS_EPS_VOLTAGE_SELECTION,
+        register=3080,
+        value_type=int,
+        read_write=True,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_XH_UPS_EPS_FREQUENCY_SELECTION,
+        register=3081,
         value_type=int,
         read_write=True,
     ),
@@ -479,6 +495,12 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     ),
     GrowattDeviceRegisters(
         name=ATTR_ENERGY_TO_GRID_TOTAL, register=3073, value_type=float, length=2
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_INPUT_4_ENERGY_TODAY, register=3079, value_type=float, length=2
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_INPUT_4_ENERGY_TOTAL, register=3081, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
         name=ATTR_COMM_BOARD_TEMPERATURE, register=3097, value_type=float
@@ -640,7 +662,6 @@ XH_SCHEDULE_REGISTER_KEYS = (
     ATTR_XH_SCHEDULE_3_END,
     ATTR_XH_SCHEDULE_4_START,
     ATTR_XH_SCHEDULE_4_END,
-    ATTR_XH_SCHEDULE_RESERVED_4,
     ATTR_XH_SCHEDULE_5_START,
     ATTR_XH_SCHEDULE_5_END,
     ATTR_XH_SCHEDULE_6_START,

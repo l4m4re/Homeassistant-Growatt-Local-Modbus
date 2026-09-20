@@ -44,7 +44,12 @@ Recent updates expose additional energy-flow information for hybrid models:
 
 ### Register Map
 
-The register mapping for MIN 6000XH-TL is complete as far as currently determined. See [`testing/growatt_registers.md`](testing/growatt_registers.md) for details.
+Shared Growatt register knowledge is maintained in the project-independent
+[`growatt-inverter-info`](https://github.com/l4m4re/growatt-inverter-info)
+repository. This integration keeps the runtime mappings and the compatibility
+views needed by HA. See
+[`doc/REGISTER_KNOWLEDGE_WORKFLOW.md`](doc/REGISTER_KNOWLEDGE_WORKFLOW.md)
+before adding or changing register knowledge.
 
 ### Simulator
 

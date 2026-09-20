@@ -1,6 +1,6 @@
 # Growatt resolved register reference
 
-> This file is a generated compatibility view. The canonical machine-readable and human reference is `doc/register-spec/growatt-register-spec.json` plus its Markdown views; the original vendor, runtime, external and live-evidence files remain the provenance corpus.
+> This file is a generated compatibility view. The project-independent canonical machine-readable and human reference is maintained in the `growatt-inverter-info` repository; the local `doc/register-spec/` tree is a compatibility projection. The original vendor, runtime, external and live-evidence files remain the provenance corpus.
 
 Reference version: `2026.09-resolved`
 Records: **4048** (1805 holding, 2243 input)

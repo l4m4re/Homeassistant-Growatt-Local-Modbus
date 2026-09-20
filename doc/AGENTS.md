@@ -5,10 +5,16 @@ assistant.  The workflow is scripted (`render_register_spec.py`) so future
 changes can be reproduced deterministically by running the tool against the
 canonical JSON data.
 
-The register reference now uses the knowledge graph as its authoritative
-consolidation pipeline. Code that populates the graph, reconciles sources or
-exports derived artefacts must remain in reproducible CLI tooling (`doc/` or
-`tools/`) so the graph can always be regenerated from the raw JSON sources.
+The project-independent register authority now lives in the separate
+`growatt-inverter-info` repository. This integration's knowledge graph and
+register reference are compatibility, audit and consumer-reconciliation
+artefacts. Code that populates the graph, reconciles sources or exports derived
+artefacts must remain in reproducible CLI tooling (`doc/` or `tools/`) so the
+local views can always be regenerated from their retained inputs.
+
+New shared evidence and semantic corrections must follow
+`doc/REGISTER_KNOWLEDGE_WORKFLOW.md` and be reviewed in
+`growatt-inverter-info` before they are promoted into the HA runtime.
 
 The supported route is `build_register_graph.py` followed by
 `generate_consolidated_ref.py --validate-schema`. Register identity is always

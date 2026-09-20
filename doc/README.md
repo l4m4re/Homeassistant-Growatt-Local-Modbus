@@ -4,12 +4,19 @@ This directory collects the source specification and machine-readable material
 for Growatt's “Inverter Modbus RTU Protocol v1.24”, along with generated
 reference docs for the Home Assistant `growatt_local` integration.
 
+Shared register knowledge is maintained in the project-independent
+[`growatt-inverter-info`](https://github.com/l4m4re/growatt-inverter-info)
+repository. The consumer and synchronization procedure for this repository is
+documented in
+[`REGISTER_KNOWLEDGE_WORKFLOW.md`](REGISTER_KNOWLEDGE_WORKFLOW.md).
+
 ## Public resolved register reference
 
-The project-independent canonical product is [`register-spec/`](register-spec/README.md).
-Its machine-readable artifact is [`register-spec/growatt-register-spec.json`](register-spec/growatt-register-spec.json).
-The resolved reference below remains a compatibility/generated input during the
-HA-6C/HA-6D migration; it is not a second maintained semantic truth.
+The project-independent canonical product is the GII `spec/` tree. The local
+[`register-spec/`](register-spec/README.md) tree is a compatibility and
+migration snapshot while the HA consumer projection is being separated from the
+integration. The resolved reference below is generated audit and compatibility
+material; it is not a second maintained semantic truth.
 
 The legacy compatibility lookup is:
 
@@ -63,14 +70,14 @@ The layers have deliberately different roles:
   consolidation layer, retaining source payloads and alternatives.
 - `growatt_register_reference.json` is the resolved compatibility/reference
   layer used as a bounded migration input.
-- `register-spec/growatt-register-spec.json` is the canonical,
-  project-independent consumer specification.
-- `register-spec/*.md` are generated human-readable views of that canonical
-  specification.
+- `register-spec/growatt-register-spec.json` and its Markdown files are the
+  local compatibility projection used during the migration.
+- [`growatt-inverter-info/spec/growatt-register-spec.json`](https://github.com/l4m4re/growatt-inverter-info/blob/main/spec/growatt-register-spec.json)
+  is the canonical, project-independent consumer specification.
 
-Only the final `register-spec` product is the maintained semantic truth. The
-earlier JSON layers remain provenance, audit, and compatibility material; they
-are not competing canonical references.
+The earlier JSON layers and the local `register-spec` product remain
+provenance, audit, and compatibility material. They are not competing canonical
+references to the GII specification.
 
 The graph keeps register identity as `(table, register)`; holding and input
 registers with the same numeric address are different records. It retains

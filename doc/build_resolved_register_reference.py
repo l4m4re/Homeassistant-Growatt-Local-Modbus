@@ -1792,7 +1792,7 @@ def render_markdown(reference: dict[str, Any]) -> str:
     lines = [
         "# Growatt resolved register reference",
         "",
-        "> This file is a generated compatibility view. The canonical machine-readable and human reference is `doc/register-spec/growatt-register-spec.json` plus its Markdown views; the original vendor, runtime, external and live-evidence files remain the provenance corpus.",
+        "> This file is a generated compatibility view. The project-independent canonical machine-readable and human reference is maintained in the `growatt-inverter-info` repository; the local `doc/register-spec/` tree is a compatibility projection. The original vendor, runtime, external and live-evidence files remain the provenance corpus.",
         "",
         f"Reference version: `{reference['meta']['reference_version']}`",
         f"Records: **{reference['summary']['total_records']}** ({reference['summary']['holding_records']} holding, {reference['summary']['input_records']} input)",

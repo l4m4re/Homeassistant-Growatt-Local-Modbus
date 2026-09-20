@@ -7,7 +7,7 @@ import logging
 import os
 import sys
 from abc import abstractmethod
-from collections.abc import Sequence
+from collections.abc import Awaitable, Sequence
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
@@ -57,6 +57,8 @@ from .utils import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+
+WRITE_RESPONSE_TIMEOUT = 20
 
 
 class GrowattModbusBase:
@@ -159,8 +161,8 @@ class GrowattModbusBase:
         payload = ModbusBaseClient.convert_to_registers(
             value, ModbusBaseClient.DATATYPE.INT16
         )
-        return await self.client.write_register(
-            register, payload[0], device_id=device_id
+        return await self._write_with_extended_timeout(
+            self.client.write_register(register, payload[0], device_id=device_id)
         )
 
     async def write_registers(
@@ -168,9 +170,23 @@ class GrowattModbusBase:
     ) -> ModbusPDU:
         """Write consecutive holding registers with FC10."""
 
-        return await self.client.write_registers(
-            register, list(values), device_id=device_id
+        return await self._write_with_extended_timeout(
+            self.client.write_registers(register, list(values), device_id=device_id)
         )
+
+    async def _write_with_extended_timeout(
+        self, request: Awaitable[ModbusPDU]
+    ) -> ModbusPDU:
+        """Allow Shine/cache paths to return a delayed write acknowledgement."""
+
+        timeout = self.client.ctx.comm_params.timeout_connect
+        self.client.ctx.comm_params.timeout_connect = max(
+            timeout, WRITE_RESPONSE_TIMEOUT
+        )
+        try:
+            return await request
+        finally:
+            self.client.ctx.comm_params.timeout_connect = timeout
 
     async def read_holding_registers(self, start_address, count, device_id) -> dict[int, int]:
         data = await self.client.read_holding_registers(start_address, count=count, device_id=device_id)
